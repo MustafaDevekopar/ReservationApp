@@ -19,5 +19,7 @@
         public ReservationBlock ReservationBlock { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
         public ICollection<Post> Posts { get; set; }
+        public ICollection<UserField> UserFields { get; set; }
+
     }
 }

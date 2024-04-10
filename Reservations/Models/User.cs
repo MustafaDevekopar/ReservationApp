@@ -13,6 +13,7 @@
         public ICollection<View> views { get; set; }
         public ICollection<Comment> comments { get; set; }
         public ICollection<Reservation> Reservations { get; set; }
+        public ICollection<UserField> UserFields { get; set; }
 
     }
 }
