@@ -8,5 +8,11 @@
         public string Password { get; set; }
         public decimal PhoneNumbr { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<View> views { get; set; }
+        public ICollection<Comment> comments { get; set; }
+        public ICollection<Reservation> Reservations { get; set; }
+
     }
 }

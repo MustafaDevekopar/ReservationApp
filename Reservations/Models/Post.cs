@@ -8,6 +8,11 @@
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public FootballField FootballField { get; set; }
+        public ICollection<Like> Likes { get; set; }
+        public ICollection<View> views { get; set; }
+        public ICollection<Comment> comments { get; set; }
+
 
     }
 }
