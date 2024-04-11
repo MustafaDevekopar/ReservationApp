@@ -9,6 +9,7 @@ namespace Reservations.Helper
         public MappingProfile()
         {
             CreateMap<Category, CategoryDto>();
+            CreateMap<Governorate, GovernorateDto>();
         }
 
     }
