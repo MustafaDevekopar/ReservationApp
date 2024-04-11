@@ -12,7 +12,7 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240410213158_init")]
+    [Migration("20240410230520_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -40,23 +40,6 @@ namespace Reservations.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Reservations.Models.City", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Cities");
                 });
 
             modelBuilder.Entity("Reservations.Models.Comment", b =>
@@ -104,16 +87,11 @@ namespace Reservations.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Governorate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("GovernorateId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -140,23 +118,15 @@ namespace Reservations.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("cityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("governorateId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("GovernorateId");
+
                     b.HasIndex("ReservationBlockId");
 
                     b.HasIndex("ReservationStatusId");
-
-                    b.HasIndex("cityId");
-
-                    b.HasIndex("governorateId");
 
                     b.ToTable("FootballFields");
                 });
@@ -396,6 +366,12 @@ namespace Reservations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Reservations.Models.Governorate", "Governorate")
+                        .WithMany("FootballFields")
+                        .HasForeignKey("GovernorateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Reservations.Models.ReservationBlock", "ReservationBlock")
                         .WithMany("FootballFields")
                         .HasForeignKey("ReservationBlockId")
@@ -408,27 +384,13 @@ namespace Reservations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Reservations.Models.City", "city")
-                        .WithMany("FootballFields")
-                        .HasForeignKey("cityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Reservations.Models.Governorate", "governorate")
-                        .WithMany("FootballFields")
-                        .HasForeignKey("governorateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
+
+                    b.Navigation("Governorate");
 
                     b.Navigation("ReservationBlock");
 
                     b.Navigation("ReservationStatus");
-
-                    b.Navigation("city");
-
-                    b.Navigation("governorate");
                 });
 
             modelBuilder.Entity("Reservations.Models.Like", b =>
@@ -519,11 +481,6 @@ namespace Reservations.Migrations
                 });
 
             modelBuilder.Entity("Reservations.Models.Category", b =>
-                {
-                    b.Navigation("FootballFields");
-                });
-
-            modelBuilder.Entity("Reservations.Models.City", b =>
                 {
                     b.Navigation("FootballFields");
                 });

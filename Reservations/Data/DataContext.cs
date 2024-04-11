@@ -10,7 +10,6 @@ namespace Reservations.Data
 
         }
         public DbSet<Category> Categories { get; set; }
-        public DbSet<City> Cities { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<FootballField> FootballFields { get; set; }
         public DbSet<Governorate> Governorates { get; set; }
