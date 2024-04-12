@@ -10,6 +10,7 @@ namespace Reservations.Helper
         {
             CreateMap<Category, CategoryDto>();
             CreateMap<Governorate, GovernorateDto>();
+            CreateMap<FootballField, FootballFieldDto>();
         }
 
     }
