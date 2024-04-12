@@ -15,6 +15,7 @@ builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
 builder.Services.AddScoped<IFootballFieldRepository, FootballFieldRepository>();
 builder.Services.AddScoped<IReservationStatusRepository, ReservationStatusRepository>();
 builder.Services.AddScoped<IReservationBlockRepository, ReservationBlockRepository>();
+builder.Services.AddScoped<IPostRepository, PostRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
