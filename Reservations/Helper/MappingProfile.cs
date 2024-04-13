@@ -15,6 +15,7 @@ namespace Reservations.Helper
             CreateMap<ReservationBlock, ReservationBlockDto>();
             CreateMap<Post, PostDto>();
             CreateMap<Comment, CommentDto>();
+            CreateMap<Reservation, ReservationDto>();
         }
 
     }
