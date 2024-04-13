@@ -12,6 +12,7 @@ namespace Reservations.Repository
         {
             _context = context;
         }
+
         public async Task<List<ReservationStatus>> GetReservationStatusAsync()
         {
             return await _context.ReservationsStatus.ToListAsync();
@@ -26,5 +27,18 @@ namespace Reservations.Repository
         {
             return _context.ReservationsStatus.Any(r => r.Id == rstatusId);
         }
+
+        public bool CreareReservationStatus(ReservationStatus reservationStatus)
+        {
+            _context.Add(reservationStatus);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0? true : false;
+        }
+
     }
 }

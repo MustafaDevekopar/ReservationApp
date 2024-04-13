@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
 
 namespace Reservations.Controllers
 {
@@ -11,11 +12,14 @@ namespace Reservations.Controllers
     public class ReservationStatusController : ControllerBase
     {
         private readonly IReservationStatusRepository _reservationStatusRepository;
+        private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly IMapper _mapper;
         public ReservationStatusController(IReservationStatusRepository reservationStatusRepository, 
+            IFootballFieldRepository footballFieldRepository,
             IMapper mapper)
         {
             _reservationStatusRepository = reservationStatusRepository;
+            _footballFieldRepository = footballFieldRepository;
             _mapper = mapper;
         }
 
@@ -44,6 +48,24 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(governorate);
+        }
+
+        // post 
+        [HttpPost]
+        public async Task<IActionResult> CreateReservationStatus([FromBody]ReservationStatusDto ReservationStatusCreate)
+        {
+            if (ReservationStatusCreate == null)
+                return BadRequest(ModelState);
+
+            var resMap = _mapper.Map<ReservationStatus>(ReservationStatusCreate);
+            if (!_reservationStatusRepository.CreareReservationStatus(resMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
+
+
         }
     }
 }
