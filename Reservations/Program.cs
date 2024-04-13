@@ -17,6 +17,7 @@ builder.Services.AddScoped<IReservationStatusRepository, ReservationStatusReposi
 builder.Services.AddScoped<IReservationBlockRepository, ReservationBlockRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<IViewRepository, ViewRepository>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
