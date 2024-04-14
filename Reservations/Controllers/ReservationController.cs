@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -11,12 +13,20 @@ namespace Reservations.Controllers
     public class ReservationController : ControllerBase
     {
         private readonly IReservationRepository _reservationRepository;
+        private readonly IFootballFieldRepository _footballFieldRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public ReservationController(IReservationRepository reservationRepository, IMapper mapper)
+        public ReservationController(IReservationRepository reservationRepository,
+             IFootballFieldRepository footballFieldRepository,
+             IUserRepository userRepository,
+             IMapper mapper)
         {
             _reservationRepository = reservationRepository;
+            _footballFieldRepository = footballFieldRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetReservations()
         {
@@ -65,6 +75,25 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(reservations);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReservation([FromBody] ReservationDto ReservationCreate,
+            [FromQuery] int fieldId, 
+            [FromQuery] int uderId)
+        {
+            if (ReservationCreate == null)
+                return BadRequest(ModelState);
+
+            var resMap = _mapper.Map<Reservation>(ReservationCreate);
+            resMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+            resMap.User = await _userRepository.GetUserAsync(uderId);
+            if (!_reservationRepository.CreateReservation(resMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
         }
     }
 }

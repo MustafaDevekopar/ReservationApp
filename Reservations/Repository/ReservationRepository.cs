@@ -36,5 +36,17 @@ namespace Reservations.Repository
         {
             return _context.Reservations.Any(r => r.Id == id);
         }
+
+        public bool CreateReservation(Reservation reservation)
+        {
+            _context.Reservations.Add(reservation);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }

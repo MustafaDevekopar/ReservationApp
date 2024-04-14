@@ -27,5 +27,17 @@ namespace Reservations.Repository
         {
             return _context.ReservationsBlock.Any(x => x.Id == rblockId);
         }
+
+        public bool CreateReservationBlock(ReservationBlock reservationBlock)
+        {
+            _context.ReservationsBlock.Add(reservationBlock);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }

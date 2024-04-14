@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -44,7 +46,44 @@ namespace Reservations.Controllers
 
             return Ok(category);
         }
+        [HttpGet("categoryName/{name}")]
+        public async Task<IActionResult> GetCategoryByName(string name)
+        {
+            var category = await _categoryRepository.GetCategoryByNameAsync(name);
+
+            if (category == null)
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(category);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCategory([FromBody] CategoryDto CategoryCreate)
+        {
+            if (CategoryCreate == null)
+                return BadRequest(ModelState);
+
+            var category = await _categoryRepository.GetCategoryByNameAsync(CategoryCreate.Name);
+
+            if (category != null)
+            {
+                ModelState.AddModelError("", "Category already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            var categoryMap = _mapper.Map<Category>(CategoryCreate);
+            if (!_categoryRepository.CreateCategory(categoryMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
 
 
+        }
     }
 }

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -44,6 +46,21 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(rblock);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateReservationBlock([FromBody] ReservationBlockDto ReservationBlockCreate)
+        {
+            if (ReservationBlockCreate == null)
+                return BadRequest(ModelState);
+
+            var resMap = _mapper.Map<ReservationBlock>(ReservationBlockCreate);
+            if (!_reservationBlockRepository.CreateReservationBlock(resMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
         }
     }
 }

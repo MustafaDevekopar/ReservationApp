@@ -8,6 +8,8 @@ namespace Reservations.Interfaces
         Task<Category?> GetCategoryAsync(int id);
         Task<Category> GetCategoryByNameAsync(string name);
         bool CategoriesExists(int categoryId);
+        bool CreateCategory(Category category);
+        bool Save();
 
     }
 }

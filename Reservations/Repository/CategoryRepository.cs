@@ -24,12 +24,24 @@ namespace Reservations.Repository
 
         public async Task<Category> GetCategoryByNameAsync(string name)
         {
-            return await _context.Categories.FirstOrDefaultAsync(n => n.Name == name);
+            return await _context.Categories.Where(n => n.Name == name).FirstOrDefaultAsync();
         }
 
         public bool CategoriesExists(int categoryId)
         {
             return _context.Categories.Any(c => c.Id == categoryId);
+        }
+
+        public bool CreateCategory(Category category)
+        {
+            _context.Categories.Add(category);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

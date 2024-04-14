@@ -7,5 +7,7 @@ namespace Reservations.Interfaces
         Task<List<ReservationBlock>> GetReservationBlocksAsync();
         Task<ReservationBlock?> GetReservationBlockAsync(int id);
         bool ReservationBlockExists(int rblockId);
+        bool CreateReservationBlock(ReservationBlock reservationBlock);
+        bool Save();
     }
 }
