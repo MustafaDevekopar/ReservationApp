@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -11,10 +13,17 @@ namespace Reservations.Controllers
     public class CommentController : ControllerBase
     {
         private readonly ICommentRepository _commentRepository;
+        private readonly IPostRepository _postRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public CommentController(ICommentRepository commentRepository, IMapper mapper)
+        public CommentController(ICommentRepository commentRepository,
+            IPostRepository postRepository,
+            IUserRepository userRepository,
+            IMapper mapper)
         {
             _commentRepository = commentRepository;
+            _postRepository = postRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -54,6 +63,28 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(comments);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateCommment([FromBody] CommentDto commentCreate,
+            [FromQuery]int userId, 
+            [FromQuery]int postId)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+
+            var resMap = _mapper.Map<Comment>(commentCreate);
+
+            resMap.Post = await _postRepository.GetPostAsync(postId);
+            resMap.User = await _userRepository.GetUserAsync(userId);
+
+            if (!_commentRepository.CreateComment(resMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
         }
     }
 }

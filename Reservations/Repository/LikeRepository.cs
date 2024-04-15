@@ -5,24 +5,24 @@ using Reservations.Models;
 
 namespace Reservations.Repository
 {
-    public class ViewRepository : IViewRepository
+    public class LikeRepository : ILikeRepository
     {
         private readonly DataContext _context;
-        public ViewRepository(DataContext context)
+        public LikeRepository(DataContext context)
         {
             _context = context;
         }
-        public decimal GetViewOfPostAsync(int postId)
+
+        public decimal GetLikesOfPostAsync(int postId)
         {
-            return _context.Views.Where(v => v.Post.Id == postId).ToList().Count();
+            return _context.Likes.Where(l => l.Post.Id == postId).ToList().Count();
         }
 
-        public bool CreateView(View view)
+        public bool CreateLike(Like like)
         {
-            _context.Views.Add(view);
+            _context.Likes.Add(like);
             return Save();
         }
-
 
         public bool Save()
         {

@@ -8,5 +8,7 @@ namespace Reservations.Interfaces
         Task<List<Comment>> GetCommentsOfPostAsync(int fieldId);
         Task<Comment?> GetCommentAsync(int id);
         bool CommentExists(int commentId);
+        bool CreateComment(Comment comment);
+        bool Save();
     }
 }

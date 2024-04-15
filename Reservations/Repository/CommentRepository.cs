@@ -31,5 +31,17 @@ namespace Reservations.Repository
         {
             return _context.Comments.Any(c => c.Id == commentId);
         }
+
+        public bool CreateComment(Comment comment)
+        {
+            _context.Comments.Add(comment);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
