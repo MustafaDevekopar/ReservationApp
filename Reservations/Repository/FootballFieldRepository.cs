@@ -46,5 +46,16 @@ namespace Reservations.Repository
             return _context.FootballFields.Any(f => f.Id == FieldId);
         }
 
+        public bool CreateFootballField(FootballField footballField)
+        {
+            _context.FootballFields.Add(footballField);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }

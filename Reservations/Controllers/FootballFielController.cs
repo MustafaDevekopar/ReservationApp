@@ -5,6 +5,7 @@ using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -13,12 +14,24 @@ namespace Reservations.Controllers
     public class FootballFielController : ControllerBase
     {
         private readonly IFootballFieldRepository _footballFieldRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        private readonly IGovernorateRepository _governorateRepository;
+        private readonly IReservationBlockRepository _reservationBlockRepository;
+        private readonly IReservationStatusRepository _reservationStatusRepository;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
         public FootballFielController(IFootballFieldRepository footballFieldRepository,
+            ICategoryRepository categoryRepository,
+            IGovernorateRepository governorateRepository,
+            IReservationBlockRepository reservationBlockRepository,
+            IReservationStatusRepository reservationStatusRepository,
             IMapper mapper, DataContext context)
         {
             _footballFieldRepository = footballFieldRepository;
+            _categoryRepository = categoryRepository;
+            _governorateRepository = governorateRepository;
+            _reservationBlockRepository = reservationBlockRepository;
+            _reservationStatusRepository = reservationStatusRepository;
             _mapper = mapper;
             _context = context;
         }
@@ -69,5 +82,31 @@ namespace Reservations.Controllers
             return Ok(GovernorateFoField);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateFootballFaild([FromQuery]int categoryId,
+            [FromQuery]int governorateId,
+            [FromBody] FootballFieldDto footballFieldCreate)
+        {
+            if(footballFieldCreate == null)
+            {
+                ModelState.AddModelError("", "FootballField connot by empty");
+                return BadRequest(ModelState);
+            }
+
+            var fieldMapp = _mapper.Map<FootballField>(footballFieldCreate);
+
+            fieldMapp.Category = await _categoryRepository.GetCategoryAsync(categoryId);
+            fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(governorateId);
+            fieldMapp.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(1);
+            fieldMapp.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(1);
+
+            if (!_footballFieldRepository.CreateFootballField(fieldMapp))
+            {
+                ModelState.AddModelError("", "Somthenk hapen whene saven");
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Successfully Created");
+        }
     }
 }

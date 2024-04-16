@@ -10,6 +10,5 @@ namespace Reservations.Dto
         public string Password { get; set; }
         public decimal PhoneNumbr { get; set; }
         public string Location { get; set; }
-        public DateTime CreatedAt { get; set; }
     }
 }
