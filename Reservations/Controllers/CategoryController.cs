@@ -82,8 +82,32 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
             return Ok("Successfully Created");
+        }
 
+        [HttpPut("{categoryId}")]
+        public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updateCategory)
+        {
+            if (updateCategory == null)
+                return BadRequest();
 
+            if (categoryId != updateCategory.Id)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.CategoriesExists(categoryId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var categoryMap = _mapper.Map<Category>(updateCategory);
+
+            if (!_categoryRepository.UpdateCategory(categoryMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }
