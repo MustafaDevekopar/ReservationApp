@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
 
 namespace Reservations.Controllers
 {
@@ -11,10 +12,14 @@ namespace Reservations.Controllers
     public class PostController : ControllerBase
     {
         private readonly IPostRepository _postRepository;
+        private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly IMapper _mapper;
-        public PostController(IPostRepository postRepository, IMapper mapper)
+        public PostController(IPostRepository postRepository,
+            IFootballFieldRepository footballFieldRepository,
+            IMapper mapper)
         {
             _postRepository = postRepository;
+            _footballFieldRepository = footballFieldRepository;
             _mapper = mapper;
         }
 
@@ -53,6 +58,27 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(post);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePost([FromQuery]int fieldId ,[FromBody] PostDto postCreate)
+        {
+            if(postCreate == null)
+            {
+                ModelState.AddModelError("", "Post connt be empty");
+                return BadRequest(ModelState);
+            }
+
+            var postMap = _mapper.Map<Post>(postCreate);
+            postMap.FootballField =await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+            if(!_postRepository.CreatePost(postMap))
+            {
+                ModelState.AddModelError("", "Somthenk hapen when saven");
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Successfully Created");
+
         }
     }
 }

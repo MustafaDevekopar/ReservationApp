@@ -31,5 +31,17 @@ namespace Reservations.Repository
         {
             return _context.Posts.Any(p => p.Id == postId);
         }
+
+        public bool CreatePost(Post post)
+        {
+            _context.Posts.Add(post);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
