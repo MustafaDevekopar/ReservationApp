@@ -7,8 +7,10 @@ namespace Reservations.Interfaces
         Task<List<Post>> GetPostsAsync();
         Task<List<Post>> GetPostsOfFieldAsync(int fieldId);
         Task<Post?> GetPostAsync(int id);
+        Task<FootballField> GetFootballFieldOfPostAsync(int postid);
         bool PostExists(int postId);
         bool CreatePost(Post post);
+        bool UpdatePost(Post post);
         bool Save();
     }
 }

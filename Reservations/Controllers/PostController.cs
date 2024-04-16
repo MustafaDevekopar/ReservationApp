@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -49,6 +50,20 @@ namespace Reservations.Controllers
             return Ok(post);
         }
 
+        [HttpGet("fieldOfpost/{postId}")]
+        public async Task<IActionResult> GetFieldOfPost(int postId)
+        {
+            if (!_postRepository.PostExists(postId))
+                return NotFound(ModelState);
+
+            var fieldOfPost = _mapper.Map<FootballFieldDto>(await _postRepository.GetFootballFieldOfPostAsync(postId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(fieldOfPost);
+        }
+
         [HttpGet("{fieldId}/postsfield")]
         public async Task<IActionResult> GetPostsByfaildId(int fieldId)
         {
@@ -70,7 +85,7 @@ namespace Reservations.Controllers
             }
 
             var postMap = _mapper.Map<Post>(postCreate);
-            postMap.FootballField =await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+            postMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
             if(!_postRepository.CreatePost(postMap))
             {
                 ModelState.AddModelError("", "Somthenk hapen when saven");
@@ -79,6 +94,33 @@ namespace Reservations.Controllers
 
             return Ok("Successfully Created");
 
+        }
+
+        [HttpPut("update/{postId}")]
+        public async Task<IActionResult> UpdatePost(int postId, [FromBody] PostDto updatePost)
+        {
+            if (updatePost == null)
+                return BadRequest();
+
+            if (postId != updatePost.Id)
+                return BadRequest(ModelState);
+
+            if (!_postRepository.PostExists(postId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var postMap = _mapper.Map<Post>(updatePost);
+            postMap.FootballField = await _postRepository.GetFootballFieldOfPostAsync(postId);
+
+            if (!_postRepository.UpdatePost(postMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

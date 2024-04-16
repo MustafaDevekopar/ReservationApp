@@ -43,5 +43,17 @@ namespace Reservations.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdatePost(Post post)
+        {
+            _context.Posts.Update(post);
+            return Save();
+        }
+
+        public async Task<FootballField> GetFootballFieldOfPostAsync(int postid)
+        {
+            return await _context.Posts.Where(p => p.Id == postid)
+                .Select(f => f.FootballField).FirstOrDefaultAsync();
+        }
     }
 }
