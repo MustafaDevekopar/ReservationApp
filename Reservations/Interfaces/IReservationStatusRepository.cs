@@ -8,6 +8,7 @@ namespace Reservations.Interfaces
         Task<ReservationStatus?> GetReservationStatusByIdAsync(int id);
         bool ReservationStatusExists(int rstatusId);
         bool CreareReservationStatus(ReservationStatus reservationStatus);
+        bool UpdateReservationStatus(ReservationStatus reservationStatus);
         bool Save();
     }
 }

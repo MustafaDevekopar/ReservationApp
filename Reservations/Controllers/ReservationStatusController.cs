@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -66,6 +67,33 @@ namespace Reservations.Controllers
             return Ok("Successfully Created");
 
 
+        }
+
+        [HttpPut("{resStatusId}")]
+        public IActionResult UpdateReservationStatus(int resStatusId, 
+            [FromBody] ReservationStatusDto updateResStatus)
+        {
+            if (updateResStatus == null)
+                return BadRequest();
+
+            if (resStatusId != updateResStatus.Id)
+                return BadRequest(ModelState);
+
+            if (!_reservationStatusRepository.ReservationStatusExists(resStatusId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var resStatusMap = _mapper.Map<ReservationStatus>(updateResStatus);
+
+            if (!_reservationStatusRepository.UpdateReservationStatus(resStatusMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

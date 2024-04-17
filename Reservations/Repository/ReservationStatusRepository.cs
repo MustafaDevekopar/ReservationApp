@@ -40,5 +40,10 @@ namespace Reservations.Repository
             return saved > 0 ? true : false;
         }
 
+        public bool UpdateReservationStatus(ReservationStatus reservationStatus)
+        {
+            _context.ReservationsStatus.Update(reservationStatus);
+            return Save();
+        }
     }
 }

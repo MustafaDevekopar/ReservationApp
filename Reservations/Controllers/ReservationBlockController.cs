@@ -62,5 +62,31 @@ namespace Reservations.Controllers
             }
             return Ok("Successfully Created");
         }
+
+        [HttpPut("{resBlockId}")]
+        public IActionResult UpdateReservationBlock(int resBlockId, [FromBody] ReservationBlockDto updateResBlock)
+        {
+            if (updateResBlock == null)
+                return BadRequest();
+
+            if (resBlockId != updateResBlock.Id)
+                return BadRequest(ModelState);
+
+            if (!_reservationBlockRepository.ReservationBlockExists(resBlockId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var resBlockMap = _mapper.Map<ReservationBlock>(updateResBlock);
+
+            if (!_reservationBlockRepository.UpdateReservationBlock(resBlockMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

@@ -39,5 +39,11 @@ namespace Reservations.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateReservationBlock(ReservationBlock reservationBlock)
+        {
+            _context.ReservationsBlock.Update(reservationBlock);
+            return Save();
+        }
     }
 }
