@@ -108,5 +108,32 @@ namespace Reservations.Controllers
 
             return Ok("Successfully Created");
         }
+
+        [HttpPut("{fieldId}")]
+        public IActionResult UpdateFootballField(int fieldId,[FromBody] FootballFieldDto updateFootBallField)
+        {
+            if (updateFootBallField == null)
+                return BadRequest();
+
+            if (fieldId != updateFootBallField.Id)
+                return BadRequest(ModelState);
+
+            if (!_footballFieldRepository.FootballFieldExists(fieldId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var footballFieldMap = _mapper.Map<FootballField>(updateFootBallField);
+
+            if (!_footballFieldRepository.UpdateFootBallField(footballFieldMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }
+

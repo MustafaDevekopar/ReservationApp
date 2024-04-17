@@ -11,6 +11,7 @@ namespace Reservations.Interfaces
         Task<Governorate> GetGovernorateOfFieldAsync(int fieldId);
         bool FootballFieldExists(int FieldId);
         bool CreateFootballField(FootballField footballField);
+        bool UpdateFootBallField(FootballField footballField);
         bool Save();
     }
 }

@@ -57,5 +57,11 @@ namespace Reservations.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool UpdateFootBallField(FootballField footballField)
+        {
+            _context.FootballFields.Update(footballField);
+            return Save();
+        }
     }
 }
