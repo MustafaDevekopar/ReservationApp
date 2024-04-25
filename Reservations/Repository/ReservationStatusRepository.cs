@@ -45,5 +45,11 @@ namespace Reservations.Repository
             _context.ReservationsStatus.Update(reservationStatus);
             return Save();
         }
+
+        public bool DeleteReservationStatus(ReservationStatus reservationStatus)
+        {
+            _context.ReservationsStatus.Remove(reservationStatus);
+            return Save();
+        }
     }
 }

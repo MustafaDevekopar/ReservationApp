@@ -9,6 +9,7 @@ namespace Reservations.Interfaces
         bool ReservationStatusExists(int rstatusId);
         bool CreareReservationStatus(ReservationStatus reservationStatus);
         bool UpdateReservationStatus(ReservationStatus reservationStatus);
+        bool DeleteReservationStatus(ReservationStatus reservationStatus);
         bool Save();
     }
 }

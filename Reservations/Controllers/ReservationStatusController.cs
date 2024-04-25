@@ -95,5 +95,23 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{ResStatusId}")]
+        public async Task<IActionResult> DeleteReservationBlock(int ResStatusId)
+        {
+            if (!_reservationStatusRepository.ReservationStatusExists(ResStatusId))
+                return NotFound();
+
+            var resToDelete = await _reservationStatusRepository.GetReservationStatusByIdAsync(ResStatusId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reservationStatusRepository.DeleteReservationStatus(resToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
+        }
     }
 }

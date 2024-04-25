@@ -9,6 +9,7 @@ namespace Reservations.Interfaces
         bool ReservationBlockExists(int rblockId);
         bool CreateReservationBlock(ReservationBlock reservationBlock);
         bool UpdateReservationBlock(ReservationBlock reservationBlock);
+        bool DeleteReservationBlock(ReservationBlock reservationBlock);
         bool Save();
     }
 }

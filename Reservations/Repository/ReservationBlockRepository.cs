@@ -45,5 +45,11 @@ namespace Reservations.Repository
             _context.ReservationsBlock.Update(reservationBlock);
             return Save();
         }
+
+        public bool DeleteReservationBlock(ReservationBlock reservationBlock)
+        {
+            _context.ReservationsBlock.Remove(reservationBlock);
+            return Save();
+        }
     }
 }
