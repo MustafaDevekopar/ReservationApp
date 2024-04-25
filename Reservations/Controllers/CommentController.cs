@@ -86,5 +86,24 @@ namespace Reservations.Controllers
             }
             return Ok("Successfully Created");
         }
+
+        [HttpDelete("{commentId}")]
+        public async Task<IActionResult> DeleteComment(int commentId)
+        {
+            if (!_commentRepository.CommentExists(commentId))
+                return NotFound();
+
+            var commentToDelete = await _commentRepository.GetCommentAsync(commentId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_commentRepository.DeleteComment(commentToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
+        }
     }
 }
+

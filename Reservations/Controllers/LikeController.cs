@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -37,6 +38,20 @@ namespace Reservations.Controllers
             return Ok(likesOfPost);
         }
 
+        [HttpGet("{likeId}")]
+        public async Task<IActionResult> GetById(int likeId)
+        {
+            if (!_likeRepository.LikeExists(likeId))
+                return NotFound(ModelState);
+
+            var like = _mapper.Map<LikeDto>(await _likeRepository.GetLikeAsync(likeId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(like);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateLike([FromBody] LikeDto likeCreate,
             [FromQuery] int userId,
@@ -57,6 +72,24 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
             return Ok("Successfully Created");
+        }
+
+        [HttpDelete("{likeId}")]
+        public async Task<IActionResult> DeleteLike(int likeId)
+        {
+            if (!_likeRepository.LikeExists(likeId))
+                return NotFound();
+
+            var likeToDelete = await _likeRepository.GetLikeAsync(likeId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_likeRepository.DeleteLike(likeToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
         }
     }
 }

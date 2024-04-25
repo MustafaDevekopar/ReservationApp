@@ -29,5 +29,21 @@ namespace Reservations.Repository
             var saved = _context.SaveChanges();
             return saved > 0 ? true : false;
         }
+
+        public bool DeleteLike(Like like)
+        {
+            _context.Likes.Remove(like);
+            return Save();
+        }
+
+        public async Task<Like?> GetLikeAsync(int likeId)
+        {
+            return await _context.Likes.FirstOrDefaultAsync(l => l.Id == likeId);
+        }
+
+        public bool LikeExists(int likeId)
+        {
+            return _context.Likes.Any(l => l.Id == likeId);
+        }
     }
 }

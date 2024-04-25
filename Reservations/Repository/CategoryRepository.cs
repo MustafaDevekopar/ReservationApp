@@ -50,5 +50,10 @@ namespace Reservations.Repository
             return Save();
         }
 
+        public bool DeleteCategory(Category category)
+        {
+            _context.Categories.Remove(category);
+            return Save();
+        }
     }
 }

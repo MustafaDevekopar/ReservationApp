@@ -9,6 +9,7 @@ namespace Reservations.Interfaces
         Task<Comment?> GetCommentAsync(int id);
         bool CommentExists(int commentId);
         bool CreateComment(Comment comment);
+        bool DeleteComment(Comment comment);
         bool Save();
     }
 }

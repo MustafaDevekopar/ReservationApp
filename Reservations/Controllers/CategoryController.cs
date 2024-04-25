@@ -109,5 +109,23 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete("{categoryId}")]
+        public async Task<IActionResult> DeleteCategory(int categoryId)
+        {
+            if (!_categoryRepository.CategoriesExists(categoryId))
+                return NotFound();
+
+            var categoryToDelete = await _categoryRepository.GetCategoryAsync(categoryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_categoryRepository.DeleteCategory(categoryToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
+        }
     }
 }
