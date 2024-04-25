@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -41,6 +42,17 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(user);
+        }
+        [HttpGet("{userId}/fields")]
+        public async Task<IActionResult> GetUserOfField(int userId)
+        {
+            var fieldsOfuser = _mapper.Map<List<FootballFieldDto>>
+                (_userRepository.GetFieldsOfUser(userId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(fieldsOfuser);
         }
     }
 }
