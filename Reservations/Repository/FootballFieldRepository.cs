@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Interfaces;
 using Reservations.Models;
+using System.Collections;
 
 namespace Reservations.Repository
 {
@@ -41,6 +42,7 @@ namespace Reservations.Repository
            
         }
 
+
         public bool FootballFieldExists(int FieldId)
         {
             return _context.FootballFields.Any(f => f.Id == FieldId);
@@ -62,6 +64,12 @@ namespace Reservations.Repository
         {
             _context.FootballFields.Update(footballField);
             return Save();
+        }
+
+        public ICollection<User> GetUsersOfField(int fieldId)
+        {
+            return _context.UserFields.Where(f => f.FootballField.Id == fieldId)
+      .Select(u => u.User).ToList();
         }
     }
 }

@@ -82,6 +82,18 @@ namespace Reservations.Controllers
             return Ok(GovernorateFoField);
         }
 
+        [HttpGet("{fieldId}/FollowedUsers")]
+        public async Task<IActionResult> GetUserOfField(int fieldId)
+        {
+            var usersOfField = _mapper.Map<List<UserDto>>
+                ( _footballFieldRepository.GetUsersOfField(fieldId));
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(usersOfField);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateFootballFaild([FromQuery]int categoryId,
             [FromQuery]int governorateId,
