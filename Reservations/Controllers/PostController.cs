@@ -122,5 +122,24 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+
+
+        [HttpDelete("{postId}")]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            if (!_postRepository.PostExists(postId))
+                return NotFound();
+
+            var postToDelete = await _postRepository.GetPostAsync(postId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_postRepository.DeletePost(postToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
+        }
     }
 }

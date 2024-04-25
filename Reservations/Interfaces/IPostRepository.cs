@@ -11,6 +11,7 @@ namespace Reservations.Interfaces
         bool PostExists(int postId);
         bool CreatePost(Post post);
         bool UpdatePost(Post post);
+        bool DeletePost(Post post);
         bool Save();
     }
 }

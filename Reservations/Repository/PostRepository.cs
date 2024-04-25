@@ -55,5 +55,11 @@ namespace Reservations.Repository
             return await _context.Posts.Where(p => p.Id == postid)
                 .Select(f => f.FootballField).FirstOrDefaultAsync();
         }
+
+        public bool DeletePost(Post post)
+        {
+            _context.Posts.Remove(post);
+            return Save();
+        }
     }
 }
