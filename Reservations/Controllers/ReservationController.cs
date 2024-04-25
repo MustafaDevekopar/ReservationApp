@@ -95,5 +95,23 @@ namespace Reservations.Controllers
             }
             return Ok("Successfully Created");
         }
+
+        [HttpDelete("{ReservationId}")]
+        public async Task<IActionResult> DeleteReservation(int ReservationId)
+        {
+            if (!_reservationRepository.ReservationExists(ReservationId))
+                return NotFound();
+
+            var resToDelete = await _reservationRepository.GetReservationAsync(ReservationId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reservationRepository.DeleteReservation(resToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
+        }
     }
 }

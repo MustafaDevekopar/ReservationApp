@@ -10,6 +10,7 @@ namespace Reservations.Interfaces
         Task<List<Reservation>> GetReservationOfFieldAsync(int fieldId);
         bool ReservationExists(int id);
         bool CreateReservation(Reservation reservation);
+        bool DeleteReservation(Reservation reservation);
         bool Save();
     }
 }
