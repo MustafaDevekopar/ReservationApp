@@ -26,6 +26,11 @@ namespace Reservations.Repository
             return _context.UserFields.Where(u => u.User.Id == userId)
                 .Select(f => f.FootballField).ToList();
         }
+        public bool CreateUser(User user)
+        {
+            _context.Users.Add(user);
+            return Save();
+        }
         public bool UserExists(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);

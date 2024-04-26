@@ -62,6 +62,30 @@ namespace Reservations.Controllers
 
             return Ok(fieldsOfuser);
         }
+        [HttpPost]
+        public async Task<IActionResult> CreateUser([FromForm]UserDto CreateUser)
+        {
+            using var strem = new MemoryStream();
+            await CreateUser.Avatar.CopyToAsync(strem);
+
+            var userMap = new User
+            {
+                Name = CreateUser.Name,
+                Username = CreateUser.Username,
+                Password = CreateUser.Password,
+                PhoneNumbr = CreateUser.PhoneNumbr,
+                CreatedAt = CreateUser.CreatedAt,
+                Avatar = strem.ToArray()
+            };
+
+            if (!_userRepository.CreateUser(userMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
+
+        }
 
         [HttpPost("userFollwedField")]
         public async Task<IActionResult> CreateUserFollowedField([FromBody]UserFieldDto UserFieldCreate)

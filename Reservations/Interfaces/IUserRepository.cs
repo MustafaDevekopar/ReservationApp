@@ -9,6 +9,7 @@ namespace Reservations.Interfaces
         ICollection<FootballField> GetFieldsOfUser(int userId);
         bool CreateUserFollowedField(UserField userField);
         bool UserExists(int userId);
+        bool CreateUser(User user);
         bool Save();
     }
 }
