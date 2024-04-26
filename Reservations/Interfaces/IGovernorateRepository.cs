@@ -7,6 +7,8 @@ namespace Reservations.Interfaces
         Task<List<Governorate>> GetGovernoratesAsync();
         Task<Governorate?> GetGovernorateAsync(int id);
         Task<Governorate> GetGovernorateByNameAsync(string name);
+        bool CreateGovernorate(Governorate governorate);
+        bool Save();
         bool GovernorateExists(int GovernorateId);
     }
 }

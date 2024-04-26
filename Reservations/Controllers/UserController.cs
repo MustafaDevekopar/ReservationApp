@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Identity.Client;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
 using Reservations.Repository;
 
 namespace Reservations.Controllers
@@ -13,11 +14,18 @@ namespace Reservations.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IFootballFieldRepository _footballFieldRepository;
+        private readonly IUserFieldRepository _userFieldRepository;
         private readonly IMapper _mapper;
-        public UserController(IUserRepository userRepository, IMapper mapper)
+        public UserController(IUserRepository userRepository,
+            IFootballFieldRepository footballFieldRepository,
+            IUserFieldRepository userFieldRepository,
+            IMapper mapper)
         {
             _mapper = mapper;
             _userRepository = userRepository;
+            _footballFieldRepository = footballFieldRepository;
+            _userFieldRepository = userFieldRepository;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -53,6 +61,36 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(fieldsOfuser);
+        }
+
+        [HttpPost("userFollwedField")]
+        public async Task<IActionResult> CreateUserFollowedField([FromBody]UserFieldDto UserFieldCreate)
+        {
+            if (UserFieldCreate == null)
+                return BadRequest(ModelState);
+
+            var user = await _userRepository.GetUserAsync(UserFieldCreate.UserId);
+            var field = await _footballFieldRepository.GetFootballFieldAsync(UserFieldCreate.FieldId);
+
+            if (user == null || field == null)
+            {
+                ModelState.AddModelError("", "User or field not found");
+                return StatusCode(422, ModelState);
+            }
+
+            if (await _userFieldRepository.GetUserFieldAsync(UserFieldCreate.UserId, UserFieldCreate.FieldId) != null)
+            {
+                ModelState.AddModelError("", "User alredy follow this field");
+                return StatusCode(422, ModelState);
+            }
+
+            var userFieldMap = _mapper.Map<UserField>(UserFieldCreate);
+            if (!_userRepository.CreateUserFollowedField(userFieldMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
         }
     }
 }

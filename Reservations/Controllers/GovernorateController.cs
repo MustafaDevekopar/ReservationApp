@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
 using Reservations.Interfaces;
+using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
@@ -43,6 +45,29 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
 
             return Ok(governorate);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateGovernorate([FromBody]GovernorateDto governorateCreate)
+        {
+            if (governorateCreate == null)
+                return BadRequest(ModelState);
+
+            var governorate = await _governorateRepository.GetGovernorateByNameAsync(governorateCreate.Name);
+
+            if (governorate != null)
+            {
+                ModelState.AddModelError("", "Governorate already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            var governorateMap = _mapper.Map<Governorate>(governorateCreate);
+            if (!_governorateRepository.CreateGovernorate(governorateMap))
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+            return Ok("Successfully Created");
         }
     }
 }

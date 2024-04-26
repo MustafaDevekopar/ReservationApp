@@ -31,5 +31,17 @@ namespace Reservations.Repository
         {
             return _context.Governorates.Any(g => g.Id == GovernorateId);
         }
+
+        public bool CreateGovernorate(Governorate governorate)
+        {
+            _context.Governorates.Add(governorate);
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }

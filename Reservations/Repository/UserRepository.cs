@@ -30,5 +30,16 @@ namespace Reservations.Repository
         {
             return _context.Users.Any(u => u.Id == userId);
         }
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
+
+        public bool CreateUserFollowedField(UserField userField)
+        {
+            _context.UserFields.Add(userField);
+            return Save();
+        }
     }
 }

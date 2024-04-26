@@ -11,6 +11,7 @@ namespace Reservations.Helper
             CreateMap<Category, CategoryDto>();
             CreateMap<CategoryDto, Category>();
             CreateMap<Governorate, GovernorateDto>();
+            CreateMap<GovernorateDto, Governorate>();
             CreateMap<FootballField, FootballFieldDto>();
             CreateMap<FootballFieldDto, FootballField>();
             CreateMap<ReservationStatus, ReservationStatusDto>();
@@ -28,6 +29,8 @@ namespace Reservations.Helper
             CreateMap<ViewDto, View>();
             CreateMap<Like, LikeDto>();
             CreateMap<LikeDto, Like>();
+            CreateMap<UserField, UserFieldDto>();
+            CreateMap<UserFieldDto, UserField>();
         }
 
     }
