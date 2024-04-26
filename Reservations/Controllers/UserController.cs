@@ -6,6 +6,7 @@ using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
+using System.IO;
 
 namespace Reservations.Controllers
 {
@@ -43,13 +44,26 @@ namespace Reservations.Controllers
         {
             if (!_userRepository.UserExists(userId))
                 return NotFound(ModelState);
-            
-            var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));
+            var user = await _userRepository.GetUserAsync(userId);
+
+            string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+
+            var userMap = new UserGetDto
+            {
+                Name = user.Name,
+                Username = user.Username,
+                Password = user.Password,
+                PhoneNumbr = user.PhoneNumbr,
+                CreatedAt = user.CreatedAt,
+                Avatar = avatarBase64 
+            };
+
+            //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(user);
+            return Ok(userMap);
         }
         [HttpGet("{userId}/fields")]
         public async Task<IActionResult> GetUserOfField(int userId)
