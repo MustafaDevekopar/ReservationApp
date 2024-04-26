@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
@@ -33,6 +34,7 @@ namespace Reservations.Controllers
                 string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
                 return new PostGetDto
                 {
+                    Id = post.Id,
                     Title = post.Title,
                     Text = post.Text,
                     Image = avatarBase64
@@ -87,12 +89,24 @@ namespace Reservations.Controllers
         [HttpGet("{fieldId}/postsfield")]
         public async Task<IActionResult> GetPostsByfaildId(int fieldId)
         {
-            var post = _mapper.Map<List<PostDto>>(await _postRepository.GetPostsOfFieldAsync(fieldId));
+            var posts = await _postRepository.GetPostsOfFieldAsync(fieldId);
+
+            var postMap = posts.Select(post =>
+            {
+                string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
+                return new PostGetDto
+                {
+                    Title = post.Title,
+                    Text = post.Text,
+                    Image = avatarBase64
+                };
+            }).ToList();
+
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(post);
+            return Ok(postMap);
         }
 
         [HttpPost]
@@ -126,7 +140,7 @@ namespace Reservations.Controllers
         }
 
         [HttpPut("update/{postId}")]
-        public async Task<IActionResult> UpdatePost(int postId, [FromBody] PostDto updatePost)
+        public async Task<IActionResult> UpdatePost(int postId, [FromForm]PostDto updatePost)
         {
             if (updatePost == null)
                 return BadRequest();
@@ -140,7 +154,18 @@ namespace Reservations.Controllers
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            var postMap = _mapper.Map<Post>(updatePost);
+            using var strem = new MemoryStream();
+            await updatePost.Image.CopyToAsync(strem);
+
+            var postMap = new Post
+            {
+                Id = (int)updatePost.Id,
+                Title = updatePost.Title,
+                Text = updatePost.Text,
+                Image = strem.ToArray()
+            };
+
+            //var postMap = _mapper.Map<Post>(updatePost);
             postMap.FootballField = await _postRepository.GetFootballFieldOfPostAsync(postId);
 
             if (!_postRepository.UpdatePost(postMap))

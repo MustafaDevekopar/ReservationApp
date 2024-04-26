@@ -56,10 +56,25 @@ namespace Reservations.Controllers
             if (!_footballFieldRepository.FootballFieldExists(FieldId))
                 return NotFound(ModelState);
 
-            var field = _mapper.Map<FootballFieldDto>
-                (await _footballFieldRepository.GetFootballFieldAsync(FieldId));
+            //var field = _mapper.Map<FootballFieldDto>
+            //    (await _footballFieldRepository.GetFootballFieldAsync(FieldId));
 
-            return Ok(field);
+            var field = await _footballFieldRepository.GetFootballFieldAsync(FieldId);
+
+            string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
+
+            var fieldMap = new FootballFieldGetDto
+            {
+                Id = (int)field.Id,
+                Name = field.Name,
+                Username = field.Username,
+                Password = field.Password,
+                PhoneNumbr = field.PhoneNumbr,
+                Location = field.Location,
+                Avatar = avatarBase64
+            };
+
+            return Ok(fieldMap);
         }
 
 

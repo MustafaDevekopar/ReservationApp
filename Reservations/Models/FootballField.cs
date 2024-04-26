@@ -8,6 +8,7 @@
         public string Password { get; set; }
         public decimal PhoneNumbr { get; set; }
         public string Location { get; set; }
+        public byte[]? Avatar { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public Category Category { get; set; }
