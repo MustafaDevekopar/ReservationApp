@@ -96,7 +96,7 @@ namespace Reservations.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromQuery]int fieldId ,[FromBody] PostDto postCreate)
+        public async Task<IActionResult> CreatePost([FromQuery]int fieldId ,[FromForm]PostDto postCreate)
         {
             if(postCreate == null)
             {
@@ -104,7 +104,16 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
 
-            var postMap = _mapper.Map<Post>(postCreate);
+            using var strem = new MemoryStream();
+            await postCreate.Image.CopyToAsync(strem);
+
+            var postMap = new Post
+            {
+                Title = postCreate.Title,
+                Text = postCreate.Text,
+                Image = strem.ToArray()
+            };
+
             postMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
             if(!_postRepository.CreatePost(postMap))
             {
