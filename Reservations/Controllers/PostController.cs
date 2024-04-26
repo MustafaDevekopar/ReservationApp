@@ -27,12 +27,22 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var posts = _mapper.Map<List<PostDto>>(await _postRepository.GetPostsAsync());
+            var posts = await _postRepository.GetPostsAsync();
+            var postMap = posts.Select(post =>
+            {
+                string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
+                return new PostGetDto
+                {
+                    Title = post.Title,
+                    Text = post.Text,
+                    Image = avatarBase64
+                };
+            }).ToList();
 
-            if(!ModelState.IsValid) 
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            return Ok(posts);
+            return Ok(postMap);
         }
 
 
@@ -42,12 +52,22 @@ namespace Reservations.Controllers
             if (!_postRepository.PostExists(postId))
                 return NotFound(ModelState);
 
-            var post = _mapper.Map<PostDto>(await _postRepository.GetPostAsync(postId));
+            var post = await _postRepository.GetPostAsync(postId);
 
-            if(!ModelState.IsValid)
+            string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
+
+            var postMap = new PostGetDto
+            {
+                Title = post.Title,
+                Text = post.Text,
+                Image = avatarBase64
+            };
+
+
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(post);
+            return Ok(postMap);
         }
 
         [HttpGet("fieldOfpost/{postId}")]
