@@ -1,4 +1,5 @@
-﻿using Reservations.Models;
+﻿using Reservations.Dto;
+using Reservations.Models;
 
 namespace Reservations.Interfaces
 {

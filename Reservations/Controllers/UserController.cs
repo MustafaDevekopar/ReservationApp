@@ -31,12 +31,26 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUsers()
         {
-            var users = _mapper.Map<List<UserDto>>(await _userRepository.GetUsersAsync());
+            var users = await _userRepository.GetUsersAsync();
 
-            if(!ModelState.IsValid) 
+            var usersMap = users.Select(user =>
+            {
+                string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+                return new UserGetDto
+                {
+                    Name = user.Name,
+                    Username = user.Username,
+                    Password = user.Password,
+                    PhoneNumbr = user.PhoneNumbr,
+                    CreatedAt = user.CreatedAt,
+                    Avatar = avatarBase64
+                };
+            }).ToList();
+
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            return Ok(users);
+            return Ok(usersMap);
         }
 
         [HttpGet("{userId}")]
