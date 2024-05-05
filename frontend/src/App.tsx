@@ -1,5 +1,5 @@
-import Card from './Components/Card/Catd'
 import './App.css';
+import Card from './Components/Cards/Card';
 
 function App() {
   return (
