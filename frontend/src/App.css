@@ -1,3 +1,11 @@
 body {
     direction: rtl;
+    background-color: #F7F7F7;
+
+            /* Designing for scroll-bar */
+            ::-webkit-scrollbar {
+              width: 6px;
+          }
+       
+
   }

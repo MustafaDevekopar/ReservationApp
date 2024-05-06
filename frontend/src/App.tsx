@@ -1,10 +1,17 @@
 import './App.css';
-import Card from './Components/Cards/Card';
+import NavBarIcons from './Components/Navbar/NavBarIcons';
+import NavBarIconsMobile from './Components/Navbar/NavBarIconsMobile';
+import Navbar from './Components/Navbar/Navbar';
+import HomPage from './Pages/HomPage';
 
 function App() {
   return (
-    <div className="App">
-      <Card />
+    <div className="App ">
+      <Navbar />
+      <NavBarIconsMobile/>
+      <NavBarIcons />
+      <HomPage />
+      {/* <Card /> */}
     </div>
   );
 }
