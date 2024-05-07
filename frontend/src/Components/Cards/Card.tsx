@@ -10,14 +10,14 @@ type Props = {}
 const Card = (props: Props) => {
   return (
 
-  <div className=" rounded rounded-t-3xl overflow-hidden shadow-lg">
-    <img className="w-full h-40 object-cover" src="https://th.bing.com/th/id/R.47a753a2aebdff63eb16a87b73084962?rik=AZy90cAwum4Atg&pid=ImgRaw&r=0" alt="Sunset in the mountains"/>
-    <div className="px-4 pt-2 pb-4">
+  <div className="relative rounded-t-3xl overflow-hidden shadow-lg">
+    <img className="aspect-[7/3] max-w-full obect-cover" src="https://th.bing.com/th/id/R.47a753a2aebdff63eb16a87b73084962?rik=AZy90cAwum4Atg&pid=ImgRaw&r=0" alt="Sunset in the mountains"/>
+    <div className="px-4 pt-2 pb-5">
       <div className="flex justify-between relative text-md  text-DarkGray">
         <span className="mb-2">ملعب سباعي الرمادي</span>
         <span className="absolute left-0 top-3"><img className="ml-4 top-7 left-8 w-6 h-6" src={LikeIcon} alt="" /> </span>
       </div>
-      <div className="flex text-xs">
+      <div className="flex text-xs ">
         <div className="flex-auto ">
           <div className="flex my-2">
             <img className="w-4" src={LocationIcon} alt="" /> 
