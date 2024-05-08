@@ -3,10 +3,12 @@ import SliderMain from "../Components/Sliders/SliderMain"
 
 type Props = {}
 
-const HomPage = (props: Props) => {
+const HomePage = (props: Props) => {
 
   return (
     <div>
+            {/* <Navbar /> 
+      <NavBarIconsMobile/> */}
     <div className=" flex justify-center items-center w-full ">
       <div className="mx-3 sm:mx-6  md:mx-12 lg:mr-20 lg:ml-8  w-full mt-2">
           <SliderMain />
@@ -33,4 +35,4 @@ const HomPage = (props: Props) => {
   )
 }
 
-export default HomPage
+export default HomePage
