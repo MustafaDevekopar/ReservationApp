@@ -5,6 +5,7 @@ import NavBarIconsMobile from './Components/Navbar/NavBarIconsMobile';
 import Navbar from './Components/Navbar/Navbar';
 import HomPage from './Pages/HomPage';
 import FavoritePage from './Pages/FavoritePage';
+import SearchPage from './Pages/SearchPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <NavBarIcons />
       <HomPage />
       {/* <FavoritePage /> */}
+      {/* <SearchPage /> */}
     </div>
   );
 }
