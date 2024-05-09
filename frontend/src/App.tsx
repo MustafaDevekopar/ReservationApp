@@ -6,7 +6,7 @@ import { Outlet } from 'react-router';
 
 function App() {
   return (
-    <div className="App ">
+    <div className="App">
       <Navbar />
       <NavBarIcons />
       <NavBarIconsMobile />

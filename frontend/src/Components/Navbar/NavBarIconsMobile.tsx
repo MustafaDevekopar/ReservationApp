@@ -40,8 +40,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIcon
-          path="/"
-          isSelected={selectedIcon === "/"}
+          path="/posts"
+          isSelected={selectedIcon === "/posts"}
           iconSrc={PostsIcon}
           outlineIconSrc={outlinePostsIcon}
           label="المنشورات"
@@ -56,8 +56,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIcon
-          path="/"
-          isSelected={selectedIcon === "/"}
+          path="/reservations"
+          isSelected={selectedIcon === "/reservations"}
           iconSrc={reservationIcon}
           outlineIconSrc={OutlineReservationIcon}
           label="الحجوزات"

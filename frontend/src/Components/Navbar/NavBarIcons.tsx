@@ -23,8 +23,8 @@ const NavBarIconsMobile: React.FC = () => {
   };
 
   return (
-    <div className="flex-col relative top-20 hidden lg:block xl:block bg-red-300">
-       <div className="absolute top-14 right-0 rounded-l-[40px] h-auto shadow-[0_3px_40px_-15px_rgba(0,0,0,0.3)] w">
+    <div className="flex-col fixed top-40 hidden z-40   lg:block xl:block">
+       <div className="absolute top-14 right-0 py-8 rounded-l-[40px] w-20 h-auto shadow-[0_3px_40px_-15px_rgba(0,0,0,0.3)] ">
         <ActiveIconPc
           path="/"
           isSelected={selectedIcon === "/"}
@@ -42,8 +42,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIconPc
-          path="/"
-          isSelected={selectedIcon === "/"}
+          path="/posts"
+          isSelected={selectedIcon === "/posts"}
           iconSrc={PostsIcon}
           outlineIconSrc={outlinePostsIcon}
           label="المنشورات"
@@ -58,8 +58,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIconPc
-          path="/"
-          isSelected={selectedIcon === "/"}
+          path="/reservations"
+          isSelected={selectedIcon === "/reservations"}
           iconSrc={reservationIcon}
           outlineIconSrc={OutlineReservationIcon}
           label="الحجوزات"
