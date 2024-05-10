@@ -19,7 +19,7 @@ const ActiveIcon: React.FC<IconProps> = ({
   onClick,
 }) => {
   return (
-    <div className={`${isSelected ? " flex items-center justify-center flex-col  py-2 bg-Darkgreen rounded-l-3xl" : ""}`}>
+    <div className={`${isSelected ? "flex items-center justify-center flex-col  py-2 bg-Darkgreen rounded-l-3xl" : ""}`}>
       <Link to={path} onClick={() => onClick(path)}>
         {isSelected ? (
           <img

@@ -14,8 +14,9 @@ import reservationIcon from "./../../Assets/Icons/ReservationIcon.svg";
 import OutlineReservationIcon from "./../../Assets/Icons/OutlineReservationIcon.svg";
 
 const NavBarIconsMobile: React.FC = () => {
-  const [selectedIcon, setSelectedIcon] = useState<string>("/");
 
+  const [selectedIcon, setSelectedIcon] = useState<string>("/");
+  
   const handleIconClick = (path: string) => {
     setSelectedIcon(path);
   };

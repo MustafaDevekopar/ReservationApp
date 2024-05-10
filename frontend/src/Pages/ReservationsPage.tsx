@@ -1,27 +1,38 @@
 
-import CardReservation from "../Components/Cards/CardReservation"
+import { Outlet } from 'react-router';
+import { useState } from "react";
+import ActiveLink from "../Components/LinkStyled/ActiveLink";
+
 type Props = {}
 
 const ReservationsPage = (props: Props) => {
 
+  const [selectedPath, setSelectedPath] = useState<string>("");
+  const handleIconClick = (path: string) => {
+    setSelectedPath(path);
+  };
+
   return (
-  
-    <div className=" flex justify-center items-center w-full ">
-        <div className="grid gap-3 
-        grid-cols-1 sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-2 
-        mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full my-6 ">
-          {/* reservation card */}
-          <CardReservation />
-          <CardReservation />
-          <CardReservation />
-          <CardReservation />
-          <CardReservation />
-          <CardReservation />
-          <CardReservation />
-
-       </div>
+  <>
+    <div className="flex justify-center items-center w-full my-4">
+      <div className="flex justify-center gap-2 mx-5 sm:mx-6  md:mx-12 lg:mr-40 lg:ml-20  w-full mt-6 ">
+        <ActiveLink 
+            path=""
+            isSelected={selectedPath === ""}
+            TitleLink="الحجوزات الحالية"
+            onClick={handleIconClick}
+        />
+        <ActiveLink 
+            path="previous"
+            isSelected={selectedPath === "previous"}
+            TitleLink="حجوزات سابقه"
+            onClick={handleIconClick}
+        />
+      </div>
     </div>
-
+    {/* to get current or previous reservation cards */}
+    <Outlet />
+    </>
   )
 }
 
