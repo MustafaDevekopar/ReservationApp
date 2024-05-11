@@ -42,8 +42,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIconPc
-          path="/posts"
-          isSelected={selectedIcon === "/posts"}
+          path="/reserve"
+          isSelected={selectedIcon === "/reserve"}//posts
           iconSrc={PostsIcon}
           outlineIconSrc={outlinePostsIcon}
           label="المنشورات"

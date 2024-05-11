@@ -3,9 +3,9 @@ body {
     background-color: #F7F7F7;
 
             /* Designing for scroll-bar */
-            ::-webkit-scrollbar {
+            /* ::-webkit-scrollbar {
               width: 6px;
-          }
+          } */
        
 
   }

@@ -4,6 +4,7 @@ import LikeIcon from "./../../Assets/Icons/LikeIcon.svg";
 import PhoneIcon from "./../../Assets/Icons/PhoneIcon.svg";
 import EyeIcon from "./../../Assets/Icons/EyeIcon.svg";
 import TimeIcon from "./../../Assets/Icons/TimeIcon.svg";
+import { Link } from "react-router-dom";
 
 type Props = {}
 
@@ -40,7 +41,11 @@ const Card = (props: Props) => {
               <img className="w-4 inline-flex " src={TimeIcon} alt="" /> 
               <span className="font-bold mx-1  text-LightBlak">(20 الف / ساعة)</span>
           </div>
-          <button className="w-full bg-Darkgreen rounded-xl py-2 text-white">احجز الان</button>
+          <div className="flex justify-center items-center bg-Darkgreen rounded-xl  text-white">
+            <Link to="/reserve" className=" w-full h-full text-center py-2 ">احجز الان</Link>
+          </div>
+
+          
 
            </div>
         </div>
