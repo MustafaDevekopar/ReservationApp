@@ -12,13 +12,18 @@ module.exports = {
       colors: {
         
         Darkgreen: "#29B612",
+        WhiteGreen: "#7AEE68",
         DarkGray: "#716C6C",
         LightGray: "#776D6D",
         LightXlGray: "#9B9494",
         LightBlak: "#3E3C3C",
         LightTextCol: "#ACAAAA",
+        WhiteRed: "#FF5E5E",
+        WhiteYellow: "#F1E92A",
+        WhiteBlue: "#0672C0",
         darkBlue: "hsl(213.86, 58.82%, 46.67%)",
         lightGreen: "hsl(156.62, 73.33%, 58.82%)",
+
         BackgroundBody: "#F7F7F7",
       },
       fontFamily: {

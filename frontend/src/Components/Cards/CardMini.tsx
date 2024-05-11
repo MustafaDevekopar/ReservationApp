@@ -1,8 +1,6 @@
 
 import LocationIcon from "./../../Assets/Icons/LocationIcon.svg";
 import LikeIcon from "./../../Assets/Icons/LikeIcon.svg";
-import PhoneIcon from "./../../Assets/Icons/PhoneIcon.svg";
-import EyeIcon from "./../../Assets/Icons/EyeIcon.svg";
 import TimeIcon from "./../../Assets/Icons/TimeIcon.svg";
 
 type Props = {}

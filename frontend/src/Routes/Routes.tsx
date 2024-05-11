@@ -7,6 +7,7 @@ import ReservationsPage from "../Pages/ReservationsPage";
 import PostPage from "../Pages/PostPage";
 import ReservationCurrent from "../Components/ReservationElements/ReservationCurrent";
 import ReservationPrevious from "../Components/ReservationElements/ReservationPrevious";
+import ReservePage from "../Pages/ReservePage";
 
 export const router = createBrowserRouter([
     {
@@ -25,6 +26,7 @@ export const router = createBrowserRouter([
                     { path:"previous" , element: <ReservationPrevious />},
                 ],
             },
+            {path: "reserve", element: <ReservePage />}
         ],
     }
 ])
