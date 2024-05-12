@@ -1,5 +1,5 @@
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 type IconProps = {
   path: string;
@@ -18,6 +18,7 @@ const ActiveIcon: React.FC<IconProps> = ({
   label,
   onClick,
 }) => {
+  const location = useLocation();
   return (
     <div className={`${isSelected ? "flex-col mt-4 mb-2" : ""}`}>
       <Link to={path} onClick={() => onClick(path)}>

@@ -6,10 +6,10 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 function App() {
   // Get the current location using react-router's useLocation hook
-  const location = useLocation();
+   const location = useLocation();
 
   // Define an array of paths where I want to show navbar and navbar Icon 
-  const pathsToHideComponents = ['/', '/favorite', "/search", "/posts"];
+  const pathsToHideComponents = ['/', '/favorite', "/search", "/posts", "/reservations/current", "/reservations/previous"];
 
   // Check if the current path is in the pathsToShowArray array
   const shouldHideComponent = pathsToHideComponents.includes(location.pathname);

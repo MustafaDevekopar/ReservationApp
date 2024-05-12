@@ -8,6 +8,7 @@ import PostPage from "../Pages/PostPage";
 import ReservationCurrent from "../Components/ReservationElements/ReservationCurrent";
 import ReservationPrevious from "../Components/ReservationElements/ReservationPrevious";
 import ReservePage from "../Pages/ReservePage";
+import PostsPage from "../Pages/PostsPage";
 
 export const router = createBrowserRouter([
     {
@@ -16,13 +17,14 @@ export const router = createBrowserRouter([
         children: [
             { path: "", element: <HomePage /> },
             { path: "favorite", element: <FavoritePage /> },
+            { path: "posts", element: <PostsPage /> },
             { path: "search", element: <SearchPage /> },
             { path: "posts", element: <PostPage /> },
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 
                 children: [
-                    { path:"" , element: <ReservationCurrent />},
+                    { path:"current" , element: <ReservationCurrent />},
                     { path:"previous" , element: <ReservationPrevious />},
                 ],
             },

@@ -1,13 +1,13 @@
 
-import { Outlet } from 'react-router';
+import { Outlet, useLocation } from 'react-router';
 import { useState } from "react";
 import ActiveLink from "../Components/LinkStyled/ActiveLink";
 
 type Props = {}
 
 const ReservationsPage = (props: Props) => {
-
-  const [selectedPath, setSelectedPath] = useState<string>("");
+  const location = useLocation();
+  const [selectedPath, setSelectedPath] = useState<string>(location.pathname);
   const handleIconClick = (path: string) => {
     setSelectedPath(path);
   };
@@ -17,14 +17,14 @@ const ReservationsPage = (props: Props) => {
     <div className="flex justify-center items-center w-full my-4">
       <div className="flex justify-center gap-2 mx-5 sm:mx-6  md:mx-12 lg:mr-40 lg:ml-20  w-full mt-6 ">
         <ActiveLink 
-            path=""
-            isSelected={selectedPath === ""}
+            path="/reservations/current"
+            isSelected={selectedPath === "/reservations/current"}
             TitleLink="الحجوزات الحالية"
             onClick={handleIconClick}
         />
         <ActiveLink 
-            path="previous"
-            isSelected={selectedPath === "previous"}
+            path="/reservations/previous"
+            isSelected={selectedPath === "/reservations/previous"}
             TitleLink="حجوزات سابقه"
             onClick={handleIconClick}
         />

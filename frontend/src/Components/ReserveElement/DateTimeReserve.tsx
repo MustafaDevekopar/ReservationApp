@@ -18,7 +18,8 @@ const DateTimeReserve = ({Text}: DateProps) => {
             <span className="text-sm text-DarkGray">{Text}</span>
         </div>
         <div className="flex">
-            <div className=" bg-white shadow rounded-2xl p-4 my-2">
+            <div className=" bg-white shadow rounded-2xl p-4 my-2 grid 
+                 grid-cols-3 sm:grid-cols-3  md:grid-cols-5  lg:grid-cols-7">
                 <BtnDateTime 
                     isReserved={false}
                     DateOrTime="2/2 الخميس"
@@ -47,6 +48,12 @@ const DateTimeReserve = ({Text}: DateProps) => {
                     isReserved={false}
                     DateOrTime="6/2 الثلاثاء"
                     isSelected={selectedDateTime === "6/2 الثلاثاء"}
+                    onClick={handleIconClick} 
+                />
+                <BtnDateTime 
+                    isReserved={false}
+                    DateOrTime="7/2 الاربعاء"
+                    isSelected={selectedDateTime === "7/2 الاربعاء"}
                     onClick={handleIconClick} 
                 />
             </div>

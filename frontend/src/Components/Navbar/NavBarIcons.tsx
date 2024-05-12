@@ -14,9 +14,11 @@ import SearchSolidIcon from "./../../Assets/Icons/LightSearch.svg";
 import OutlineSearchIcon from "./../../Assets/Icons/OutlineSearchIcon.svg";
 import reservationIcon from "./../../Assets/Icons/LightReservation.svg";
 import OutlineReservationIcon from "./../../Assets/Icons/OutlineReservationIcon.svg";
+import { useLocation } from "react-router";
 
 const NavBarIconsMobile: React.FC = () => {
-  const [selectedIcon, setSelectedIcon] = useState<string>("/");
+  const location = useLocation();
+  const [selectedIcon, setSelectedIcon] = useState<string>(location.pathname);
 
   const handleIconClick = (path: string) => {
     setSelectedIcon(path);
@@ -42,8 +44,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIconPc
-          path="/reserve"
-          isSelected={selectedIcon === "/reserve"}//posts
+          path="/posts"
+          isSelected={selectedIcon === "/posts"}//posts
           iconSrc={PostsIcon}
           outlineIconSrc={outlinePostsIcon}
           label="المنشورات"
@@ -58,8 +60,8 @@ const NavBarIconsMobile: React.FC = () => {
           onClick={handleIconClick}
         />
         <ActiveIconPc
-          path="/reservations"
-          isSelected={selectedIcon === "/reservations"}
+          path="/reservations/current"
+          isSelected={selectedIcon === "/reservations/current"}
           iconSrc={reservationIcon}
           outlineIconSrc={OutlineReservationIcon}
           label="الحجوزات"

@@ -26,6 +26,9 @@ module.exports = {
 
         BackgroundBody: "#F7F7F7",
       },
+      aspectRatio: {
+        '9/16': '9 / 16',
+      },
       fontFamily: {
         // sans: ["Poppins", "sans-serif"],
         sans: ["Cairo", "sans-serif"],
