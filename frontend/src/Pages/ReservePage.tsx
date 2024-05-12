@@ -6,7 +6,7 @@ type Props = {}
 
 const ReservePage = (props: Props) => {
   return (
-    <div className="flex flex-col lg:gap-8 xl:gap-8 items-center my-8 mx-3 sm:mx-4  md:mx-12 lg:mx-40 lg:">
+    <div className="flex flex-col lg:gap-8 xl:gap-8 items-center my-8 mx-3 sm:mx-4  md:mx-12 lg:mx-40">
         <div className="flex justify-center items-center gap-6 mb-6">
             <ExplanatoryIcons 
               Color='bg-WhiteGreen'

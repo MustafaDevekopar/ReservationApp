@@ -1,3 +1,16 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
 import CardMini from "../Components/Cards/CardMini"
 import SliderMain from "../Components/Sliders/SliderMain"
 

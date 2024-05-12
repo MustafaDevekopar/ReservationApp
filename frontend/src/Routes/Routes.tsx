@@ -9,6 +9,8 @@ import ReservationCurrent from "../Components/ReservationElements/ReservationCur
 import ReservationPrevious from "../Components/ReservationElements/ReservationPrevious";
 import ReservePage from "../Pages/ReservePage";
 import PostsPage from "../Pages/PostsPage";
+import ShowPost from "../Pages/ShowPost";
+import ShowPostComments from "../Pages/ShowPostComments";
 
 export const router = createBrowserRouter([
     {
@@ -28,7 +30,9 @@ export const router = createBrowserRouter([
                     { path:"previous" , element: <ReservationPrevious />},
                 ],
             },
-            {path: "reserve", element: <ReservePage />}
+            {path: "reserve", element: <ReservePage />},
+            {path: "showpost", element: <ShowPost />},
+            {path: "comments", element: <ShowPostComments />},
         ],
     }
 ])

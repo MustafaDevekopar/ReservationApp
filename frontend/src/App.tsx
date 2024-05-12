@@ -9,7 +9,7 @@ function App() {
    const location = useLocation();
 
   // Define an array of paths where I want to show navbar and navbar Icon 
-  const pathsToHideComponents = ['/', '/favorite', "/search", "/posts", "/reservations/current", "/reservations/previous"];
+  const pathsToHideComponents = ['/', '/favorite', "/search", "/posts", "/reservations/current", "/reservations/previous", "/showpost"];
 
   // Check if the current path is in the pathsToShowArray array
   const shouldHideComponent = pathsToHideComponents.includes(location.pathname);
