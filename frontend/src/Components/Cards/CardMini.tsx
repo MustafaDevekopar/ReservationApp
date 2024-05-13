@@ -1,7 +1,9 @@
 
-import LocationIcon from "./../../Assets/Icons/LocationIcon.svg";
-import LikeIcon from "./../../Assets/Icons/LikeIcon.svg";
-import TimeIcon from "./../../Assets/Icons/TimeIcon.svg";
+// const LocationIcon: string = require( "./../../Assets/Icons/LocationIcon.svg").default;
+// const LikeIcon: string = require( "./../../Assets/Icons/LikeIcon.svg").default;
+// const TimeIcon: string = require( "./../../Assets/Icons/TimeIcon.svg").default;
+// const LocationIcon = "ssss";
+import { LocationIcon, LikeIcon, TimeIcon } from './../IconsComponent/IconComponent';
 
 type Props = {}
 
@@ -14,17 +16,20 @@ const CardMini = (props: Props) => {
       <div className="flex justify-between relative  font-bold  text-DarkGray">
         <span className="">ملعب سباعي الرمادي</span>
         <span className="absolute left-2 top-2">
-            <img className="w-5 h-5" src={LikeIcon} alt="" /> 
+            {/* <img className="w-5 h-5" src={LikeIcon} alt="" />  */}
+            <LikeIcon  className='w-5 h-5'/>
         </span>
       </div>
       <div className="flex">
         <div className="flex-auto ">
           <div className="flex my-1">
-            <img className="w-3" src={LocationIcon} alt="" /> 
+            {/* <img className="w-3" src={LocationIcon} alt="" />  */}
+            <LocationIcon className='w-3' />
             <span className="mx-1">(1.5 كم)</span> 
           </div>
           <div className="flex my-1">
-            <img className="w-3" src={TimeIcon} alt="" /> 
+            {/* <img className="w-3" src={TimeIcon} alt="" />  */}
+            <TimeIcon className="w-3" />
             <span className="mx-1">(20 الف / ساعة)</span> 
           </div>
         </div>

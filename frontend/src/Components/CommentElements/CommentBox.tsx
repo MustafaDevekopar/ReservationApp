@@ -1,4 +1,6 @@
-import LikeIcon from "./../../Assets/Icons/LikeIcon.svg"
+// import LikeIcon from "./../../Assets/Icons/LikeIcon.svg"
+const LikeIcon: string = require("../../assets/Icons/LikeIcon.svg").default;
+
 
 
 type commentProps = {

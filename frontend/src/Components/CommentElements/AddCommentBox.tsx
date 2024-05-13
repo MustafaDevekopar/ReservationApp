@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import ArrowSend from "./../../Assets/Icons/ArrowSend.svg"
+// import ArrowSend from "./../../Assets/Icons/ArrowSend.svg"
+const ArrowSend: string = require("../../assets/Icons/ArrowSend.svg").default;
+
 
 
 type CommenterAvatarProps = {

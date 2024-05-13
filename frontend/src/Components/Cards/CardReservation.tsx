@@ -1,5 +1,6 @@
-import xIcon from "./../../Assets/Icons/xIcon.svg"
-import phoneBlackIcon from "./../../Assets/Icons/phoneBlackIcon.svg"
+// import xIcon from "./../../Assets/Icons/xIcon.svg"
+// import phoneBlackIcon from "./../../Assets/Icons/phoneBlackIcon.svg"
+import { XIcon, PhoneBlackIcon } from './../../Components/IconsComponent/IconComponent';
 
 type Props = {}
 
@@ -17,7 +18,8 @@ const CardReservation = (props: Props) => {
      <div className="flex-1">
        <div className="flex justify-between">
          <span className="py-2">ملعب سباعي الرمادي</span>
-         <img className="w-6 h-6 rounded-full p-1  shadow-md" src={xIcon} alt="" />
+         {/* <img className="w-6 h-6 rounded-full p-1  shadow-md" src={xIcon} alt="" /> */}
+         <XIcon className="w-6 h-6 rounded-full p-1  shadow-md"/>
        </div>
        <div>
          <span className="py-2 text-DarkGray">رقم الحجز 241</span>
@@ -25,7 +27,8 @@ const CardReservation = (props: Props) => {
      </div>
 
      <div className="flex-1 inline-flex  justify-between items-center">
-       <img className="w-8 h-8 rounded-full p-1 bg-white shadow-md" src={phoneBlackIcon} alt="" />
+       {/* <img className="w-8 h-8 rounded-full p-1 bg-white shadow-md" src={phoneBlackIcon} alt="" /> */}
+      <PhoneBlackIcon className="w-8 h-8 rounded-full p-1 bg-white shadow-md" />
        <button className="px-3 py-2 rounded-full m bg-Darkgreen text-white">الغاء الحجز</button>
      </div>
    </div>

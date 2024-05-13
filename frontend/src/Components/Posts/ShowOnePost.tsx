@@ -1,8 +1,10 @@
 
 
 import { Link } from "react-router-dom";
-import LikePost from "./../../Assets/Icons/LikePostIcon.svg";
-import CommentIcon from "./../../Assets/Icons/CommentIcon.svg";
+import LikePost from "./../../assets/Icons/LikePostIcon.svg";
+import CommentIcon from "./../../assets/Icons/CommentIcon.svg";
+// const HomeIcon: string = require( "./../../Assets/Icons/LightHome.svg").default;
+
 import { useState } from "react";
 
 type Props = {}

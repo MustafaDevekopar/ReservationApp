@@ -1,5 +1,5 @@
-import React from 'react'
-import notificationIcon from "./../../Assets/Icons/notificationIcon.svg"
+const notificationIcon: string  = require( "./../../assets/Icons/notificationIcon.svg").default;
+
 
 type Props = {}
 

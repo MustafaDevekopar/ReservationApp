@@ -1,18 +1,11 @@
+
 import React, { useState } from "react";
 import ActiveIcon from "./ActiveIcon";
-
-// Import icons
-import HomeIcon from "./../../Assets/Icons/HomeIcon.svg";
-import outlineHomeIcon from "./../../Assets/Icons/outlineHomeIcon.svg";
-import OutlineLikeIcon from "./../../Assets/Icons/outlineLikeIcon.svg";
-import LikeIcon from "./../../Assets/Icons/FavaratIcon.svg";
-import PostsIcon from "./../../Assets/Icons/PostsIcon.svg";
-import outlinePostsIcon from "./../../Assets/Icons/outlinePostsIcon.svg";
-import SearchSolidIcon from "./../../Assets/Icons/SearchSolidIcon.svg";
-import OutlineSearchIcon from "./../../Assets/Icons/OutlineSearchIcon.svg";
-import reservationIcon from "./../../Assets/Icons/ReservationIcon.svg";
-import OutlineReservationIcon from "./../../Assets/Icons/OutlineReservationIcon.svg";
 import { useLocation } from "react-router";
+
+import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
+        GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
+        GreenReservationIcon,OutlineReservationIcon} from "./../IconsComponent/IconComponent";
 
 const NavBarIconsMobile: React.FC = () => {
  const location = useLocation();
@@ -22,49 +15,28 @@ const NavBarIconsMobile: React.FC = () => {
     setSelectedIcon(path);
   };
 
+  const NavContent = [
+    { id: 1, pathAndisSelected: "/", iconSrc: <GreenHomeIcon />,outlineIconSrc: <OutlineHomeIcon />, label: "الرئيسيه"},
+    { id: 2, pathAndisSelected: "/favorite", iconSrc: <GreenFavoriteIcon />,outlineIconSrc: <OutLineFavoriteIcon />, label: "المفضله"},
+    { id: 3, pathAndisSelected: "/posts", iconSrc: <GreenPostsIcon />,outlineIconSrc: <OutlinePostsIcon />, label: "المنشورات"},
+    { id: 4, pathAndisSelected: "/search", iconSrc: <GreenSearchIcon />,outlineIconSrc: <OutlineSearchIcon />, label: "البحث"},
+    { id: 5, pathAndisSelected: "/reservations/current", iconSrc: <GreenReservationIcon />,outlineIconSrc: <OutlineReservationIcon />, label: "الحجوزات"},
+
+  ];
+
   return (
     <div className="relative lg:hidden xl:hidden">
       <div className="flex flex-row-reverse justify-around w-full fixed right-0 bottom-0  rounded-t-[40px] shadow-[0_3px_40px_-15px_rgba(0,0,0,0.3)] bg-white z-50">
+      {NavContent.map((navContent) => (
         <ActiveIcon
-          path="/"
-          isSelected={selectedIcon === "/"}
-          iconSrc={HomeIcon}
-          outlineIconSrc={outlineHomeIcon}
-          label="الرئيسيه"
+          path={navContent.pathAndisSelected}
+          isSelected={selectedIcon === navContent.pathAndisSelected}
+          iconSrc={navContent.iconSrc}
+          outlineIconSrc={navContent.outlineIconSrc}
+          label={navContent.label}
           onClick={handleIconClick}
         />
-        <ActiveIcon
-          path="/favorite"
-          isSelected={selectedIcon === "/favorite"}
-          iconSrc={LikeIcon}
-          outlineIconSrc={OutlineLikeIcon}
-          label="المفضله"
-          onClick={handleIconClick}
-        />
-        <ActiveIcon
-          path="/posts"// posts
-          isSelected={selectedIcon === "/posts"} // posts
-          iconSrc={PostsIcon}
-          outlineIconSrc={outlinePostsIcon}
-          label="المنشورات"
-          onClick={handleIconClick}
-        />
-        <ActiveIcon
-          path="/search"
-          isSelected={selectedIcon === "/search"}
-          iconSrc={SearchSolidIcon}
-          outlineIconSrc={OutlineSearchIcon}
-          label="البحث"
-          onClick={handleIconClick}
-        />
-        <ActiveIcon
-          path="/reservations/current"
-          isSelected={selectedIcon === "/reservations/current"}
-          iconSrc={reservationIcon}
-          outlineIconSrc={OutlineReservationIcon}
-          label="الحجوزات"
-          onClick={handleIconClick}
-        />
+      ))}
       </div>
     </div>
   );

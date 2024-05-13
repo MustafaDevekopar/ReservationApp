@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 type IconProps = {
   path: string;
   isSelected: boolean;
-  iconSrc: string;
-  outlineIconSrc: string;
+  iconSrc: React.ReactNode;
+  outlineIconSrc: React.ReactNode;
   label: string;
   onClick: (path: string) => void;
 };
@@ -19,23 +19,20 @@ const ActiveIcon: React.FC<IconProps> = ({
   onClick,
 }) => {
   return (
-    <div className={`${isSelected ? "flex items-center justify-center flex-col  py-2 bg-Darkgreen rounded-l-3xl" : ""}`}>
+    <div className={`${isSelected && "flex items-center justify-center flex-col  py-2 bg-Darkgreen rounded-l-3xl" }`}>
       <Link to={path} onClick={() => onClick(path)}>
-        {isSelected ? (
-          <img
-            className="mx-5 p-1 rounded-full border-solid border-2 border-white "
-            src={iconSrc}
-            alt=""
-          />
+        {isSelected ? ( 
+          <p className="mx-5 p-1 rounded-full border-solid border-2 border-white ">
+            { iconSrc}
+          </p>
         ) : (
-          <img className="m-5 my-8 p-1" src={outlineIconSrc} alt="" />
+          <p className="m-5 my-8 p-1">
+            {outlineIconSrc}
+          </p>
+          
         )}
       </Link>
-      {isSelected ? (
-        <span className="text-xs mx-3 font-bold text-white">{label}</span>
-      ) : (
-        <></>
-      )}
+      { isSelected && <span className="text-xs mx-3 font-bold text-white">{label}</span> }
     </div>
   );
 };
