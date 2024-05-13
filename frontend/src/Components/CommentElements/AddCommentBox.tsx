@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-// import ArrowSend from "./../../Assets/Icons/ArrowSend.svg"
+import { useState } from 'react'
 const ArrowSend: string = require("../../assets/Icons/ArrowSend.svg").default;
 
 

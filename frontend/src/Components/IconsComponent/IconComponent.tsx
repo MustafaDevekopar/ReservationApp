@@ -31,6 +31,11 @@ import { ReactComponent as GreenSearchIconSVG } from "../../assets/Icons/SearchS
 import { ReactComponent as GreenReservationIconSVG } from "../../assets/Icons/ReservationIcon.svg";
 
 
+// Like and comment icons for showOnepost  component
+import { ReactComponent as LikePostSVG } from "../../assets/Icons/LikePostIcon.svg";
+import { ReactComponent as CommentIconSVG } from "../../assets/Icons/CommentIcon.svg";
+
+
 
 
 // Define icon components
@@ -63,3 +68,10 @@ export const GreenFavoriteIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props
 export const GreenPostsIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <GreenPostsIconSVG {...props} />;
 export const GreenSearchIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <GreenSearchIconSVG {...props} />;
 export const GreenReservationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <GreenReservationIconSVG {...props} />;
+
+
+// Like and comment icons for showOnepost  component
+export const LikePost: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <LikePostSVG {...props} />;
+export const CommentIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <CommentIconSVG {...props} />;
+
+
