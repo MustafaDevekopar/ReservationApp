@@ -1,4 +1,5 @@
-import CardMini from "../Components/Cards/CardMini"
+import CardMini from "../Components/Cards/CardMini";
+import {information} from "./../Api";
 type Props = {}
 
 const FavoritePage = (props: Props) => {
@@ -7,20 +8,12 @@ const FavoritePage = (props: Props) => {
         <div className="grid gap-3 
         grid-cols-2 sm:grid-cols-2  md:grid-cols-2  lg:grid-cols-4 
         mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full my-6 ">
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
-            <CardMini />
+                      {information.map((info) => (
+          <CardMini 
+            imgSrc={info.imageUrl}
+            fieldName={info.title}/>
+          ))}
+
        </div>
     </div>
   )

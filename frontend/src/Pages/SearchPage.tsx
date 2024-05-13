@@ -1,6 +1,6 @@
 import DropdownCat from "../Components/Dropdowns/DropdownCat"
 import  Card  from "./../Components/Cards/Card"
-import React from 'react'
+import {information} from "./../Api"
 
 type Props = {}
 
@@ -17,18 +17,14 @@ const SearchPage = (props: Props) => {
         <div className="grid gap-4 
         sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-3 
         mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full ">
-        
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        {information.map((info) => (
+          <Card 
+            imgSrc={info.imageUrl}
+            fieldName={info.title}/>
+        ))}
+              
+
+
 
        </div>
     </div>
