@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ExplanatoryIcons from '../Components/ReserveElement/ExplanatoryIcons'
 import DateTimeReserve from '../Components/ReserveElement/DateTimeReserve'
 
@@ -21,8 +21,8 @@ const ReservePage = (props: Props) => {
         <div className="flex">
             <span className="mb-2 text-DarkGray">الحجوزات المتاحه  ل ملعب سباعي الرمادي</span>
         </div>
-        <DateTimeReserve Text="تاريخ الحجز" />
-        <DateTimeReserve Text="وقت الحجز" />
+        <DateTimeReserve Text="تاريخ الحجز" isDateNotTime = {true} />
+        <DateTimeReserve Text="وقت الحجز" isDateNotTime = {false} />
 
     </div>
   )

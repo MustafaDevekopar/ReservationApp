@@ -38,3 +38,35 @@ export const NavContentMobile = [
     { id: 12, imageUrl: 'https://th.bing.com/th/id/OIP.qChHVnS-8mJszMpvT8vlFwHaDj?w=1200&h=575&rs=1&pid=ImgDetMain', title: 'ملعب البصرة' },
 
   ];
+
+
+ /// reseve date 
+  export const ReservDateInfo = [
+    { id: 1, isReserved: true, isSelected_DateOrTime: "2/23 الخميس" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/24 الجمعه" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/25 السبت" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/26 الاحد" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/27 الاثنين" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/28 الثلاثاء" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/29 الاربعاء" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2/30 الخميس" },
+  ];
+  
+  export const ReservTimeInfo = [
+    { id: 1, isReserved: false, isSelected_DateOrTime: "9:00 ص" },
+    { id: 2, isReserved: false, isSelected_DateOrTime: "10:00 ص" },
+    { id: 3, isReserved: false, isSelected_DateOrTime: "11:00 ص" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "12:00 ص" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "1:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "2:00 م" },
+    { id: 1, isReserved: true, isSelected_DateOrTime: "3:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "4:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "5:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "6:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "7:00 م" },
+    { id: 1, isReserved: true, isSelected_DateOrTime: "8:00 م" },
+    { id: 1, isReserved: true, isSelected_DateOrTime: "9:00 م" },
+    { id: 1, isReserved: true, isSelected_DateOrTime: "10:00 م" },
+    { id: 1, isReserved: false, isSelected_DateOrTime: "11:00 م" },
+
+  ];
