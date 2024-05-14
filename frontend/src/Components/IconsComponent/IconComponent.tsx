@@ -35,6 +35,10 @@ import { ReactComponent as GreenReservationIconSVG } from "../../assets/Icons/Re
 import { ReactComponent as LikePostSVG } from "../../assets/Icons/LikePostIcon.svg";
 import { ReactComponent as CommentIconSVG } from "../../assets/Icons/CommentIcon.svg";
 
+//reserv confirm and close icon 
+import { ReactComponent as WhiteConfirmIconSVG } from "../../assets/Icons/WhiteConfirmIcon.svg";
+import { ReactComponent as WhitCloseSVG } from "../../assets/Icons/WhitClose.svg";
+
 
 
 
@@ -48,6 +52,10 @@ export const TimeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <Tim
 //card reservation export icons
 export const XIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <XIconSVG {...props} />;
 export const PhoneBlackIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <PhoneBlackIconSVG {...props} />;
+
+//reserv confirm and close icon 
+export const WhiteConfirmIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <WhiteConfirmIconSVG {...props} />;
+export const WhitClose: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <WhitCloseSVG {...props} />;
 
 //navbar icons 
 export const HomeIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <HomeIconSVG {...props} />;

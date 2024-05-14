@@ -1,6 +1,8 @@
 
 import ExplanatoryIcons from '../Components/ReserveElement/ExplanatoryIcons'
 import DateTimeReserve from '../Components/ReserveElement/DateTimeReserve'
+import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox'
+import { useState } from 'react'
 
 type Props = {}
 
@@ -23,7 +25,7 @@ const ReservePage = (props: Props) => {
         </div>
         <DateTimeReserve Text="تاريخ الحجز" isDateNotTime = {true} />
         <DateTimeReserve Text="وقت الحجز" isDateNotTime = {false} />
-
+        <ConfirmOrBackBox />
     </div>
   )
 }

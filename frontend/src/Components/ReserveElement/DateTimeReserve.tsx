@@ -23,7 +23,7 @@ const DateTimeReserve = ({Text, isDateNotTime}: DateProps) => {
         </div>
         <div className="flex ">
             <div className=" bg-white shadow rounded-2xl p-4 my-2 grid w-full
-                 grid-cols-3 sm:grid-cols-3  md:grid-cols-5  lg:grid-cols-7">
+                 grid-cols-3 sm:grid-cols-3  md:grid-cols-6  lg:grid-cols-9">
                     {mapDatOrTime.map((date) => 
 
                     <BtnDateTime key={date.id} 
