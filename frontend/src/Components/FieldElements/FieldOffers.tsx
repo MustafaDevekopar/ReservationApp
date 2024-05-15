@@ -4,8 +4,8 @@ type Props = {}
 
 const FieldOffers = (props: Props) => {
   return (
-    <div className="flex w-full bg-white text-LightGray rounded-xl shadow-md p-4 mt-8">
-        <div className="flex-1">
+    <div className="grid grid-cols-2 grid-rows-5 w-full bg-white text-LightGray rounded-xl shadow-md p-4 mt-8">
+
             <div className="flex text-xs gap-1 items-center mb-1">
                 <GreenConfirm />
                 <span className="">تحكيم مجاني</span>
@@ -18,8 +18,7 @@ const FieldOffers = (props: Props) => {
                 <GreenConfirm />
                 <span>تحكيم مجاني</span>
             </div>                    
-        </div>
-        <div className="flex-1">
+
             <div className="flex text-xs gap-1 items-center mb-1">
                 <GreenConfirm />
                 <span className="">تحكيم مجاني</span>
@@ -28,9 +27,6 @@ const FieldOffers = (props: Props) => {
                 <GreenConfirm />
                 <span>تحكيم مجاني</span>
             </div>
-        </div>
-
-
 
     </div>
   )

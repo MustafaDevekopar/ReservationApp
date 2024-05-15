@@ -19,7 +19,7 @@ const CardIconsTextsBox = ({locationText, views, phoneNumber,distance}: infoProp
         </div>
         <div className="flex my-2">
             <span className="w-4">{<EyeIcon className=''/>}</span>
-            <span className="mx-2 line-clamp-1">{views}مش</span> 
+            <span className="mx-2 line-clamp-1"> {views +" "}مشاهد </span> 
         </div>
         <div className="flex my-2">
             <span className="w-4">{<PhoneIcon className=''/>}</span>

@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { LocationIcon, LikeIcon, TimeIcon } from './../IconsComponent/IconComponent';
 
 type InfoProps = {
@@ -10,7 +11,9 @@ const CardMini = ({imgSrc, fieldName}: InfoProps) => {
   return (
 
   <div className="relative rounded-t-3xl lg:rounded-t-[55px] overflow-hidden shadow-lg">
-    <img className="aspect-[9/6] w-full object-cover" src={imgSrc} alt="Sunset in the mountains"/>
+      <Link to={'/showfield/services/'}>
+        <img className="aspect-[9/6] w-full object-cover" src={imgSrc} alt="Sunset in the mountains"/>
+    </Link>
     <div className="px-2 pt-1 pb-1 text-[9px]">
       <div className="flex justify-between relative  font-bold  text-DarkGray">
         <span className="">{fieldName}</span>
