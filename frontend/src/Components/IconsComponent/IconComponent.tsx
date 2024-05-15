@@ -39,6 +39,12 @@ import { ReactComponent as CommentIconSVG } from "../../assets/Icons/CommentIcon
 import { ReactComponent as WhiteConfirmIconSVG } from "../../assets/Icons/WhiteConfirmIcon.svg";
 import { ReactComponent as WhitCloseSVG } from "../../assets/Icons/WhitClose.svg";
 
+// icon for field services and offers
+import { ReactComponent as GreenConfirmSVG } from "../../assets/Icons/GreenConfirm.svg";
+// Rating of show field
+import { ReactComponent as StatrRattingSvg } from "../../assets/Icons/StatrRatting.svg";
+import { ReactComponent as ShareIconSVG } from "../../assets/Icons/shareIcon.svg";
+
 
 
 
@@ -81,5 +87,13 @@ export const GreenReservationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (pr
 // Like and comment icons for showOnepost  component
 export const LikePost: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <LikePostSVG {...props} />;
 export const CommentIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <CommentIconSVG {...props} />;
+
+// icon for field services and offers
+export const GreenConfirm: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <GreenConfirmSVG {...props} />;
+
+// Rating of show field
+export const StarRatting: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <StatrRattingSvg {...props} />;
+export const ShareIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <ShareIconSVG {...props} />;
+
 
 

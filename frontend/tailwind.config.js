@@ -5,7 +5,7 @@ module.exports = {
     screens: {
       sm: "480px",
       md: "768px",
-      lg: "1020px",
+      lg: "1025px",// it use to be 1020
       xl: "1440px",
     },
     extend: {
@@ -21,6 +21,9 @@ module.exports = {
         WhiteRed: "#FF5E5E",
         WhiteYellow: "#F1E92A",
         WhiteBlue: "#0672C0",
+        bgWhight: "#F7F7F7",
+        OutLineBlue: "#088FF0",
+
         darkBlue: "hsl(213.86, 58.82%, 46.67%)",
         lightGreen: "hsl(156.62, 73.33%, 58.82%)",
 
