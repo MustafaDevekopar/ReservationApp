@@ -1,3 +1,4 @@
+
 using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Interfaces;
@@ -6,10 +7,10 @@ using Reservations.Repository;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+// Register your repositories and DbContext
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
 builder.Services.AddScoped<IFootballFieldRepository, FootballFieldRepository>();
@@ -27,10 +28,22 @@ builder.Services.AddScoped<IUserFieldRepository, UserFieldRepository>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add CORS to allow requests from frontend
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        builder => builder
+            .WithOrigins("http://localhost:3000") // Replace with your frontend URL
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
+// Register your DbContext
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,9 +55,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Use CORS
+app.UseCors("AllowFrontend");
+
 app.UseAuthorization();
 
 app.MapControllers();
 
-
 app.Run();
+
+
+
