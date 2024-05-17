@@ -45,6 +45,11 @@ import { ReactComponent as GreenConfirmSVG } from "../../assets/Icons/GreenConfi
 import { ReactComponent as StatrRattingSvg } from "../../assets/Icons/StatrRatting.svg";
 import { ReactComponent as ShareIconSVG } from "../../assets/Icons/shareIcon.svg";
 
+// new post and anvbar Icon to profile page  
+import { ReactComponent as NewPostIconSVG } from "../../assets/Icons/NewPostIcon.svg";
+import { ReactComponent as NavigationIconSVG } from "../../assets/Icons/NavigationIcon.svg";
+import { ReactComponent as NotificationIconSVG } from "../../assets/Icons/notificationIcon.svg";
+
 
 
 
@@ -94,6 +99,12 @@ export const GreenConfirm: React.FC<React.SVGProps<SVGSVGElement>> = (props) => 
 // Rating of show field
 export const StarRatting: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <StatrRattingSvg {...props} />;
 export const ShareIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <ShareIconSVG {...props} />;
+
+// new post and anvbar Icon to profile page  
+export const NewPostIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <NewPostIconSVG {...props} />;
+export const NavigationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <NavigationIconSVG {...props} />;
+export const NotificationIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => <NotificationIconSVG {...props} />;
+
 
 
 

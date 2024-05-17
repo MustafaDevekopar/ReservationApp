@@ -44,6 +44,9 @@ const ShowFieldDettails = (props: Props) => {
                         bgColor="Darkgreen"
                         textColor="white"
                         textSize="sm"
+                        width="auto"
+                        paddingx="0"
+                        paddingy="0"
                         path="/reserve"
                     />
                 </div>

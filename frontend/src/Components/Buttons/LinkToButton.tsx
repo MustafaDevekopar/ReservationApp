@@ -6,6 +6,9 @@ type infoProps = {
     bgColor: string;
     textColor: string;
     textSize: string;
+    width: string;
+    paddingx:string;
+    paddingy:string;
     path: string;
 }
 
@@ -14,16 +17,23 @@ const LinkToButton = ({
     bgColor,
     textColor,
     textSize,
+    width,
+    paddingx,
+    paddingy,
     path
 }: infoProps) => {
   return (
-    <div className={`
+
+    <Link to={path} className={` text-center py-2 flex justify-center items-center rounded-xl
         bg-${bgColor} 
         text-${textColor} 
         text-${textSize} 
-        flex justify-center items-center rounded-xl  `}>
-    <Link to={path} className=" w-full h-full text-center py-2 ">{text}</Link>
-  </div>
+        w-${width}
+        px-${paddingx}
+        py-${paddingy}
+
+        `}>{text}</Link>
+
   )
 }
 

@@ -1,20 +1,21 @@
-import React from 'react'
 
 type InfoProps = {
     text: string;
     textSize: string;
-    color: string;
+    textColor: string;
+    outlinColor: string;
     paddingx:string;
     paddingy:string;
     marginx:string;
     hasIcon:boolean;
-    icon: any;  //React.ReactNode or string value
+    icon: any;  //React.ReactNode or string value 'none'
 }
 
 const OutlineButton = ({
     text,
     textSize,
-    color,
+    textColor,
+    outlinColor,
     paddingx,
     paddingy,
     marginx,
@@ -23,14 +24,14 @@ const OutlineButton = ({
 }: InfoProps) => {
   return (
     <button 
-        className={`
+        className={`outline outline-2 text-xs
         text-${textSize} 
-        text-${color} 
-        outline-${color} 
+        ${textColor} 
+        ${outlinColor} 
         px-${paddingx} 
         py-${paddingy} 
         mx-${marginx} 
-        rounded-xl outline outline-2 `}>
+        rounded-xl`}>
 
         <div className='flex gap-2'>{text} {hasIcon && icon}</div> 
     </button>
