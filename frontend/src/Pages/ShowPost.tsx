@@ -1,6 +1,6 @@
 import ShowOnePost from "../Components/Posts/ShowOnePost";
 
-const ShowPost = () => {
+const ShowPost: React.FC = (): JSX.Element => {
   return (
     <div className="mb-20 mx-1 sm:mx-4  md:mx-12 lg:mx-60 xl:60 ">
         <ShowOnePost />

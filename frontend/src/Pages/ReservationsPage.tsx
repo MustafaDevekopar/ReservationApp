@@ -5,7 +5,7 @@ import ActiveLink from "../Components/LinkStyled/ActiveLink";
 
 type Props = {}
 
-const ReservationsPage = (props: Props) => {
+const ReservationsPage: React.FC<Props> = (props: Props): JSX.Element => {
   const location = useLocation();
   const [selectedPath, setSelectedPath] = useState<string>(location.pathname);
   const handleIconClick = (path: string) => {

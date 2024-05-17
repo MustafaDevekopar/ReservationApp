@@ -7,7 +7,12 @@ type BtnDateTimeProps = {
     onClick: (DateOrTime: string) => void;
 }
 
-const BtnDateTime = ({isReserved, DateOrTime, isSelected, onClick}: BtnDateTimeProps) => {
+const BtnDateTime: React.FC<BtnDateTimeProps> = ({
+  isReserved, 
+  DateOrTime, 
+  isSelected, 
+  onClick
+}: BtnDateTimeProps): JSX.Element => {
   return (
     <button 
       onClick={()=> onClick(DateOrTime)} 

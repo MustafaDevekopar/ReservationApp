@@ -17,7 +17,7 @@ const ActiveIcon: React.FC<IconProps> = ({
   outlineIconSrc,
   label,
   onClick,
-}) => {
+}): JSX.Element => {
   const location = useLocation();
   return (
     <div className={`flex  flex-col gap-1 mb-2 mt-2 ${isSelected && "mt-4 mb-2" }`}>

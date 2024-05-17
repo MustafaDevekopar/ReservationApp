@@ -2,7 +2,7 @@ import {NotificationIcon } from "../IconsComponent/IconComponent"
 
 type Props = {}
 
-const NotificationIconCom = (props: Props) => {
+const NotificationIconCom: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div>
         <span className="flex relative">

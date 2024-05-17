@@ -4,7 +4,7 @@ import {information} from "./../Api"
 
 type Props = {}
 
-const SearchPage = (props: Props) => {
+const SearchPage: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div>
         <div className=" flex justify-center items-center w-full ">

@@ -3,7 +3,7 @@ import CardReservation from '../Cards/CardReservation'
 
 type Props = {}
 
-const ReservationPrevious = (props: Props) => {
+const ReservationPrevious: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="flex justify-center items-center w-full">
     <div className="grid gap-3

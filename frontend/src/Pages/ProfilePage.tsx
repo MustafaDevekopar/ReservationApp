@@ -11,7 +11,7 @@ import OutlineButton from "../Components/Buttons/OutlineButton";
 
 type Props = {}
 
-const ProfilePage = (props: Props) => {
+const ProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="">
         <div className=" mt-2 mx-3 sm:mx-6  md:mx-6 lg:mx-60 xl:mx-60 mb-12">

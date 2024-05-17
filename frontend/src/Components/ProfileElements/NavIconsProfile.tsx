@@ -4,7 +4,7 @@ import NotificationIconCom from './NotificationIconCom'
 
 type Props = {}
 
-const NavIconsProfile = (props: Props) => {
+const NavIconsProfile: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="flex h-16">
         <div className="flex-non flex justify-center items-end w-32">

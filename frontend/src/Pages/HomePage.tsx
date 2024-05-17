@@ -6,7 +6,7 @@ import {information} from "./../Api"
 
 type Props = {}
 
-const HomePage = (props: Props) => {
+const HomePage: React.FC<Props> = (props: Props): JSX.Element => {
 
   return (
     <div>

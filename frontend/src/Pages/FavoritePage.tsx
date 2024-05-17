@@ -2,7 +2,7 @@ import CardMini from "../Components/Cards/CardMini";
 import {information} from "./../Api";
 type Props = {}
 
-const FavoritePage = (props: Props) => {
+const FavoritePage: React.FC<Props> = (props: Props) : JSX.Element => {
   return (
     <div className=" flex justify-center items-center w-full ">
         <div className="grid gap-3 

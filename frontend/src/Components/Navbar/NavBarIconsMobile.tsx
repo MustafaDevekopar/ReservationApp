@@ -4,7 +4,7 @@ import ActiveIcon from "./ActiveIcon";
 import { useLocation } from "react-router";
 import {NavContentMobile} from "./../../Api"
 
-const NavBarIconsMobile: React.FC = () => {
+const NavBarIconsMobile: React.FC = (): JSX.Element => {
  const location = useLocation();
   const [selectedIcon, setSelectedIcon] = useState<string>(location.pathname);
   

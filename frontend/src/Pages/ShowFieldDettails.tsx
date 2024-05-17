@@ -8,7 +8,7 @@ import FieldTitleRateingLikes from '../Components/FieldElements/FieldTitleRatein
 
 type Props = {}
 
-const ShowFieldDettails = (props: Props) => {
+const ShowFieldDettails: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="static flex justify-center w-full lg:px-10 xl:px-10 lg:pt-10 xl:pt-10 h-screen">
         <div className="flex flex-col lg:flex-row-reverse xl:flex-row-reverse lg:mx-12  w-full h-full">

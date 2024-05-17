@@ -4,7 +4,7 @@ type Props = {
     Text: string,
 }
 
-const ExplanatoryIcons = ({Color, Text}: Props) => {
+const ExplanatoryIcons :React.FC<Props> = ({Color, Text}: Props) :JSX.Element => {
   return (
     <div className="flex gap-2">
         <span className={`w-5 h-6 rounded ${Color}`}></span>

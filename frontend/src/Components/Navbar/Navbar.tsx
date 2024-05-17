@@ -4,7 +4,7 @@ const notificationIcon: string  = require( "./../../assets/Icons/notificationIco
 
 type Props = {}
 
-const Navbar = (props: Props) => {
+const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
   return (
     <div className=" flex justify-evenly items-center h-20 w-full shadow-md bg-white">
         <Link to={"/profile"}>

@@ -7,7 +7,11 @@ type DateProps = {
     isDateNotTime: boolean;
 }
 
-const DateTimeReserve = ({Text, isDateNotTime}: DateProps) => {
+const DateTimeReserve:React.FC<DateProps> = (
+    {
+    Text, 
+    isDateNotTime
+}: DateProps): JSX.Element => {
 
     const [selectedDateTime, setSelectedDateTime] = useState<string>("");
     const handleIconClick = (DateOrTime: string) => {

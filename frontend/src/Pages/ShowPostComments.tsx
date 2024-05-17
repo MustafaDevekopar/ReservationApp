@@ -3,7 +3,7 @@
 import AddCommentBox from "../Components/CommentElements/AddCommentBox";
 import CommentBox from "../Components/CommentElements/CommentBox";
 
-const ShowPostComments = () => {
+const ShowPostComments: React.FC = (): JSX.Element => {
   // Fetch comments or get them through props
   const comments = [
     { id: 1, imageUrl: 'https://th.bing.com/th/id/OIP.qChHVnS-8mJszMpvT8vlFwHaDj?w=1200&h=575&rs=1&pid=ImgDetMain', user:'n1u-u', title: 'تعليق افتراضي ' },

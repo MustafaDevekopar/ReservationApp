@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {}
 
-const AvatarRow = (props: Props) => {
+const AvatarRow: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="flex justify-between mb-8">
         <div className="flex-none w-32  flex flex-col items-center ">

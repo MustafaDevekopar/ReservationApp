@@ -3,7 +3,7 @@ import React from 'react'
 
 type Props = {}
 
-const SliderMain = (props: Props) => {
+const SliderMain:React.FC<Props> = (props: Props): JSX.Element => {
   return (
   
 

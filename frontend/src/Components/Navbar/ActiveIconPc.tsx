@@ -17,7 +17,7 @@ const ActiveIcon: React.FC<IconProps> = ({
   outlineIconSrc,
   label,
   onClick,
-}) => {
+}):JSX.Element => {
   return (
     <div className={`${isSelected && "flex items-center justify-center flex-col  py-2 bg-Darkgreen rounded-l-3xl" }`}>
       <Link to={path} onClick={() => onClick(path)}>

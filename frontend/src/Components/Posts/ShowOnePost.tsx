@@ -6,7 +6,7 @@ import DesecriptionShowPost from "../CommentElements/DesecriptionShowPost";
 
 type Props = {}
 
-const ShowOnePost = (props: Props) => {
+const ShowOnePost: React.FC<Props> = (props: Props):JSX.Element => {
 
   return (
     <div className="mb-20 mt-4">

@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import {information} from "./../Api"
 
-const PostsPage: React.FC = () => {
+const PostsPage: React.FC = () : JSX.Element => {
 
   return (
     <div className="flex flex-wrap justify-center  mt-6 mb-20

@@ -4,7 +4,7 @@ import {WhiteConfirmIcon, WhitClose} from "./../../Components/IconsComponent/Ico
 
 type Props = {}
 
-const ConfirmOrBackBox = (props: Props) => {
+const ConfirmOrBackBox: React.FC<Props> = (props: Props) : JSX.Element => {
   return (
     <div className="flex justify-between items-center w-full m-8 px-8">
         <BtnRoundedFull
