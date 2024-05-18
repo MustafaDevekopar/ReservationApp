@@ -40,16 +40,32 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> GerFields()
         {
-            var footballFields = _mapper.Map<List<FootballFieldDto>>
-                (await _footballFieldRepository.GetFootballFieldsAsync());
+            var footballFields = await _footballFieldRepository.GetFootballFieldsAsync();
 
-            if(!ModelState.IsValid) 
+            //var footballFields = _mapper.Map<List<FootballFieldDto>>
+            //    (await _footballFieldRepository.GetFootballFieldsAsync());
+
+            if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            return Ok(footballFields);
+            var usersMap = footballFields.Select(field =>
+            {
+                string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
+                return new FootballGetDto
+                {
+                    Name = field.Name,
+                    Username = field.Username,
+                    Password = field.Password,
+                    PhoneNumbr = field.PhoneNumbr,
+                    Location = field.Location,
+                    Avatar = avatarBase64
+                };
+            }).ToList();
+
+            return Ok(usersMap);
         }
 
-
+        //=================================================================================
         [HttpGet("{FieldId}")]
         public async Task<IActionResult> GetField(int FieldId)
         {
@@ -110,20 +126,34 @@ namespace Reservations.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFootballFaild([FromQuery]int categoryId,
-            [FromQuery]int governorateId,
-            [FromBody] FootballFieldDto footballFieldCreate)
+        //public async Task<IActionResult> CreateFootballFaild([FromQuery] int categoryId,
+        //    [FromQuery] int governorateId,
+        //    [FromBody] FootballFieldDto footballFieldCreate)
+        //{
+        public async Task<IActionResult> CreateFootballFaild([FromForm]FootballFieldCreateDto footballFieldCreate)
         {
-            if(footballFieldCreate == null)
+            if (footballFieldCreate == null)
             {
                 ModelState.AddModelError("", "FootballField connot by empty");
                 return BadRequest(ModelState);
             }
+            using var strem = new MemoryStream();
+            await footballFieldCreate.Avatar.CopyToAsync(strem);
 
-            var fieldMapp = _mapper.Map<FootballField>(footballFieldCreate);
+            var fieldMapp = new FootballField
+            {
+                Name = footballFieldCreate.Name,
+                Username = footballFieldCreate.Username,
+                Password = footballFieldCreate.Password,
+                PhoneNumbr = footballFieldCreate.PhoneNumbr,
+                Location = footballFieldCreate.Location,
+                Avatar = strem.ToArray()
+            };
 
-            fieldMapp.Category = await _categoryRepository.GetCategoryAsync(categoryId);
-            fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(governorateId);
+            //var fieldMapp = _mapper.Map<FootballField>(footballFieldCreate);
+
+            fieldMapp.Category = await _categoryRepository.GetCategoryAsync(footballFieldCreate.categoryId);
+            fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(footballFieldCreate.governorateId);
             fieldMapp.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(1);
             fieldMapp.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(1);
 
