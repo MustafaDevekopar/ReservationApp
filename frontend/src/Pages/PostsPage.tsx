@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import {information} from "./../Api"
+import {information} from "../Api"
 
 const PostsPage: React.FC = () : JSX.Element => {
 

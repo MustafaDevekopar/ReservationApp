@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 type Props = {}
 
@@ -15,13 +16,17 @@ const AvatarRow: React.FC<Props> = (props: Props): JSX.Element => {
                 <span>32</span>
                 <span>منشورات</span>
             </div>
-            <div className="flex flex-col items-center text-xs text-LightGray">
+            <div >
+              <Link to={'/users'} className="flex flex-col items-center text-xs text-LightGray">
                 <span>32</span>
-                <span>منشورات</span>
+                <span>متابعين</span>
+              </Link>
             </div>
-            <div className="flex flex-col items-center text-xs text-LightGray">
+            <div >
+             <Link to={'/users'} className="flex flex-col items-center text-xs text-LightGray">
                 <span>32</span>
-                <span>منشورات</span>
+                <span>متابع</span>
+              </Link>
             </div>
           </div>
     </div>

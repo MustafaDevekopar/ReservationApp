@@ -1,5 +1,5 @@
 import CardMini from "../Components/Cards/CardMini";
-import {information} from "./../Api";
+import {information} from "../Api";
 type Props = {}
 
 const FavoritePage: React.FC<Props> = (props: Props) : JSX.Element => {

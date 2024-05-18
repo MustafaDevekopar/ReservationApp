@@ -1,3 +1,7 @@
+// import axios from "axios";
+// import axios from "axios";
+import axios, { AxiosResponse } from 'axios';
+
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
     GreenReservationIcon,OutlineReservationIcon} from "./Components/IconsComponent/IconComponent";
@@ -70,3 +74,54 @@ export const NavContentMobile = [
     { id: 1, isReserved: false, isSelected_DateOrTime: "11:00 م" },
 
   ];
+  // ======================== api ==========================
+
+  // interface SearchResponse {
+  //   data: FootballFaild[];
+  // }
+  // import { User } from "./Reservations";
+  
+  interface User {
+    id: number;
+    name: string;
+    username: string;
+    password: string;
+    phoneNumbr: number;
+    createdAt: string;
+    avatar: string;
+  }
+
+export const UsersGet = async (): Promise<User[]> => {
+  try {
+    const response: AxiosResponse<User[]> = await axios.get<User[]>("https://localhost:7249/api/User");
+    console.log(response.data);
+    return response.data; // Return the array of users from the response
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+  // export const UsersGet = async () => {
+  //   try {
+  //     const data = await axios.get<User>("https://localhost:7249/api/User"
+  //     );
+  //     console.log(data);
+  //     return data;
+
+  //   } catch(error) {
+
+  //     if(axios.isAxiosError(error)) {
+  //       console.log("error message: ", error.message);
+  //       return error.message;
+  //     } else {
+  //       console.log("unexpected error: ", error);
+  //       return "An expected error"
+  //     }
+  //   }
+  // }

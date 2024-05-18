@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import BtnDateTime from './BtnDateTime';
-import {ReservDateInfo, ReservTimeInfo} from "./../../Api"
+import {ReservDateInfo, ReservTimeInfo} from "../../Api"
 
 type DateProps = {
     Text: string;

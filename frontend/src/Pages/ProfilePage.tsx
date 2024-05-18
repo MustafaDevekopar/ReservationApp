@@ -4,7 +4,7 @@ import DesecriptionShowPost from "../Components/CommentElements/DesecriptionShow
 import AvatarRow from "../Components/ProfileElements/AvatarRow"
 import NavIconsProfile from "../Components/ProfileElements/NavIconsProfile"
 import { Link } from 'react-router-dom';
-import {information} from "./../Api"
+import {information} from "../Api"
 import OutlineButton from "../Components/Buttons/OutlineButton";
 
 

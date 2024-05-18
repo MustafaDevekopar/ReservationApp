@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import ActiveIconPc from "./ActiveIconPc";
 import { useLocation } from "react-router";
-import {NavContentPc} from "./../../Api"
+import { NavContentPc } from "../../Api";
 
 
 const NavBarIconsMobile: React.FC = (): JSX.Element => {

@@ -14,6 +14,7 @@ import ShowFieldDettails from "../Pages/ShowFieldDettails";
 import FieldServices from "../Components/FieldElements/FieldServices";
 import FieldOffers from "../Components/FieldElements/FieldOffers";
 import ProfilePage from "../Pages/ProfilePage";
+import UsersPage from "../Pages/UsersPage";
 
 export const router = createBrowserRouter([
     {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
             },
             {path: "comments", element: <ShowPostComments />},
             {path: "profile", element: <ProfilePage />},
+            {path: "users", element: <UsersPage />},
         ],
     }
 ])
