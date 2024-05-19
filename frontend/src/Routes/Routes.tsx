@@ -10,11 +10,11 @@ import ReservePage from "../Pages/ReservePage";
 import PostsPage from "../Pages/PostsPage";
 import ShowPost from "../Pages/ShowPost";
 import ShowPostComments from "../Pages/ShowPostComments";
-import ShowFieldDettails from "../Pages/ShowFieldDettails";
 import FieldServices from "../Components/FieldElements/FieldServices";
 import FieldOffers from "../Components/FieldElements/FieldOffers";
 import ProfilePage from "../Pages/ProfilePage";
 import UsersPage from "../Pages/UsersPage";
+import ShowFieldDettails from "../Pages/ShowFieldDettails";
 
 export const router = createBrowserRouter([
     {
@@ -36,7 +36,7 @@ export const router = createBrowserRouter([
             {path: "reserve", element: <ReservePage />},
             {path: "showpost", element: <ShowPost />},
             {
-                path: "showfield/", 
+                path: "showfield/:id/", 
                 element: <ShowFieldDettails />,
                 children: [
                     {path: "services", element: <FieldServices />},

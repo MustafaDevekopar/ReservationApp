@@ -17,3 +17,8 @@ export interface User {
     createdAt: string;
     avatar: string;
   }
+export interface Governorate {
+    id: number;
+    name: string;
+
+  }

@@ -13,7 +13,7 @@ const FieldTitleRateingLikes = ({
     likes,
 }: infoProps) => {
   return (
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between lg:justify-start xl:justify-start xl:gap-8 lg:gap-8">
             <span className="mb-2 lg-mb-4 xl:mb-4 line-clamp-1 lg:text-lg xl:text-lg ">{fieldName}</span>
             <span className='flex mr-8 text-LightXlGray text-xs  gap-1'> 
                 <StarRatting className=''/>

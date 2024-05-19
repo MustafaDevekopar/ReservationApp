@@ -7,16 +7,31 @@ import CardIconsTextsBox from "../CardElements/CardIconsTextsBox";
 import LinkToButton from "../Buttons/LinkToButton";
 
 type InfoProps = {
+  id: number;
   imgSrc: string;
   fieldName: string;
+  location: string;
+  phoneNumber: string;
 }
 
-const Card = ({imgSrc, fieldName}: InfoProps) => {
+const Card = ({
+  id,
+  imgSrc,
+  fieldName,
+  location,
+  phoneNumber,
+}: InfoProps) => {
   return (
 
   <div className="relative rounded-t-3xl overflow-hidden shadow-lg">
-    <Link to={'/showfield/services/'}>
-      <img className="aspect-[7/3] w-full object-cover" src={imgSrc} alt="Sunset in the mountains"/>
+    <Link to={`/showfield/${id}/services`}> 
+      <img className="aspect-[7/3] w-full object-cover" 
+      src={
+        imgSrc === null
+        ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        : `data:image/png;base64,${imgSrc}`
+      }
+      alt="Sunset in the mountains"/>
     </Link>
     <div className="px-4 pt-2 pb-5">
       <div className="flex justify-between relative text-md  text-DarkGray">
@@ -27,10 +42,10 @@ const Card = ({imgSrc, fieldName}: InfoProps) => {
       </div>
       <div className="flex">
         <CardIconsTextsBox 
-            locationText="الرمادي حي المعلمين"
+            locationText={location}
             distance="1.2"
             views="223"
-            phoneNumber="07843876745"
+            phoneNumber={phoneNumber}
          />
         <div className="flex-col mt-2">
            <div className="float-end ">

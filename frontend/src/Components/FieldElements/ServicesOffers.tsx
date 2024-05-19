@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import ActiveLink from '../LinkStyled/ActiveLink'
 import { Outlet, useLocation } from 'react-router';
 
-type Props = {}
+type Props = {
+  servicesPath: string;
+  offersPath: string;
+}
 
-const ServicesOffers = (props: Props) => {
+const ServicesOffers = ({servicesPath, offersPath}: Props) => {
     const flocation = useLocation();
     const [selectedPath, setSelectedPath] = useState<string>(flocation.pathname);
     const handleIconClick = (path: string) => {
@@ -14,14 +17,14 @@ const ServicesOffers = (props: Props) => {
     <div>
     <div className="flex justify-center  ">
         <ActiveLink 
-            path="/showfield/services"
-            isSelected={selectedPath === "/showfield/services"}
+            path= {servicesPath}
+            isSelected={selectedPath === servicesPath}
             TitleLink="الخدمات"
             onClick={handleIconClick}
         />
         <ActiveLink 
-            path="/showfield/offers"
-            isSelected={selectedPath === "/showfield/offers"}
+            path={offersPath}
+            isSelected={selectedPath === offersPath}
             TitleLink="العروض"
             onClick={handleIconClick}
         /> 

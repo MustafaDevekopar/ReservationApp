@@ -1,13 +1,14 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-
+import { FootballFaild, Governorate, User } from './Reservations';
+ 
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
     GreenReservationIcon,OutlineReservationIcon} from "./Components/IconsComponent/IconComponent";
 
     import {HomeIcon, FavoriteIcon, PostsIcon, SearchIcon, ReservationIcon} from "./Components/IconsComponent/IconComponent";
- 
+
  
    export const NavContentPc = [
      { id: 1, pathAndisSelected: "/", iconSrc: <HomeIcon />,outlineIconSrc: <OutlineHomeIcon />, label: "الرئيسيه"},
@@ -76,26 +77,55 @@ export const NavContentMobile = [
   ];
   // ======================== api ==========================
 
-  // interface SearchResponse {
-  //   data: FootballFaild[];
-  // }
-  // import { User } from "./Reservations";
-  
-  interface User {
-    id: number;
-    name: string;
-    username: string;
-    password: string;
-    phoneNumbr: number;
-    createdAt: string;
-    avatar: string;
-  }
 
 export const UsersGet = async (): Promise<User[]> => {
   try {
+
     const response: AxiosResponse<User[]> = await axios.get<User[]>("https://localhost:7249/api/User");
     console.log(response.data);
     return response.data; // Return the array of users from the response
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+export const FootbalfieldsGet = async (): Promise<FootballFaild[]> => {
+  try {
+
+    const response: AxiosResponse<FootballFaild[]> = await axios.get<FootballFaild[]>("https://localhost:7249/api/FootballFiel");
+    console.log(response.data);
+    return response.data; // Return the array of users from the response
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+
+// import axios, { AxiosResponse } from 'axios';
+
+export const FootbalfieldsGetById = async (id: number): Promise<FootballFaild> => {
+  try {
+    const response: AxiosResponse<FootballFaild> = await axios.get<FootballFaild>(`https://localhost:7249/api/FootballFiel/${id}`);
+    console.log(response.data);
+    return response.data;
   } catch(error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
@@ -107,21 +137,26 @@ export const UsersGet = async (): Promise<User[]> => {
   }
 }
 
-  // export const UsersGet = async () => {
-  //   try {
-  //     const data = await axios.get<User>("https://localhost:7249/api/User"
-  //     );
-  //     console.log(data);
-  //     return data;
 
-  //   } catch(error) {
+export const GovernorateGet = async (): Promise<Governorate[]> => {
+  try {
 
-  //     if(axios.isAxiosError(error)) {
-  //       console.log("error message: ", error.message);
-  //       return error.message;
-  //     } else {
-  //       console.log("unexpected error: ", error);
-  //       return "An expected error"
-  //     }
-  //   }
-  // }
+    const response: AxiosResponse<Governorate[]> = await axios.get<Governorate[]>("https://localhost:7249/api/Governorate");
+    console.log(response.data);
+    return response.data; // Return the array of users from the response
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+
+

@@ -53,6 +53,7 @@ namespace Reservations.Controllers
                 string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
                 return new FootballGetDto
                 {
+                    Id = field.Id,
                     Name = field.Name,
                     Username = field.Username,
                     Password = field.Password,
@@ -71,9 +72,6 @@ namespace Reservations.Controllers
         {
             if (!_footballFieldRepository.FootballFieldExists(FieldId))
                 return NotFound(ModelState);
-
-            //var field = _mapper.Map<FootballFieldDto>
-            //    (await _footballFieldRepository.GetFootballFieldAsync(FieldId));
 
             var field = await _footballFieldRepository.GetFootballFieldAsync(FieldId);
 
@@ -126,10 +124,6 @@ namespace Reservations.Controllers
         }
 
         [HttpPost]
-        //public async Task<IActionResult> CreateFootballFaild([FromQuery] int categoryId,
-        //    [FromQuery] int governorateId,
-        //    [FromBody] FootballFieldDto footballFieldCreate)
-        //{
         public async Task<IActionResult> CreateFootballFaild([FromForm]FootballFieldCreateDto footballFieldCreate)
         {
             if (footballFieldCreate == null)
@@ -167,23 +161,46 @@ namespace Reservations.Controllers
         }
 
         [HttpPut("{fieldId}")]
-        public IActionResult UpdateFootballField(int fieldId,[FromBody] FootballFieldDto updateFootBallField)
+        public async Task<IActionResult>  UpdateFootballField(int fieldId,[FromForm]FootballfieldUpdateDto updateFootBallField)
         {
-            if (updateFootBallField == null)
-                return BadRequest();
-
-            if (fieldId != updateFootBallField.Id)
+            if (updateFootBallField.Id  != fieldId)
+            {
+                ModelState.AddModelError("", "Field id in Url not equal faild id from form");
                 return BadRequest(ModelState);
+            }
 
             if (!_footballFieldRepository.FootballFieldExists(fieldId))
                 return NotFound(ModelState);
 
             if (!ModelState.IsValid)
                 return BadRequest();
+            if (updateFootBallField == null)
+            {
+                ModelState.AddModelError("", "FootballField connot by empty");
+                return BadRequest(ModelState);
+            }
+            using var strem = new MemoryStream();
+            await updateFootBallField.Avatar.CopyToAsync(strem);
 
-            var footballFieldMap = _mapper.Map<FootballField>(updateFootBallField);
+            var fieldMapp = new FootballField
+            {
+                Id =updateFootBallField.Id,
+                Name = updateFootBallField.Name,
+                Username = updateFootBallField.Username,
+                Password = updateFootBallField.Password,
+                PhoneNumbr = updateFootBallField.PhoneNumbr,
+                Location = updateFootBallField.Location,
+                Avatar = strem.ToArray()
+            };
 
-            if (!_footballFieldRepository.UpdateFootBallField(footballFieldMap))
+            fieldMapp.Category = await _categoryRepository.GetCategoryAsync(updateFootBallField.categoryId);
+            fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(updateFootBallField.governorateId);
+            fieldMapp.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(fieldId);
+            fieldMapp.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(fieldId);
+
+
+
+            if (!_footballFieldRepository.UpdateFootBallField(fieldMapp))
             {
                 ModelState.AddModelError("", "Somthing went woring while updating");
                 return StatusCode(500, ModelState);
