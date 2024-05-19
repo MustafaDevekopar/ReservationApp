@@ -1,6 +1,6 @@
 
 import { Link } from 'react-router-dom';
-import { LocationIcon, LikeIcon, TimeIcon } from './../IconsComponent/IconComponent';
+import { LocationIcon, LikeIcon, TimeIcon } from '../IconsComponent/IconComponent';
 
 type InfoProps = {
   id: number;

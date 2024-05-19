@@ -60,6 +60,7 @@ namespace Reservations.Controllers
 
             var postMap = new PostGetDto
             {
+                Id = post.Id,
                 Title = post.Title,
                 Text = post.Text,
                 Image = avatarBase64

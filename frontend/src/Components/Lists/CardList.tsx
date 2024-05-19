@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import Card from './Card'
+import { useEffect, useState } from 'react'
+import Card from '../Cards/Card'
 import { FootballFaild } from '../../Reservations';
 import { FootbalfieldsGet } from '../../Api';
-import CardMini from './CardMini';
 
 type Props = {}
 
-const CardMiniList = (props: Props) => {
+const CardList = (props: Props) => {
     const [fields, setFields] = useState<FootballFaild[]>([]); 
 
     useEffect(() => {
@@ -23,18 +22,20 @@ const CardMiniList = (props: Props) => {
     }, []);
   return (
 
-    <div className="grid gap-3 
-    grid-cols-2 sm:grid-cols-2  md:grid-cols-2  lg:grid-cols-4 
-    mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full my-6 ">
+        <div className="grid gap-4 
+        sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-3 
+        mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full ">
         {fields.map((fld) => (
-          <CardMini
+          <Card 
             id={fld.id}
             imgSrc={fld.avatar}
-            name={fld.name}
+            fieldName={fld.name}
+            location={fld.location}
+            phoneNumber={fld.phoneNumbr}
             />
         ))}        
     </div>
   )
 }
 
-export default CardMiniList
+export default CardList

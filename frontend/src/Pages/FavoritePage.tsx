@@ -1,5 +1,5 @@
 
-import CardMiniList from "../Components/Cards/CardMiniList";
+import CardMiniList from "../Components/Lists/CardMiniList";
 type Props = {}
 
 const FavoritePage: React.FC<Props> = (props: Props) : JSX.Element => {
