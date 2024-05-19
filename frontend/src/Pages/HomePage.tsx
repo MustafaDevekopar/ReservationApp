@@ -1,7 +1,6 @@
 
-import CardMini from "../Components/Cards/CardMini"
 import SliderMain from "../Components/Sliders/SliderMain"
-import {information} from "../Api"
+import CardMiniList from "../Components/Cards/CardMiniList"
 
 
 type Props = {}
@@ -16,17 +15,7 @@ const HomePage: React.FC<Props> = (props: Props): JSX.Element => {
       </div>
     </div>
     <div className=" flex justify-center items-center w-full ">
-        <div className="grid gap-3 
-        grid-cols-2 sm:grid-cols-2  md:grid-cols-2  lg:grid-cols-4 
-        mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full my-6 ">
-
-          {information.map((info) => (
-          <CardMini 
-            imgSrc={info.imageUrl}
-            fieldName={info.title}/>
-          ))}
-            
-       </div>
+      <CardMiniList />
     </div>
     </div>
   )
