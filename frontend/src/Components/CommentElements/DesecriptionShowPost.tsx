@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 
-type Props = {}
+type Props = {
+  text: String;
+}
 
-const DesecriptionShowPost = (props: Props) => {
+const DesecriptionShowPost = ({text}: Props) => {
     const [showFullText, setShowFullText] = useState(false);
 
     const handleToggleText = () => {
@@ -19,10 +21,7 @@ const DesecriptionShowPost = (props: Props) => {
           }`}
           onClick={handleToggleText}
       >
-          سارع في الحجز في ملعب سباعي الرمادي سارع في الحجز في ملعب سباعي
-          الرمادي
-          سارع في الحجز في ملعب سباعي الرمادي سارع في الحجز في ملعب سباعي
-          الرمادي
+        {text}
       </span>
       <span onClick={handleToggleText} className="ml-12 text-LightXlGray">{!showFullText && "المزيد"}</span>
     </div>

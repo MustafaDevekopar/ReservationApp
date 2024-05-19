@@ -18,7 +18,7 @@ const ProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
 
             <NavIconsProfile />
             <AvatarRow />
-            <DesecriptionShowPost />
+            <DesecriptionShowPost text="Add text" />
 
             <div className="mt-10 flex gap-2">
                 <LinkToButton

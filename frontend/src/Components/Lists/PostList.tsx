@@ -26,7 +26,7 @@ const PostList = (props: Props) => {
                          mx-3 sm:mx-6  md:mx-12 lg:mx-60 xl:mx-60">
           {post.map((pst) => (
             <div key={pst.id} className="w-1/3 p-[1px] lg:p-1 lg:w-1/4 xl:w-1/4">
-              <Link to={`/showpost`} className="rounded-md overflow-hidden relative">
+              <Link to={`/showpost/${String(pst.id)}`} className="rounded-md overflow-hidden relative">
                 <img 
                     src={
                         pst.image === null

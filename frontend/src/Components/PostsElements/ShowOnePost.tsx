@@ -10,11 +10,11 @@ const ShowOnePost: React.FC<Props> = (props: Props):JSX.Element => {
 
   return (
     <div className="mb-20 mt-4">
-        <UsernameAvaratBox />
-        <ImageOfShowPost />
+        {/* <UsernameAvaratBox avatarSrc={"dsdfsdf"}/>
+        <ImageOfShowPost imageSrc={"sss/ss"}/>
   
         <IconsOfShowPost />
-        <DesecriptionShowPost />
+        <DesecriptionShowPost text={"Add text dynamc"} /> */}
        
     </div>
   )

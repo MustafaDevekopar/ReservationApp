@@ -1,12 +1,11 @@
-import ShowOnePost from "../Components/Posts/ShowOnePost";
+import ShowPostList from "../Components/Lists/ShowPostList";
+import ShowOnePost from "../Components/PostsElements/ShowOnePost";
 
 const ShowPost: React.FC = (): JSX.Element => {
   return (
-    <div className="mb-20 mx-1 sm:mx-4  md:mx-12 lg:mx-60 xl:60 ">
-        <ShowOnePost />
-        <ShowOnePost />
-
-    </div>
+    < >
+      <ShowPostList />
+    </>
   );
 };
 

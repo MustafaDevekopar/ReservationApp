@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
                 ],
             },
             {path: "reserve", element: <ReservePage />},
-            {path: "showpost", element: <ShowPost />},
+            {path: "showpost/:id", element: <ShowPost />},
             {
                 path: "showfield/:id/", 
                 element: <ShowFieldDettails />,
