@@ -53,11 +53,11 @@ namespace Reservations.Controllers
             return Ok(comment);
         }
 
-        [HttpGet("{commentId}/commentPost")]
-        public async Task<IActionResult> GetCommentsOfPost(int commentId)
+        [HttpGet("{postId}/commentPost")]
+        public async Task<IActionResult> GetCommentsOfPost(int postId)
         {
             var comments = _mapper.Map<List<CommentDto>>
-                (await _commentRepository.GetCommentsOfPostAsync(commentId));
+                (await _commentRepository.GetCommentsOfPostAsync(postId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

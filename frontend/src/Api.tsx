@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -137,11 +137,25 @@ export const PostsGet = async (): Promise<Post[]> => {
   }
 }
 
-// import axios, { AxiosResponse } from 'axios';
 
 export const FootbalfieldsGetById = async (id: number): Promise<FootballFaild> => {
   try {
     const response: AxiosResponse<FootballFaild> = await axios.get<FootballFaild>(`https://localhost:7249/api/FootballFiel/${id}`);
+    console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+export const CommentsGet = async (postId: number): Promise<Comment[]> => {
+  try {
+    const response: AxiosResponse<Comment[]> = await axios.get<Comment[]>(`https://localhost:7249/api/Comment/${postId}/commentPost`);
     console.log(response.data);
     return response.data;
   } catch(error) {

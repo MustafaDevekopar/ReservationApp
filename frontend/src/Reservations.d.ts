@@ -27,3 +27,9 @@ export interface Governorate {
     id: number;
     name: string;
   }
+  
+export interface Comment {
+  id: number;
+  text: String;
+  dateTime: Date;
+  }

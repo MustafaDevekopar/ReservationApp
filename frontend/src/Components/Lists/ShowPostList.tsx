@@ -42,7 +42,7 @@ const ShowPostList = () => {
         <div key={selectedPost.id}>
           <UsernameAvaratBox avatarSrc={selectedPost.image} />
           <ImageOfShowPost imageSrc={selectedPost.image} />
-          <IconsOfShowPost />
+          <IconsOfShowPost postId={selectedPost.id} />
           <DesecriptionShowPost text={selectedPost.text} />
         </div>
       )}
@@ -54,7 +54,7 @@ const ShowPostList = () => {
         >
           <UsernameAvaratBox avatarSrc={post.image} />
           <ImageOfShowPost imageSrc={post.image} />
-          <IconsOfShowPost />
+          <IconsOfShowPost postId={post.id}/>
           <DesecriptionShowPost text={post.text} />
         </div>
       ))}

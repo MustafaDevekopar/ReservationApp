@@ -1,7 +1,7 @@
 // CommentPage.js
 
 import AddCommentBox from "../Components/CommentElements/AddCommentBox";
-import CommentBox from "../Components/CommentElements/CommentBox";
+import CommentList from "../Components/Lists/CommentList";
 
 const ShowPostComments: React.FC = (): JSX.Element => {
   // Fetch comments or get them through props
@@ -26,17 +26,7 @@ const ShowPostComments: React.FC = (): JSX.Element => {
   return (
     <div className="container mx-auto  py-8 pb-20">
       <h1 className="mb-4 text-md text-DarkGray text-center font-semibold ">التعليقات</h1>
-      <div className="flex flex-col gap-4
-                      mx-3 sm:mx-4  md:mx-12 lg:mx-40">
-        {comments.map((comment, index) => (
-           <CommentBox 
-                key = {index}
-                imageUrl = {comment.imageUrl}
-                commentUsername = {comment.user}
-                commentTitle = {comment.title}  
-           />  
-        ))}
-      </div>
+      <CommentList />
       <AddCommentBox Avatar={comments[2].imageUrl} />
     </div>
   );

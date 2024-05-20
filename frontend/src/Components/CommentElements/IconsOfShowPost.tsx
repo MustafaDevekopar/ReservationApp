@@ -2,15 +2,17 @@
 import { Link } from "react-router-dom"
 import {CommentIcon, LikePost} from "./../IconsComponent/IconComponent"
 
-type Props = {}
+type Props = {
+  postId: number;
+}
 
-const IconsOfShowPost = (props: Props) => {
+const IconsOfShowPost = ({postId}: Props) => {
   return (
     
     <div className="flex flex-col gap-1 mt-5 mx-4">
         <div className="flex gap-4">
             <LikePost className="w-6 h-7"/>
-            <Link to="/comments">
+            <Link to={`/comments/${postId}`}>
                 <CommentIcon className="w-7 h-7"/>
             </Link>               
         </div>  

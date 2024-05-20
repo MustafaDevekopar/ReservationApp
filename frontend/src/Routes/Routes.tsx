@@ -43,7 +43,7 @@ export const router = createBrowserRouter([
                     {path: "offers", element: <FieldOffers />},
                 ],
             },
-            {path: "comments", element: <ShowPostComments />},
+            {path: "comments/:postId", element: <ShowPostComments />},
             {path: "profile", element: <ProfilePage />},
             {path: "users", element: <UsersPage />},
         ],
