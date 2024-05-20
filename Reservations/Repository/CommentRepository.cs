@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
+using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
 
@@ -22,10 +23,29 @@ namespace Reservations.Repository
             return await _context.Comments.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<List<Comment>> GetCommentsOfPostAsync(int fieldId)
+        public async Task<List<CommentsWithUser>> GetCommentsOfPostAsync(int postId)
         {
-            return await _context.Comments.Where(c => c.Post.Id == fieldId).ToListAsync();
+            var comments = await _context.Comments
+                .Where(c => c.Post.Id == postId)
+                .Include(c => c.User)
+                .ToListAsync();
+
+            return comments.Select(c => new CommentsWithUser
+            {
+                Id = c.Id,
+                Text = c.Text,
+                DateTime = c.DateTime,
+                User = new UserToCommentDto
+                {
+                    Id = c.User.Id,
+                    Name = c.User.Name,
+                    Username = c.User.Username,
+                    Avatar = (c.User.Avatar != null) ? Convert.ToBase64String(c.User.Avatar) : null,
+                    // Map other user properties as needed
+                }
+            }).ToList();
         }
+
 
         public bool CommentExists(int commentId)
         {

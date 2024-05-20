@@ -25,7 +25,7 @@ const CommentList = (props: Props) => {
     }, [postId]);
 
     if (comments.length === 0) {
-        return <div>Loading... من طيني</div>;
+        return <div>Loading...</div>;
     }
 
     return (
@@ -33,8 +33,11 @@ const CommentList = (props: Props) => {
         {comments.map((comment) => (
             <div>
             <CommentBox 
-                commentTitle={String(comment.text)} 
-                commentUsername="n1U-U" />      
+                commentTitle={comment.text} 
+                commentUsername={comment.user.username} 
+                commentName = {comment.user.name}  
+                commentAvatar = {comment.user.avatar}
+                />   
             </div>
 
         ))}

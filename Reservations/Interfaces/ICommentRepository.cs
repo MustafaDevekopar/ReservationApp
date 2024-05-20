@@ -1,11 +1,12 @@
-﻿using Reservations.Models;
+﻿using Reservations.Dto;
+using Reservations.Models;
 
 namespace Reservations.Interfaces
 {
     public interface ICommentRepository
     {
         Task<List<Comment>> GetCommentsAsync();
-        Task<List<Comment>> GetCommentsOfPostAsync(int fieldId);
+        Task<List<CommentsWithUser>> GetCommentsOfPostAsync(int fieldId);
         Task<Comment?> GetCommentAsync(int id);
         bool CommentExists(int commentId);
         bool CreateComment(Comment comment);
