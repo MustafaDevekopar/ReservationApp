@@ -170,6 +170,27 @@ export const CommentsGet = async (postId: number): Promise<Comment[]> => {
 }
 
 
+interface AddCommentRequest {
+  text: string;
+}
+
+export const addComment = async (userId: number, postId: String, commentText: string): Promise<void> => {
+  try {
+    // const requestBody: AddCommentRequest = { text: commentText };
+    const requestBody: AddCommentRequest = { text: commentText };
+    await axios.post(`https://localhost:7249/api/Comment?userId=${userId}&postId=${postId}`, requestBody);
+    console.log("Comment added successfully");
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
 export const GovernorateGet = async (): Promise<Governorate[]> => {
   try {
 

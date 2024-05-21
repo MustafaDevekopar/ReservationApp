@@ -1,4 +1,3 @@
-// import LikeIcon from "./../../Assets/Icons/LikeIcon.svg"
 const LikeIcon: string = require("../../assets/Icons/LikeIcon.svg").default;
 
 
@@ -13,7 +12,6 @@ type commentProps = {
 const CommentBox = ({
     commentTitle,
     commentUsername,
-    commentName,
     commentAvatar,
 }: commentProps) => {
   return (

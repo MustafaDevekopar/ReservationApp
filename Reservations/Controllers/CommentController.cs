@@ -78,7 +78,7 @@ namespace Reservations.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCommment([FromBody] CommentDto commentCreate,
+        public async Task<IActionResult> CreateCommment([FromBody] CommentGreateDto commentCreate,
             [FromQuery]int userId, 
             [FromQuery]int postId)
         {
