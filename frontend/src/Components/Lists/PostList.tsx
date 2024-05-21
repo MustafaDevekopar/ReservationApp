@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { PostsGet, information } from '../../Api';
 import { Post } from '../../Reservations';
+import { DefaultAvatar } from '../../assets/Image';
 
 type Props = {}
 
@@ -39,11 +40,11 @@ const PostList = (props: Props) => {
                     <img 
                         src={
                             pst.image === null
-                            ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                            : `data:image/png;base64,${pst.image}`
+                            ? DefaultAvatar
+                            : `data:image/png;base64,${pst.field.avatar}`
                         }
                         alt="img" className="object-cover w-8 min-w-8 h-8 rounded-full outline-1 outline outline-white" />
-                    <span className="text-[10px] text-white text-center">{pst.id}</span>       
+                    <span className="text-[10px] text-white text-center">{pst.field.username}</span>       
                   </div>
                   <span className="text-[8px] text-white text-center line-clamp-2 mx-1">{pst.text}</span>       
                 </div>

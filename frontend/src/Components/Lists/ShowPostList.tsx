@@ -40,7 +40,10 @@ const ShowPostList = () => {
       {/* Render selected post if exists */}
       {selectedPost && (
         <div key={selectedPost.id}>
-          <UsernameAvaratBox avatarSrc={selectedPost.image} />
+          <UsernameAvaratBox 
+            avatarSrc={selectedPost.field.avatar}
+            username={String(selectedPost.field.username)} 
+            />
           <ImageOfShowPost imageSrc={selectedPost.image} />
           <IconsOfShowPost postId={selectedPost.id} />
           <DesecriptionShowPost text={selectedPost.text} />
@@ -52,7 +55,10 @@ const ShowPostList = () => {
           key={post.id} 
           id={String(post.id)}
         >
-          <UsernameAvaratBox avatarSrc={post.image} />
+          <UsernameAvaratBox 
+          avatarSrc={post.image} 
+          username={String(post.field.username)} 
+/>
           <ImageOfShowPost imageSrc={post.image} />
           <IconsOfShowPost postId={post.id}/>
           <DesecriptionShowPost text={post.text} />

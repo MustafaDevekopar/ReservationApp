@@ -17,16 +17,25 @@ export interface User {
     createdAt: string;
     avatar: string;
   }
+
 export interface Post {
   id: number;
   title: String;
   text: String;
   image: Text;
-  }
+  field: {
+      id: Number;
+      name : String;
+      username: String;
+      avatar: Text;
+    }
+}
+
 export interface Governorate {
     id: number;
     name: string;
   }
+  
 export interface Comment {
   id: number;
   text: String;

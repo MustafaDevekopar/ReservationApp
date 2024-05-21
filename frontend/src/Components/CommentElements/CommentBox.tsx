@@ -1,3 +1,5 @@
+import { DefaultAvatar } from "../../assets/Image";
+
 const LikeIcon: string = require("../../assets/Icons/LikeIcon.svg").default;
 
 
@@ -19,7 +21,7 @@ const CommentBox = ({
         <img 
             src={
                 commentAvatar === null
-                ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+                ?  DefaultAvatar
                 : `data:image/png;base64,${commentAvatar}`
             }
             alt="img" className="w-8 min-w-8 h-8 mb-2 rounded-full" />
