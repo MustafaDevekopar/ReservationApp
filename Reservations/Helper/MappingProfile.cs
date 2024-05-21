@@ -22,6 +22,8 @@ namespace Reservations.Helper
             CreateMap<PostDto, Post>();
             CreateMap<Comment, CommentDto>();
             CreateMap<CommentDto, Comment>();
+            CreateMap<Comment, CommentGreateDto>();
+            CreateMap<CommentGreateDto, Comment>();
             CreateMap<Reservation, ReservationDto>();
             CreateMap<ReservationDto, Reservation>();
             CreateMap<User, UserDto>();
