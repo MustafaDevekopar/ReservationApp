@@ -15,7 +15,7 @@ const CardIconsTextsBox = ({locationText, views, phoneNumber,distance}: infoProp
         <div className="flex my-2">
             <span className="w-4">{<LocationIcon />}</span>
             <span className="mx-2 line-clamp-1">{locationText}</span> 
-            <span className="font-bold text-LightBlak ">({distance} كم)</span>
+            <span className="font-bold text-LightBlak ">({distance})</span>
         </div>
         <div className="flex my-2">
             <span className="w-4">{<EyeIcon className=''/>}</span>
