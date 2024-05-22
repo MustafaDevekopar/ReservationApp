@@ -30,6 +30,8 @@ const CardMiniList = (props: Props) => {
             id={fld.id}
             imgSrc={fld.avatar}
             name={fld.name}
+            latitude={fld.latitude}
+            longitude={fld.longitude}
             />
         ))}        
     </div>

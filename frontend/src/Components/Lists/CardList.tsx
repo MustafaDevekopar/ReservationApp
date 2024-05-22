@@ -32,6 +32,8 @@ const CardList = (props: Props) => {
             fieldName={fld.name}
             location={fld.location}
             phoneNumber={fld.phoneNumbr}
+            latitude={fld.latitude}
+            longitude={fld.longitude}
             />
         ))}        
     </div>

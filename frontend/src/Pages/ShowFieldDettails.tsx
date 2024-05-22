@@ -7,8 +7,10 @@ import ImageShowField from '../Components/FieldElements/ImageShowField'
 import FieldTitleRateingLikes from '../Components/FieldElements/FieldTitleRateingLikes'
 import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
-import { FootbalfieldsGet, FootbalfieldsGetById } from '../Api'
+import { FootbalfieldsGetById } from '../Api'
 import { FootballFaild } from '../Reservations'
+import { fileURLToPath } from 'url'
+import { calculateDistance } from '../Helper/Helper'
   
   type Props = {}
 
@@ -52,7 +54,7 @@ import { FootballFaild } from '../Reservations'
                     <div>
                         <CardIconsTextsBox 
                             locationText={fieldData.location}
-                            distance="1.2"
+                            distance={String(calculateDistance(33.476281, 43.417747 , (fieldData.latitude), (fieldData.longitude) ) )}
                             views="223"
                             phoneNumber={fieldData.phoneNumbr}
                         />                     

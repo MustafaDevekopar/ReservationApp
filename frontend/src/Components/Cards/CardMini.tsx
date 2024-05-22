@@ -1,14 +1,23 @@
 
 import { Link } from 'react-router-dom';
 import { LocationIcon, LikeIcon, TimeIcon } from '../IconsComponent/IconComponent';
+import { calculateDistance } from '../../Helper/Helper';
 
 type InfoProps = {
   id: number;
   imgSrc: Text;
   name: string;
+  latitude: number;
+  longitude: number;
 }
 
-const CardMini = ({imgSrc, name, id}: InfoProps) => {
+const CardMini = ({
+  imgSrc,
+   name, 
+   id,
+   latitude,
+   longitude,
+  }: InfoProps) => {
   return (
 
   <div className="relative rounded-t-3xl lg:rounded-t-[55px] overflow-hidden shadow-lg">
@@ -32,7 +41,7 @@ const CardMini = ({imgSrc, name, id}: InfoProps) => {
         <div className="flex-auto ">
           <div className="flex my-1">
             <LocationIcon className='w-3' />
-            <span className="mx-1">(1.5 كم)</span> 
+            <span className="mx-1">{String(calculateDistance(33.476281, 43.417747 , latitude, longitude ) )} </span> 
           </div>
           <div className="flex my-1">
             <TimeIcon className="w-3" />

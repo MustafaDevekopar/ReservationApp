@@ -13,6 +13,8 @@ type InfoProps = {
   fieldName: string;
   location: string;
   phoneNumber: string;
+  latitude: number;
+  longitude: number;
 }
 
 const Card = ({
@@ -21,6 +23,8 @@ const Card = ({
   fieldName,
   location,
   phoneNumber,
+  latitude,
+  longitude,
 }: InfoProps) => {
   return (
 
@@ -44,8 +48,7 @@ const Card = ({
       <div className="flex">
         <CardIconsTextsBox 
             locationText={location}
-            distance={String(calculateDistance(33.299526, 44.362756   , 33.463956, 43.414241  ) )} // baghdad -- 33.299526, 44.362756  ramadi 33.461051, 43.396052 
-
+            distance={String(calculateDistance(33.476281, 43.417747 , latitude, longitude ) )} 
             views="223"
             phoneNumber={phoneNumber}
          />

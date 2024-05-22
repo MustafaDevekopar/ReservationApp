@@ -6,6 +6,8 @@ export interface FootballFaild {
     phoneNumbr: string;
     location: string;
     avatar: Text;
+    latitude: number;
+    longitude: number;
 }
 
 export interface User {
