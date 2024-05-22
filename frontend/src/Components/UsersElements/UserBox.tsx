@@ -6,7 +6,7 @@ const LikeIcon: string = require("../../assets/Icons/LikeIcon.svg").default;
 
 
 type commentProps = {
-    imageUrl: string;
+    imageUrl: Text;
     name: string;
     username: string;
 }

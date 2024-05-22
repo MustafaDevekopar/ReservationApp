@@ -1,13 +1,16 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 
 type Props = {
   avatarSrc: Text;
-  username: string;
+  username: String;
+  fieldId: Number;
 }
 
-const UsernameAvaratBox = ({avatarSrc, username}: Props) => {
+const UsernameAvaratBox = ({avatarSrc, username, fieldId}: Props) => {
   return (
-    <div className="flex items-center my-2 gap-1 ">
+    <div className="flex items-center my-2 gap-1">
+      <Link to={`./../../profile/${fieldId}`}>
     <img
         src={
           avatarSrc === null
@@ -16,7 +19,7 @@ const UsernameAvaratBox = ({avatarSrc, username}: Props) => {
         } 
       className="w-9 h-9 rounded-full"
       alt=""
-    />
+    /></Link>
     <span className="text-LightGray text-sm font-bold">{username}</span>
   </div>
   )

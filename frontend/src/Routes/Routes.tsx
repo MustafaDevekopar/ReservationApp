@@ -25,6 +25,11 @@ export const router = createBrowserRouter([
             { path: "favorite", element: <FavoritePage /> },
             { path: "posts", element: <PostsPage /> },
             { path: "search", element: <SearchPage /> },
+            { path: "reserve", element: <ReservePage />},
+            { path: "showpost/:id", element: <ShowPost />},
+            { path: "comments/:postId", element: <ShowPostComments />},
+            { path: "profile/:fieldId", element: <ProfilePage />},
+            { path: "users", element: <UsersPage />},
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 
@@ -33,8 +38,7 @@ export const router = createBrowserRouter([
                     { path:"previous" , element: <ReservationPrevious />},
                 ],
             },
-            {path: "reserve", element: <ReservePage />},
-            {path: "showpost/:id", element: <ShowPost />},
+
             {
                 path: "showfield/:id/", 
                 element: <ShowFieldDettails />,
@@ -43,9 +47,7 @@ export const router = createBrowserRouter([
                     {path: "offers", element: <FieldOffers />},
                 ],
             },
-            {path: "comments/:postId", element: <ShowPostComments />},
-            {path: "profile", element: <ProfilePage />},
-            {path: "users", element: <UsersPage />},
+
         ],
     }
 ])

@@ -9,7 +9,7 @@ import { calculateDistance } from "../../Helper/Helper";
 
 type InfoProps = {
   id: number;
-  imgSrc: string;
+  imgSrc: Text;
   fieldName: string;
   location: string;
   phoneNumber: string;

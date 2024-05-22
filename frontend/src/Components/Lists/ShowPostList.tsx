@@ -42,7 +42,8 @@ const ShowPostList = () => {
         <div key={selectedPost.id}>
           <UsernameAvaratBox 
             avatarSrc={selectedPost.field.avatar}
-            username={String(selectedPost.field.username)} 
+            username={selectedPost.field.username} 
+            fieldId={selectedPost.field.id}
             />
           <ImageOfShowPost imageSrc={selectedPost.image} />
           <IconsOfShowPost postId={selectedPost.id} />
@@ -56,9 +57,10 @@ const ShowPostList = () => {
           id={String(post.id)}
         >
           <UsernameAvaratBox 
-          avatarSrc={post.image} 
-          username={String(post.field.username)} 
-/>
+          avatarSrc={post.field.avatar} 
+          username={post.field.username} 
+          fieldId={post.field.id}
+          />
           <ImageOfShowPost imageSrc={post.image} />
           <IconsOfShowPost postId={post.id}/>
           <DesecriptionShowPost text={post.text} />

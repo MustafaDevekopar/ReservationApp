@@ -23,7 +23,7 @@ const PostList = (props: Props) => {
     }, []);
 
     return (
-        <div className="flex flex-wrap justify-center  mt-6 mb-20
+        <div className="flex flex-wrap mt-6 mb-20
                          mx-3 sm:mx-6  md:mx-12 lg:mx-60 xl:mx-60">
           {post.map((pst) => (
             <div key={pst.id} className="w-1/3 p-[1px] lg:p-1 lg:w-1/4 xl:w-1/4">

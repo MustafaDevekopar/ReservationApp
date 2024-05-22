@@ -5,7 +5,7 @@ export interface FootballFaild {
     password: string;
     phoneNumbr: string;
     location: string;
-    avatar: string;
+    avatar: Text;
 }
 
 export interface User {
@@ -15,7 +15,7 @@ export interface User {
     password: string;
     phoneNumbr: number;
     createdAt: string;
-    avatar: string;
+    avatar: Text;
   }
 
 export interface Post {
@@ -35,7 +35,6 @@ export interface Governorate {
     id: number;
     name: string;
   }
-  
 export interface Comment {
   id: number;
   text: String;
@@ -44,6 +43,6 @@ export interface Comment {
       id: number;
       name: string;
       username: string;
-      avatar: String | null ;
+      avatar: Text | null ;
     }
   }

@@ -1,7 +1,7 @@
 import { LikeIcon, StarRatting } from "../IconsComponent/IconComponent";
 
 type infoProps = {
-    imageSrc: string;
+    imageSrc: Text;
 }
 
 const ImageShowField = ({imageSrc}: infoProps) => {

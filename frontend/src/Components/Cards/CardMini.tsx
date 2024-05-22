@@ -4,7 +4,7 @@ import { LocationIcon, LikeIcon, TimeIcon } from '../IconsComponent/IconComponen
 
 type InfoProps = {
   id: number;
-  imgSrc: string;
+  imgSrc: Text;
   name: string;
 }
 

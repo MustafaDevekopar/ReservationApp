@@ -8,7 +8,7 @@ type commentProps = {
     commentTitle: String;
     commentUsername: String; 
     commentName: String;  
-    commentAvatar: String | null 
+    commentAvatar: Text | null 
 }
 
 const CommentBox = ({

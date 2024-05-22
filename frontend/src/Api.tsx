@@ -136,6 +136,24 @@ export const PostsGet = async (): Promise<Post[]> => {
 
   }
 }
+export const PostsOfFieldGet = async (fieldId: number): Promise<Post[]> => {
+  try {
+
+    const response: AxiosResponse<Post[]> = await axios.get<Post[]>(`https://localhost:7249/api/Post/${fieldId}/postsfield`);
+    return response.data; 
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
 
 
 export const FootbalfieldsGetById = async (id: number): Promise<FootballFaild> => {
