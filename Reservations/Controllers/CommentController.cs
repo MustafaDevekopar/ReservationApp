@@ -59,18 +59,6 @@ namespace Reservations.Controllers
 
             var comments = await _commentRepository.GetCommentsOfPostAsync(postId);
 
-            //var commentDtos = comments.Select(c => new CommentDto
-            //{
-            //    Id = c.Id,
-            //    Text = c.Text,
-            //    DateTime = c.DateTime,
-
-            //    // Map properties from the associated User entity
-            //    Username = c.User?.Username,
-            //    Name = c.User?.Name,
-            //    //Avatar = c.User?.Avatar
-            //}).ToList();
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

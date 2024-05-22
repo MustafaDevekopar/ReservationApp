@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
+using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
 
@@ -12,9 +13,28 @@ namespace Reservations.Repository
         {
             _context = context;
         }
-        public async Task<List<Post>> GetPostsAsync()
+        public async Task<List<PostWithFieldGetDto>> GetPostsAsync()
         {
-            return await _context.Posts.ToListAsync();
+            var posts = await _context.Posts
+                     .Include(c => c.FootballField)
+                     .ToListAsync();
+
+            return posts.Select(c => new PostWithFieldGetDto
+            {
+                Id = c.Id,
+                Title = c.Title,
+                Text = c.Text,
+                Image = (c.Image != null) ? Convert.ToBase64String(c.Image) : null,
+                Field = new FieldOfPostDto
+                {
+                    Id = c.FootballField.Id,
+                    Name = c.FootballField.Name,
+                    Username = c.FootballField.Username,
+                    Avatar = (c.FootballField.Avatar != null) ? Convert.ToBase64String(c.FootballField.Avatar) : null,
+                    // Map other user properties as needed
+                }
+            }).ToList();
+
         }
 
         public async Task<List<Post>> GetPostsOfFieldAsync(int fieldId)

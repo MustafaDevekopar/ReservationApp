@@ -29,22 +29,11 @@ namespace Reservations.Controllers
         public async Task<IActionResult> Get()
         {
             var posts = await _postRepository.GetPostsAsync();
-            var postMap = posts.Select(post =>
-            {
-                string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
-                return new PostGetDto
-                {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Text = post.Text,
-                    Image = avatarBase64
-                };
-            }).ToList();
 
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
-            return Ok(postMap);
+            return Ok(posts);
         }
 
 

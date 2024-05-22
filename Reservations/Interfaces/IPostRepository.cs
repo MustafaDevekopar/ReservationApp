@@ -1,10 +1,11 @@
-﻿using Reservations.Models;
+﻿using Reservations.Dto;
+using Reservations.Models;
 
 namespace Reservations.Interfaces
 {
     public interface IPostRepository
     {
-        Task<List<Post>> GetPostsAsync();
+        Task<List<PostWithFieldGetDto>> GetPostsAsync();
         Task<List<Post>> GetPostsOfFieldAsync(int fieldId);
         Task<Post?> GetPostAsync(int id);
         Task<FootballField> GetFootballFieldOfPostAsync(int postid);
