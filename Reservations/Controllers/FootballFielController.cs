@@ -42,9 +42,6 @@ namespace Reservations.Controllers
         {
             var footballFields = await _footballFieldRepository.GetFootballFieldsAsync();
 
-            //var footballFields = _mapper.Map<List<FootballFieldDto>>
-            //    (await _footballFieldRepository.GetFootballFieldsAsync());
-
             if (!ModelState.IsValid) 
                 return BadRequest(ModelState);
 
@@ -59,6 +56,8 @@ namespace Reservations.Controllers
                     Password = field.Password,
                     PhoneNumbr = field.PhoneNumbr,
                     Location = field.Location,
+                    Latitude = field.Latitude,
+                    Longitude = field.Longitude,
                     Avatar = avatarBase64
                 };
             }).ToList();
@@ -77,14 +76,16 @@ namespace Reservations.Controllers
 
             string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
 
-            var fieldMap = new FootballFieldGetDto
+            var fieldMap = new FootballGetDto
             {
-                Id = (int)field.Id,
+                Id = field.Id,
                 Name = field.Name,
                 Username = field.Username,
                 Password = field.Password,
                 PhoneNumbr = field.PhoneNumbr,
                 Location = field.Location,
+                Latitude = field.Latitude,
+                Longitude = field.Longitude,
                 Avatar = avatarBase64
             };
 

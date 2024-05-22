@@ -9,6 +9,8 @@
         public decimal PhoneNumbr { get; set; }
         public string Location { get; set; }
         public byte[]? Avatar { get; set; }
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
         public Category Category { get; set; }

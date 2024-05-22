@@ -1,6 +1,6 @@
 ﻿namespace Reservations.Dto
 {
-    public class FootballFieldGetDto
+    public class FootballFieldGetDto 
     {
         public int Id { get; set; }
         public string Name { get; set; }
