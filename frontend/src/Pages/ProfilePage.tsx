@@ -56,7 +56,10 @@ const ProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
     <div className="">
         <div className=" mt-2 mx-3 sm:mx-6  md:mx-6 lg:mx-60 xl:mx-60 mb-12">
 
-            <NavIconsProfile username={fieldData.username}/>
+            <NavIconsProfile 
+              username={fieldData.username}
+              fieldId={fieldId}
+            />
             <AvatarRow 
               name={fieldData.name}
               avatar={fieldData.avatar}

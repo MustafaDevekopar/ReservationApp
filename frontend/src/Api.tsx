@@ -76,7 +76,38 @@ export const NavContentMobile = [
 
   ];
   // ======================== api ==========================
+ 
 
+  interface AddPostRequest {
+    title: string;
+    text: string;
+    image: File;
+  }
+  
+  export const AddNewPost = async (fieldId: number, postData: AddPostRequest): Promise<void> => {
+    try {
+      const formData = new FormData();
+      formData.append('title', postData.title);
+      formData.append('text', postData.text);
+      formData.append('image', postData.image);
+  
+      await axios.post(`https://localhost:7249/api/Post?FieldId=${fieldId}`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log("Post added successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message);
+        throw error;
+      } else {
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred");
+      }
+    }
+  }
+  
 
 export const UsersGet = async (): Promise<User[]> => {
   try {

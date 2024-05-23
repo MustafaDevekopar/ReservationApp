@@ -15,6 +15,7 @@ import FieldOffers from "../Components/FieldElements/FieldOffers";
 import ProfilePage from "../Pages/ProfilePage";
 import UsersPage from "../Pages/UsersPage";
 import ShowFieldDettails from "../Pages/ShowFieldDettails";
+import AddPost from "../Pages/AddPost";
 
 export const router = createBrowserRouter([
     {
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
             { path: "comments/:postId", element: <ShowPostComments />},
             { path: "profile/:fieldId", element: <ProfilePage />},
             { path: "users", element: <UsersPage />},
+            { path: "addpost/:fieldId", element: <AddPost />},
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 
