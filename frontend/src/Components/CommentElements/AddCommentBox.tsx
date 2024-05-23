@@ -1,6 +1,11 @@
+// AddCommentBox.tsx
+
 import { useState } from 'react';
 import ArrowSend from "../../assets/Icons/ArrowSend.svg";
 import { addComment } from '../../Api';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Comment } from '../../Reservations'; // تأكد من المسار الصحيح لاستيراد النوع Comment
 
 type CommenterAvatarProps = {
   Avatar: string;
@@ -8,10 +13,11 @@ type CommenterAvatarProps = {
 
 interface AddCommentBoxProps extends CommenterAvatarProps {
   userId: number;
-  postId: String ;
+  postId: string;
+  onAddComment: (comment: Comment) => void;
 }
 
-const AddCommentBox = ({ Avatar, userId, postId }: AddCommentBoxProps) => {
+const AddCommentBox = ({ Avatar, userId, postId, onAddComment }: AddCommentBoxProps) => {
   const [commentText, setCommentText] = useState("");
   const [showSendButton, setShowSendButton] = useState(false);
 
@@ -21,15 +27,34 @@ const AddCommentBox = ({ Avatar, userId, postId }: AddCommentBoxProps) => {
   };
 
   const handleAddComment = async () => {
-    try {
-      await addComment(userId,  postId, commentText);
-      // alert("Comment added successfully");
-      // Optionally, you can reset the comment text and hide the send button after adding the comment
+    if(commentText){
+      const newComment: Comment = {
+        id: Date.now(), // Temporary ID
+        text: commentText,
+        dateTime: new Date(),
+        user: {
+          id: userId,
+          username: "current_user", // Replace with actual username
+          name: "Current User", // Replace with actual name
+          avatar: Avatar // Use the provided Avatar
+        }
+      };
+
+      // Optimistically add the comment to the UI
+      onAddComment(newComment);
+
+      try {
+        await addComment(userId, postId, commentText);
+        toast.success('تمت اضافة المنشور بنجاح');
+      } catch (error) {
+        toast.error("حدث خطأ اثناء اضافة التعليق");
+        console.error("Error adding comment:", error);
+      }
+
       setCommentText("");
       setShowSendButton(false);
-    } catch (error) {
-      console.error("Error adding comment:", error);
-      // Handle errors
+    } else { 
+      toast.error("يرجى اضافة تعليق اولا");
     }
   };
 

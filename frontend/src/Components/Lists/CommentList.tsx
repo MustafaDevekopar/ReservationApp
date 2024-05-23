@@ -1,48 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { CommentsGet } from '../../Api';
-import { Comment } from '../../Reservations';
+// CommentList.tsx
+
 import CommentBox from '../CommentElements/CommentBox';
+import { Comment } from '../../Reservations'; // تأكد من المسار الصحيح لاستيراد النوع Comment
 
-type Props = {}
+interface CommentListProps {
+  comments: Comment[];
+}
 
-const CommentList = (props: Props) => {
-    const { postId } = useParams<{ postId?: string }>(); // Dynamically retrieve the id parameter from the URL
-    const [comments, setComments] = useState<Comment[]>([]);
+const CommentList = ({ comments }: CommentListProps) => {
+  if (comments.length === 0) {
+    return <div>Loading...</div>;
+  }
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                if (!postId) return;
-                const commentData = await CommentsGet(parseInt(postId));
-                setComments(commentData);
-            } catch (error) {
-                console.error('Error fetching comment data:', error);
-            }
-        };
-
-        fetchData();
-    }, [postId]);
-
-    if (comments.length === 0) {
-        return <div>Loading...</div>;
-    }
-
-    return (
-        <div className="flex flex-col gap-4 mx-3 sm:mx-4 md:mx-12 lg:mx-40">
-        {comments.map((comment) => (
-            <div>
-            <CommentBox 
-                commentTitle={comment.text} 
-                commentUsername={comment.user.username} 
-                commentName = {comment.user.name}  
-                commentAvatar = {comment.user.avatar}
-                />   
-            </div>
-
-        ))}
-      </div>
-    );
+  return (
+    <div className="flex flex-col gap-4 mx-3 sm:mx-4 md:mx-12 lg:mx-40">
+      {comments.map((comment, index) => (
+        <div key={index}>
+          <CommentBox 
+            commentTitle={comment.text} 
+            commentUsername={comment.user.username} 
+            commentName={comment.user.name}  
+            commentAvatar={comment.user.avatar}
+          />   
+        </div>
+      ))}
+    </div>
+  );
 }
 
 export default CommentList;

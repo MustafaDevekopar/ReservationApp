@@ -1,24 +1,47 @@
-// CommentPage.js
+// ShowPostComments.tsx
 
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import AddCommentBox from "../Components/CommentElements/AddCommentBox";
 import CommentList from "../Components/Lists/CommentList";
+import { CommentsGet } from '../Api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Comment } from '../Reservations'; // تأكد من المسار الصحيح لاستيراد النوع Comment
 
 const ShowPostComments: React.FC = (): JSX.Element => {
   const { postId } = useParams<{ postId?: string }>(); // Dynamically retrieve the id parameter from the URL
+  const [comments, setComments] = useState<Comment[]>([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!postId) return;
+        const commentData: Comment[] = await CommentsGet(parseInt(postId));
+        setComments(commentData);
+      } catch (error) {
+        console.error('Error fetching comment data:', error);
+      }
+    };
 
+    fetchData();
+  }, [postId]);
 
+  const addCommentToState = (comment: Comment) => {
+    setComments([...comments, comment]);
+  };
 
   return (
-    <div className="container mx-auto  py-8 pb-20">
+    <div className="container mx-auto py-8 pb-20">
       <h1 className="mb-4 text-md text-DarkGray text-center font-semibold ">التعليقات</h1>
-      <CommentList />
+      <CommentList comments={comments} /> 
       <AddCommentBox 
           Avatar={"https://i.pinimg.com/originals/c2/a5/19/c2a519566d628121523b1e75205586a5.jpg"} 
-          userId = {1}
-          postId = {String(postId)}
+          userId={5}
+          postId={String(postId)}
+          onAddComment={addCommentToState}
       />
+      <ToastContainer />
     </div>
   );
 };

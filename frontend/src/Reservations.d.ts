@@ -39,12 +39,12 @@ export interface Governorate {
   }
 export interface Comment {
   id: number;
-  text: String;
+  text: string;
   dateTime: Date;
   user: {
-      id: number;
-      name: string;
-      username: string;
-      avatar: Text | null ;
+    id: number;
+    name: string;
+    username: string;
+    avatar: string | null;
     }
   }

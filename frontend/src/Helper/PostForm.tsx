@@ -59,7 +59,7 @@ const PostForm: React.FC<PropsInfo> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} >
       <InputComponent
         label='العنوان'
         type='text'
@@ -87,15 +87,13 @@ const PostForm: React.FC<PropsInfo> = ({
         />
       )}
 
-
-      {/* <div className="flex justify-between"> */}
-        <ButtonComponent
-          text='اضافة منشور'
-          type='submit'
-          onClick={() => console.log()} 
-        />
-      {/* </div> */}
-      <ToastContainer />
+      <ButtonComponent
+        text='اضافة منشور'
+        type='submit'
+        onClick={() => console.log()} 
+      />
+      
+        <ToastContainer />
     </form>
   );
 };
