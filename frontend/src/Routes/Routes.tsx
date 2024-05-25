@@ -26,7 +26,7 @@ export const router = createBrowserRouter([
             { path: "favorite", element: <FavoritePage /> },
             { path: "posts", element: <PostsPage /> },
             { path: "search", element: <SearchPage /> },
-            { path: "reserve", element: <ReservePage />},
+            { path: "reserve/:fieldId", element: <ReservePage />},
             { path: "showpost/:id", element: <ShowPost />},
             { path: "comments/:postId", element: <ShowPostComments />},
             { path: "profile/:fieldId", element: <ProfilePage />},

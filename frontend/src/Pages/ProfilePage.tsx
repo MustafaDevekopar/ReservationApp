@@ -78,7 +78,7 @@ const ProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
                   width="auto"
                   paddingx="4"
                   paddingy="2"
-                  path="/reserve"
+                  path={`/reserve/${fieldId}`}
                 />
                 <LinkToButton
                   text="تعديل الملف الشخصي"

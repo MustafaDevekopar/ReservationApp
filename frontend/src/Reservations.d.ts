@@ -48,3 +48,14 @@ export interface Comment {
     avatar: string | null;
     }
   }
+
+  type Reservation = {
+    id: number;
+    dateTime: string;
+  };
+
+  export interface ReservationStatus {
+    id: number;
+    openAt: string;
+    closeAt: string;
+  }

@@ -78,7 +78,7 @@ import { calculateDistance } from '../Helper/Helper'
                         width="auto"
                         paddingx="0"
                         paddingy="0"
-                        path="/reserve"
+                        path={`/reserve/${id}`}
                     />
                 </div>
             </div>

@@ -1,8 +1,8 @@
 
 import ExplanatoryIcons from '../Components/ReserveElement/ExplanatoryIcons'
-import DateTimeReserve from '../Components/ReserveElement/DateTimeReserve'
 import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox'
-import { useState } from 'react'
+import ReservDate from '../Components/ReserveElement/ReservDate'
+import FieldInformation from '../Components/ReserveElement/FieldInformation'
 
 type Props = {}
 
@@ -20,12 +20,9 @@ const ReservePage: React.FC<Props> = (props: Props): JSX.Element => {
               Color='bg-WhiteYellow'
               Text='مغلق' />
         </div>
-        <div className="flex">
-            <span className="mb-2 text-DarkGray">الحجوزات المتاحه  ل ملعب سباعي الرمادي</span>
-        </div>
-        <DateTimeReserve Text="تاريخ الحجز" isDateNotTime = {true} />
-        <DateTimeReserve Text="وقت الحجز" isDateNotTime = {false} />
-        <ConfirmOrBackBox />
+        <FieldInformation />
+        <ReservDate />
+        {/* <ConfirmOrBackBox /> */}
     </div>
   )
 }

@@ -1,32 +1,39 @@
 
 
-type BtnDateTimeProps = {
-    isReserved: boolean;
-    DateOrTime: string;
-    isSelected: boolean;
-    onClick: (DateOrTime: string) => void;
-}
+import React from 'react';
 
-const BtnDateTime: React.FC<BtnDateTimeProps> = ({
-  isReserved, 
-  DateOrTime, 
-  isSelected, 
-  onClick
-}: BtnDateTimeProps): JSX.Element => {
+type Props = {
+  isReserved: boolean;
+  visibleValue: string;
+  hiddenValue: string;
+  isSelected: boolean;
+  onClick: (hiddenVal: string) => void;
+};
+
+const BtnDateTime: React.FC<Props> = ({ isReserved, visibleValue, hiddenValue, isSelected, onClick }: Props): JSX.Element => {
+  const handleClick = () => {
+    if (!isReserved) {
+      onClick(hiddenValue);
+    }
+  };
+
   return (
-    <button 
-      onClick={()=> onClick(DateOrTime)} 
-      className={`text-white text-xs m-1 py-2 px-4 rounded-full
-            ${isReserved 
-              ? ( "bg-WhiteRed cursor-vertical-text")
-              : (
-                  isSelected ? ("bg-WhiteBlue") : ("bg-WhiteGreen")
-                )
-          }`} 
+    <button
+      onClick={handleClick}
+      className={`text-white text-xs m-1 py-2  text-center rounded-full
+      ${
+        isReserved
+          ? 'bg-WhiteRed cursor-not-allowed'
+          : isSelected
+          ? 'bg-WhiteBlue'
+          : 'bg-WhiteGreen'
+      }`}
+      disabled={isReserved}
     >
-      {DateOrTime}
+      {visibleValue}
     </button>
-  )
-}
+  );
+};
 
-export default BtnDateTime
+export default BtnDateTime;
+

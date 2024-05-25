@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -244,7 +244,7 @@ export const GovernorateGet = async (): Promise<Governorate[]> => {
   try {
 
     const response: AxiosResponse<Governorate[]> = await axios.get<Governorate[]>("https://localhost:7249/api/Governorate");
-    console.log(response.data);
+    // console.log(response.data);
     return response.data; // Return the array of users from the response
 
   } catch(error) {
@@ -258,6 +258,70 @@ export const GovernorateGet = async (): Promise<Governorate[]> => {
       throw new Error("An unexpected error occurred");
     }
 
+  }
+}
+
+
+// reserv date 
+export const GetReservDate = async (): Promise<ReservationStatus> => {
+  try {
+
+    const response: AxiosResponse<ReservationStatus> = await axios.get<ReservationStatus>
+    ("https://localhost:7249/api/ReservationStatus/1");
+    return response.data; 
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+export const GetReservationsOfField = async (fieldId: number): Promise<Reservation[]> => {
+  try {
+
+    const response: AxiosResponse<Reservation[]> = await axios.get<Reservation[]>
+    (`https://localhost:7249/api/Reservation/field/${fieldId}`);
+    return response.data; 
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+
+
+interface AddReserveBody {
+  dateTime: string;
+}
+export const addReserve = async (fieldId: number, userId: number, dateTimeValue: string): Promise<void> => {
+  try {
+    // const requestBody: AddCommentRequest = { text: commentText };
+    const requestBody: AddReserveBody = { dateTime: dateTimeValue };
+    console.log("to server")
+    console.log(requestBody)
+    await axios.post(`https://localhost:7249/api/Reservation?fieldId=${fieldId}&uderId=${userId}`, requestBody);
+    console.log("Reserved successfully");
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
   }
 }
 
