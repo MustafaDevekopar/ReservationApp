@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
+using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
 
@@ -22,9 +23,27 @@ namespace Reservations.Repository
             return await _context.Reservations.FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public async Task<List<Reservation>> GetReservationsOfUserAsync(int userId)
+        public async Task<List<ReservationsWithFields>> GetReservationsOfUserAsync(int userId)
         {
-            return await _context.Reservations.Where(r =>r.User.Id == userId).ToListAsync();
+            //return await _context.Reservations.Where(r =>r.User.Id == userId).ToListAsync();
+            var reservation = await _context.Reservations
+                                   .Where(u => u.User.Id == userId)
+                                   .Include(f => f.FootballField)
+                                   .ToListAsync();
+            var res = reservation.Select(c => new ReservationsWithFields
+            {
+                Id = c.Id,
+                DateTime = c.DateTime,
+                Fields = new FieldOfReservationDto
+                {
+                    Id = c.FootballField.Id,
+                    Name = c.FootballField.Name,
+                    Username = c.FootballField.Username,
+                    PhoneNumbr = c.FootballField.PhoneNumbr,
+                }
+            }).ToList();
+            return res;
+
         }
 
         public async Task<List<Reservation>> GetReservationOfFieldAsync(int fieldId)

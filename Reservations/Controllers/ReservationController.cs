@@ -56,10 +56,10 @@ namespace Reservations.Controllers
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetReservationsByUser(int userId)
         {
-            var reservations = _mapper.Map<List<ReservationDto>>
-                (await _reservationRepository.GetReservationsOfUserAsync(userId));
-
-            if(!ModelState.IsValid)
+            var reservations = await _reservationRepository.GetReservationsOfUserAsync(userId);
+            //var reservations = _mapper.Map<List<ReservationDto>>
+            //           (await _reservationRepository.GetReservationsOfUserAsync(userId));
+            if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             return Ok(reservations);

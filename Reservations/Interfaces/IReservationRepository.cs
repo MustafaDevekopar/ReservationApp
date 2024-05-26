@@ -1,4 +1,5 @@
-﻿using Reservations.Models;
+﻿using Reservations.Dto;
+using Reservations.Models;
 
 namespace Reservations.Interfaces
 {
@@ -6,7 +7,7 @@ namespace Reservations.Interfaces
     {
         Task<List<Reservation>> GetReservationsAsync();
         Task<Reservation> GetReservationAsync(int id);
-        Task<List<Reservation>> GetReservationsOfUserAsync(int userId);
+        Task<List<ReservationsWithFields>> GetReservationsOfUserAsync(int userId);
         Task<List<Reservation>> GetReservationOfFieldAsync(int fieldId);
         bool ReservationExists(int id);
         bool CreateReservation(Reservation reservation);
