@@ -26,7 +26,7 @@ const DateSelection: React.FC<Props> = ({ reservationStatus, selectedDate, handl
 
   return (
     <div className="flex">
-      <div className="bg-white shadow rounded-2xl p-4 my-2 grid w-full grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+      <div className="bg-white shadow rounded-2xl p-4 my-2 grid w-full grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-8">
         {datesArray.length > 0 ? (
           datesArray.map((date, index) => (
             <BtnDateTime

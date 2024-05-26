@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -287,6 +287,25 @@ export const GetReservationsOfField = async (fieldId: number): Promise<Reservati
 
     const response: AxiosResponse<Reservation[]> = await axios.get<Reservation[]>
     (`https://localhost:7249/api/Reservation/field/${fieldId}`);
+    return response.data; 
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+export const GetReservationsOfUser = async (userId: number): Promise<ReservaiotionWithField[]> => {
+  try {
+
+    const response: AxiosResponse<ReservaiotionWithField[]> = await axios.get<ReservaiotionWithField[]>
+    (`https://localhost:7249/api/Reservation/user/${userId}`);
     return response.data; 
 
   } catch(error) {

@@ -50,7 +50,7 @@ const TimeSelection: React.FC<Props> = ({
             <span className="text-sm text-DarkGray">الوقت</span>
           </div>
           <div className="flex">
-            <div className="bg-white shadow rounded-2xl p-4 my-2 grid w-full grid-cols-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8">
+            <div className="bg-white shadow rounded-2xl p-4 my-2 grid w-full grid-cols-3 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-8">
               {timesArray.length > 0 ? (
                 timesArray.map((time, index) => {
                   // Check if the current time slot is reserved

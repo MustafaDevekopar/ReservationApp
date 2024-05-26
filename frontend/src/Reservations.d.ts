@@ -59,3 +59,14 @@ export interface Comment {
     openAt: string;
     closeAt: string;
   }
+
+  export interface ReservaiotionWithField {
+      id: number;
+      dateTime: string;
+      fields: {
+        id: number;
+        name: string;
+        username: string;
+        phoneNumbr: string;
+      }
+  }

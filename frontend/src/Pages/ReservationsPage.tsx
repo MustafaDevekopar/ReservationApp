@@ -2,6 +2,7 @@
 import { Outlet, useLocation } from 'react-router';
 import { useState } from "react";
 import ActiveLink from "../Components/LinkStyled/ActiveLink";
+import CardReservationsList from '../Components/Lists/CardReservationsList';
 
 type Props = {}
 
