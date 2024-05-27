@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Reservations.Dto;
+using Reservations.Hubs;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
@@ -16,15 +18,19 @@ namespace Reservations.Controllers
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
+        private readonly IHubContext<NotificationHub> _hubContext;
         public CommentController(ICommentRepository commentRepository,
             IPostRepository postRepository,
             IUserRepository userRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IHubContext<NotificationHub> hubContext
+            )
         {
             _commentRepository = commentRepository;
             _postRepository = postRepository;
             _userRepository = userRepository;
             _mapper = mapper;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
@@ -84,6 +90,8 @@ namespace Reservations.Controllers
                 ModelState.AddModelError("", "Something woring while savin");
                 return BadRequest(ModelState);
             }
+            await _hubContext.Clients.All.SendAsync("ReceiveNotification", "اضافة تعليق ؟اشعار من السيرفر");
+
             return Ok("Successfully Created");
         }
 

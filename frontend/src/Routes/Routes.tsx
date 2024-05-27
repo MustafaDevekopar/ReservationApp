@@ -31,7 +31,7 @@ export const router = createBrowserRouter([
             { path: "comments/:postId", element: <ShowPostComments />},
             { path: "profile/:fieldId", element: <ProfilePage />},
             { path: "users", element: <UsersPage />},
-            { path: "addpost/:fieldId", element: <AddPost />},
+            { path: "addpost/:id", element: <AddPost />},
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 
