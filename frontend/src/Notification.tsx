@@ -46,10 +46,9 @@ const Notification: React.FC = () => {
     <div>
       <ul>
         {messages.map((message, index) => (
-          <li key={index}>
-            {message}
+          <li>
             {toast(message)}
-            </li>
+          </li>
         ))}
       </ul>
     </div>

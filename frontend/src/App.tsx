@@ -4,6 +4,7 @@ import NavBarIconsMobile from './Components/Navbar/NavBarIconsMobile';
 import Navbar from './Components/Navbar/Navbar';
 import { Outlet, useLocation } from 'react-router-dom';
 import Notification from './Notification';
+import { UserProvider } from './Context/useAuth';
 
 function App() {
   // Get the current location using react-router's useLocation hook
@@ -17,13 +18,16 @@ function App() {
 
   return (
     <div className="App">
-      <Notification />
-      {/* Conditional rendering of Component to show */}
-      {shouldHideComponent && <Navbar />}
-      {shouldHideComponent && <NavBarIconsMobile />}
-      {shouldHideComponent && <NavBarIcons />}
+      <UserProvider >
 
-      <Outlet />
+        <Notification />
+        {/* Conditional rendering of Component to show */}
+        {shouldHideComponent && <Navbar />}
+        {shouldHideComponent && <NavBarIconsMobile />}
+        {shouldHideComponent && <NavBarIcons />}
+        <Outlet />
+
+      </UserProvider>
     </div>
   );
 }

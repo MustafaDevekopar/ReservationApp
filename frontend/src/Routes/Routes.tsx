@@ -16,6 +16,8 @@ import ProfilePage from "../Pages/ProfilePage";
 import UsersPage from "../Pages/UsersPage";
 import ShowFieldDettails from "../Pages/ShowFieldDettails";
 import AddPost from "../Pages/AddPost";
+import LoginPage from "../Pages/LoginPage";
+import RegisterPage from "../Pages/RegisterPage";
 
 export const router = createBrowserRouter([
     {
@@ -32,6 +34,8 @@ export const router = createBrowserRouter([
             { path: "profile/:fieldId", element: <ProfilePage />},
             { path: "users", element: <UsersPage />},
             { path: "addpost/:id", element: <AddPost />},
+            { path: "login", element: <LoginPage />},
+            { path: "register", element: <RegisterPage />},
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 

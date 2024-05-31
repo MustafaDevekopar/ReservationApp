@@ -13,6 +13,13 @@ const ButtonComponent: React.FC<ButtonProps> = ({
 }): JSX.Element => {
   return (
     <div className="flex items-center my-8">
+      <button
+        type={type}
+        onClick={onClick}
+        className="bg-Darkgreen hover:bg-WhiteGreen text-white py-2 px-4 w-full rounded-xl"
+      >
+         {text}
+      </button>
 
   </div>
   )
