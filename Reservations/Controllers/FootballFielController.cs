@@ -36,7 +36,6 @@ namespace Reservations.Controllers
             _context = context;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> GerFields()
         {
