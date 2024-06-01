@@ -18,6 +18,7 @@ import ShowFieldDettails from "../Pages/ShowFieldDettails";
 import AddPost from "../Pages/AddPost";
 import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
+import ProtectedRoute from "./ProtectedRoute";
 
 export const router = createBrowserRouter([
     {
@@ -28,7 +29,7 @@ export const router = createBrowserRouter([
             { path: "favorite", element: <FavoritePage /> },
             { path: "posts", element: <PostsPage /> },
             { path: "search", element: <SearchPage /> },
-            { path: "reserve/:fieldId", element: <ReservePage />},
+            { path: "reserve/:fieldId", element: <ProtectedRoute> <ReservePage /> </ProtectedRoute> },
             { path: "showpost/:id", element: <ShowPost />},
             { path: "comments/:postId", element: <ShowPostComments />},
             { path: "profile/:fieldId", element: <ProfilePage />},
