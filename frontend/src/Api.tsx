@@ -83,7 +83,10 @@ export const NavContentMobile = [
     text: string;
     image: File;
   }
-  
+  const token = localStorage.getItem('token');
+  if (!token) {
+    console.error('No token found, please login again');
+  }
   export const AddNewPost = async (fieldId: number, postData: AddPostRequest): Promise<void> => {
     try {
       const formData = new FormData();
@@ -94,6 +97,7 @@ export const NavContentMobile = [
       await axios.post(`https://localhost:7249/api/Post?FieldId=${fieldId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}` // Ensure token is sent
         },
       });
       console.log("Post added successfully");
