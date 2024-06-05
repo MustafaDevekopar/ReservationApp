@@ -1,4 +1,5 @@
-﻿namespace Reservations.Dto.Account
+﻿
+namespace Reservations.Dto.Account
 {
     public class NewUserDto
     {
