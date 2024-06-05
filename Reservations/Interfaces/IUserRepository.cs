@@ -7,9 +7,12 @@ namespace Reservations.Interfaces
     {
         Task<List<User>> GetUsersAsync();
         Task<User> GetUserAsync(int userId);
+        Task<User> GetUserByUsernameAsync(string username);
+        Task<int?> GetUserIdByUsername(string username);
         ICollection<FootballField> GetFieldsOfUser(int userId);
         bool CreateUserFollowedField(UserField userField);
         bool UserExists(int userId);
+        bool UserExistsbyUsername(string username);
         bool CreateUser(User user);
         bool Save();
     }

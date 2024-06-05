@@ -38,14 +38,24 @@ namespace Reservations.Repository
         public async Task<Governorate> GetGovernorateOfFieldAsync(int fieldId)
         {
             return await _context.FootballFields.Where(c => c.Id == fieldId)
-                .Select(c => c.Governorate).FirstOrDefaultAsync();
-           
+                .Select(c => c.Governorate).FirstOrDefaultAsync();  
+        }
+        public async Task<int?> GetFieldIdByUsername(string username)
+        {
+            return await _context.FootballFields
+                .Where(u => u.Username == username)
+                .Select(u => (int?)u.Id)
+                .FirstOrDefaultAsync();
         }
 
 
         public bool FootballFieldExists(int FieldId)
         {
             return _context.FootballFields.Any(f => f.Id == FieldId);
+        }
+        public bool FieldExixtsUsername(string username)
+        {
+            return _context.FootballFields.Any(f => f.Username == username);
         }
 
         public bool CreateFootballField(FootballField footballField)
@@ -71,5 +81,6 @@ namespace Reservations.Repository
             return _context.UserFields.Where(f => f.FootballField.Id == fieldId)
       .Select(u => u.User).ToList();
         }
+
     }
 }

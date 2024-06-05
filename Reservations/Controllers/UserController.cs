@@ -1,12 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
-using Reservations.Repository;
-using System.IO;
+
 
 namespace Reservations.Controllers
 {
@@ -38,6 +35,7 @@ namespace Reservations.Controllers
                 string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
                 return new UserGetDto
                 {
+                    Id = user.Id,
                     Name = user.Name,
                     Username = user.Username,
                     Password = user.Password,
@@ -64,6 +62,7 @@ namespace Reservations.Controllers
 
             var userMap = new UserGetDto
             {
+                Id = userId,
                 Name = user.Name,
                 Username = user.Username,
                 Password = user.Password,
@@ -72,8 +71,46 @@ namespace Reservations.Controllers
                 Avatar = avatarBase64 
             };
 
-            //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));
+            //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));GetUserByUsernameAsync
 
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(userMap);
+        }
+
+        [HttpGet("UserIdByUsername/{username}")]
+        public async Task<IActionResult> GetUserIdByUsername(string username)
+        {
+            if (!_userRepository.UserExistsbyUsername (username))
+                return NotFound(ModelState);
+            var userId = await _userRepository.GetUserIdByUsername(username);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(userId);
+        }
+
+        [HttpGet("username/{username}")]
+        public async Task<IActionResult> GetUserByUserName(string username)
+        {
+            if (!_userRepository.UserExistsbyUsername(username))
+                return NotFound(ModelState);
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+
+            string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+
+            var userMap = new UserGetDto
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Username = user.Username,
+                Password = user.Password,
+                PhoneNumbr = user.PhoneNumbr,
+                CreatedAt = user.CreatedAt,
+                Avatar = avatarBase64
+            };
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

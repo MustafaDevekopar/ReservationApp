@@ -21,6 +21,17 @@ namespace Reservations.Repository
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         }
+        public async Task<User> GetUserByUsernameAsync(string username)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
+        }
+        public Task<int?> GetUserIdByUsername(string username)
+        {
+            return _context.Users
+                .Where(u => u.Username == username)
+                .Select(u => (int?)u.Id)
+                .FirstOrDefaultAsync();
+        }
         public ICollection<FootballField> GetFieldsOfUser(int userId)
         {
             return _context.UserFields.Where(u => u.User.Id == userId)
@@ -34,6 +45,10 @@ namespace Reservations.Repository
         public bool UserExists(int userId)
         {
             return _context.Users.Any(u => u.Id == userId);
+        }
+        public bool UserExistsbyUsername(string username)
+        {
+            return _context.Users.Any(u => u.Username == username);
         }
         public bool Save()
         {

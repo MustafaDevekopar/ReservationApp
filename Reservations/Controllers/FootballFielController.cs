@@ -91,6 +91,19 @@ namespace Reservations.Controllers
             return Ok(fieldMap);
         }
 
+        [HttpGet("fieldIdByUsername/{username}")]
+        public async Task<IActionResult> GetUserIdByUsername(string username)
+        {
+            if (!_footballFieldRepository.FieldExixtsUsername(username))
+                return NotFound(ModelState);
+
+            var fieldId = await _footballFieldRepository.GetFieldIdByUsername(username);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            return Ok(fieldId);
+        }
 
         [HttpGet("{fieldId}/Category")]
         public async Task<IActionResult> GetCategoryOfField(int fieldId)
