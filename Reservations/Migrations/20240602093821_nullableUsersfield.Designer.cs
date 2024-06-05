@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservations.Data;
 
@@ -11,9 +12,11 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240602093821_nullableUsersfield")]
+    partial class nullableUsersfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +50,32 @@ namespace Reservations.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "b9956cdb-ea8a-43ed-bd4d-ccee5cbdedb8",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "600e3a0f-3d22-471f-a6cd-786df9100ce3",
+                            Name = "MainAdmin",
+                            NormalizedName = "MAINADMIN"
+                        },
+                        new
+                        {
+                            Id = "9030bd2b-8ea0-4061-ac20-f49b7e6e44df",
+                            Name = "FieldOwner",
+                            NormalizedName = "FIELDOWNER"
+                        },
+                        new
+                        {
+                            Id = "ec8a40cb-b71e-43ae-8c1a-282b5bb6b8a3",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

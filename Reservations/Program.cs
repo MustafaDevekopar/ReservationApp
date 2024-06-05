@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,37 +35,9 @@ builder.Services.AddScoped<ITokenService, TokenService>();  // Correct registrat
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 
-//================ swager auth ==============
-builder.Services.AddSwaggerGen(option =>
-{
-    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                }
-            },
-            new string[]{}
-        }
-    });
-});
-//=======================
+
 
 // Add CORS to allow requests from frontend
 builder.Services.AddCors(options =>
@@ -91,7 +64,9 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireUppercase = true;
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequiredLength = 8;
-}).AddEntityFrameworkStores<DataContext>();
+}).AddEntityFrameworkStores<DataContext>()
+  .AddSignInManager()
+  .AddRoles<IdentityRole>();
 
 builder.Services.AddAuthentication(options => {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -105,17 +80,74 @@ builder.Services.AddAuthentication(options => {
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
         ValidateAudience = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(
-           System.Text.Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"])
-        )
+        ValidateLifetime = true,
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+                    (Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
     };
 });
 // Add SignalR services
 builder.Services.AddSignalR();
+
+//================ swager auth ==============
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+//=======================
+
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("MainAdminAdminFieldOwnerUser", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("MainAdmin", "Admin", "FieldOwner", "User");
+    })
+    .AddPolicy("MainAdminAdminFieldOwner", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("MainAdmin", "Admin", "FieldOwner");
+    })
+    .AddPolicy("MainAdminAdmin", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("MainAdmin", "Admin");
+    })
+    .AddPolicy("MainAdmin", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("MainAdmin");
+    })
+    .AddPolicy("FieldOwner", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("FieldOwner");
+    });
 
 var app = builder.Build();
 

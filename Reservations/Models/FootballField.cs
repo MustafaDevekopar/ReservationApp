@@ -3,11 +3,11 @@
     public class FootballField
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public string Username { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
         public decimal PhoneNumbr { get; set; }
-        public string Location { get; set; }
+        public string? Location { get; set; }
         public byte[]? Avatar { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
@@ -22,5 +22,9 @@
         public ICollection<Post> Posts { get; set; }
         public ICollection<UserField> UserFields { get; set; }
 
+        public virtual AppUser AppUser { get; set; }
+
+
     }
 }
+

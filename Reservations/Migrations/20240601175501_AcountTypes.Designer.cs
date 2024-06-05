@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservations.Data;
 
@@ -11,9 +12,11 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240601175501_AcountTypes")]
+    partial class AcountTypes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +50,32 @@ namespace Reservations.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "6d6e0c5b-5223-45f8-a89c-fb4d45b3a00e",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "e8dce7e8-cfad-48af-aa63-07b352ba7958",
+                            Name = "MainAdmin",
+                            NormalizedName = "MAINADMIN"
+                        },
+                        new
+                        {
+                            Id = "6943fdd3-d348-4a9f-9c92-b124c3b1f84a",
+                            Name = "FieldOwner",
+                            NormalizedName = "FIELDOWNER"
+                        },
+                        new
+                        {
+                            Id = "be799c4e-bf23-4472-8c2b-5ef24a873a57",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -178,9 +207,6 @@ namespace Reservations.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("FootballFieldId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -210,18 +236,11 @@ namespace Reservations.Migrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FootballFieldId")
-                        .IsUnique()
-                        .HasFilter("[FootballFieldId] IS NOT NULL");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -230,10 +249,6 @@ namespace Reservations.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UserId")
-                        .IsUnique()
-                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -309,15 +324,18 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PhoneNumbr")
@@ -506,9 +524,11 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PhoneNumbr")
@@ -613,21 +633,6 @@ namespace Reservations.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Reservations.Models.AppUser", b =>
-                {
-                    b.HasOne("Reservations.Models.FootballField", "FootballField")
-                        .WithOne("AppUser")
-                        .HasForeignKey("Reservations.Models.AppUser", "FootballFieldId");
-
-                    b.HasOne("Reservations.Models.User", "User")
-                        .WithOne("AppUser")
-                        .HasForeignKey("Reservations.Models.AppUser", "UserId");
-
-                    b.Navigation("FootballField");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Reservations.Models.Comment", b =>
@@ -778,9 +783,6 @@ namespace Reservations.Migrations
 
             modelBuilder.Entity("Reservations.Models.FootballField", b =>
                 {
-                    b.Navigation("AppUser")
-                        .IsRequired();
-
                     b.Navigation("Posts");
 
                     b.Navigation("Reservations");
@@ -814,9 +816,6 @@ namespace Reservations.Migrations
 
             modelBuilder.Entity("Reservations.Models.User", b =>
                 {
-                    b.Navigation("AppUser")
-                        .IsRequired();
-
                     b.Navigation("Likes");
 
                     b.Navigation("Reservations");

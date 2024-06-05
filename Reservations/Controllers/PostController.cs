@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
 using Reservations.Dto;
 using Reservations.Interfaces;
 using Reservations.Models;
-using Reservations.Repository;
+using System.Security.Claims;
 
 namespace Reservations.Controllers
 {
@@ -16,13 +17,18 @@ namespace Reservations.Controllers
         private readonly IPostRepository _postRepository;
         private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
+
         public PostController(IPostRepository postRepository,
             IFootballFieldRepository footballFieldRepository,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<AppUser> userManager)
         {
             _postRepository = postRepository;
             _footballFieldRepository = footballFieldRepository;
             _mapper = mapper;
+            _userManager = userManager;
+
         }
 
         [HttpGet]
@@ -61,7 +67,6 @@ namespace Reservations.Controllers
 
             return Ok(postMap);
         }
-
         [HttpGet("fieldOfpost/{postId}")]
         public async Task<IActionResult> GetFieldOfPost(int postId)
         {
@@ -75,7 +80,6 @@ namespace Reservations.Controllers
 
             return Ok(fieldOfPost);
         }
-
         [HttpGet("{fieldId}/postsfield")]
         public async Task<IActionResult> GetPostsByfaildId(int fieldId)
         {
@@ -99,35 +103,56 @@ namespace Reservations.Controllers
             return Ok(postMap);
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromQuery]int fieldId ,[FromForm]PostDto postCreate)
+        public async Task<IActionResult> CreatePost([FromForm] PostDto postCreate)
         {
-            if(postCreate == null)
+            if (postCreate == null)
             {
-                ModelState.AddModelError("", "Post connt be empty");
+                ModelState.AddModelError("", "لا يمكن ان تكون البيانات فارغة");
                 return BadRequest(ModelState);
             }
 
-            using var strem = new MemoryStream();
-            await postCreate.Image.CopyToAsync(strem);
+            var emailClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+            if (emailClaim == null)
+            {
+                return Unauthorized("التوكن غير صالح أو مفقود.");
+            }
+
+            var email = emailClaim.Value;
+            //get user from token informations  
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return Unauthorized("المستخدم غير مسجل الدخول.");
+            }
+
+            var field = await _footballFieldRepository.GetFootballFieldAsync(user.FootballFieldId.Value);
+            if (field == null)
+            {
+                return NotFound("ملعب كرة القدم غير موجود.");
+            }
+
+            using var stream = new MemoryStream();
+            await postCreate.Image.CopyToAsync(stream);
 
             var postMap = new Post
             {
                 Title = postCreate.Title,
                 Text = postCreate.Text,
-                Image = strem.ToArray()
+                Image = stream.ToArray(),
+                FootballField = field
             };
 
-            postMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
-            if(!_postRepository.CreatePost(postMap))
+            if (!_postRepository.CreatePost(postMap))
             {
-                ModelState.AddModelError("", "Somthenk hapen when saven");
+                ModelState.AddModelError("", "حدث خطأ أثناء اضافة المنشور.");
                 return BadRequest(ModelState);
             }
 
-            return Ok("Successfully Created");
-
+            return Ok("تم الإنشاء بنجاح");
         }
+
 
         [HttpPut("update/{postId}")]
         public async Task<IActionResult> UpdatePost(int postId, [FromForm]PostDto updatePost)

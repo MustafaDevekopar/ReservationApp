@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using System.ComponentModel.DataAnnotations;
 
 namespace Reservations.Dto.Account
 {
@@ -9,8 +10,10 @@ namespace Reservations.Dto.Account
         [Required]
         [EmailAddress]
         public string? Email { get; set; }
-        [Required] 
+        [Required]
         public string? Password { get; set; }
-
+        [Required]
+        public string? AccountType { get; set; } // acountType == Role  
     }
 }
+

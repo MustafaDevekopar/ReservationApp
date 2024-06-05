@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Reservations.Data;
 
@@ -11,9 +12,11 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240602075429_regsterTypeUser")]
+    partial class regsterTypeUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,6 +50,32 @@ namespace Reservations.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "944b44c4-5ed6-40d7-9523-636c582d69c1",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        },
+                        new
+                        {
+                            Id = "599298b2-53a0-4c6f-afb2-0791aa46ee2a",
+                            Name = "MainAdmin",
+                            NormalizedName = "MAINADMIN"
+                        },
+                        new
+                        {
+                            Id = "e6f916af-4d6c-476e-8314-598ff5b8b696",
+                            Name = "FieldOwner",
+                            NormalizedName = "FIELDOWNER"
+                        },
+                        new
+                        {
+                            Id = "ce61ab10-70eb-478d-8cc5-2421bf8aae66",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -309,15 +338,18 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Location")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PhoneNumbr")
@@ -506,9 +538,11 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("PhoneNumbr")

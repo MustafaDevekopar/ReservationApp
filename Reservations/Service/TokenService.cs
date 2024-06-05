@@ -1,8 +1,8 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 using Reservations.Interfaces;
 using Reservations.Models;
 using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using System.Text;
 
 namespace Reservations.Service
@@ -10,35 +10,26 @@ namespace Reservations.Service
     public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
-        private readonly  SymmetricSecurityKey _key;
-        public TokenService(IConfiguration config)
+        private readonly UserManager<AppUser> _userManager;
+        public TokenService(IConfiguration config, UserManager<AppUser> userManager)
         {
             _config = config;
-            _key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+            _userManager = userManager;
         }
-        public string CreateToken(AppUser user)
+        public async Task<string> CreateTokenAsync(AppUser user)
         {
-            var claims = new List<Claim>
-            {                
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.GivenName, user.UserName)
-            };
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["JWT:SigningKey"]));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-            var creds = new SigningCredentials(_key, SecurityAlgorithms.HmacSha256Signature);
-            var tokenDescripter = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(7),
-                SigningCredentials = creds,
-                Issuer = _config["JWT:Issuer"],
-                Audience = _config["JWT:Audience"]
-            };
+            var token = new JwtSecurityToken(
+                    issuer: _config["JWT:Issuer"],
+                    audience: _config["JWT:Audience"],
+                    claims: await _userManager.GetClaimsAsync(user),
+                    expires: DateTime.Now.AddDays(7),
+                    signingCredentials: credentials
+                );
+            return new JwtSecurityTokenHandler().WriteToken(token);
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var token = tokenHandler.CreateToken(tokenDescripter);
-
-            return tokenHandler.WriteToken(token);
         }
     }
 }

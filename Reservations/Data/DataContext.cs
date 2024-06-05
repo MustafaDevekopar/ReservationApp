@@ -31,30 +31,30 @@ namespace Reservations.Data
         {
             base.OnModelCreating(modelBuilder);  // Ensure the base configuration is called first
 
-            List<IdentityRole> roles = new List<IdentityRole>
-            {
-                new IdentityRole
-                {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN",
-                },
-                new IdentityRole
-                {
-                    Name = "MainAdmin",
-                    NormalizedName = "MAINADMIN",
-                },
-                new IdentityRole
-                {
-                    Name = "FieldOwner",
-                    NormalizedName = "FIELDOWNER",
-                },
-                new IdentityRole
-                {
-                    Name = "User",
-                    NormalizedName = "USER",
-                },
-            };
-            modelBuilder.Entity<IdentityRole>().HasData(roles);
+            //List<IdentityRole> roles = new List<IdentityRole>
+            //{
+            //    new IdentityRole
+            //    {
+            //        Name = "Admin",
+            //        NormalizedName = "ADMIN",
+            //    },
+            //    new IdentityRole
+            //    {
+            //        Name = "MainAdmin",
+            //        NormalizedName = "MAINADMIN",
+            //    },
+            //    new IdentityRole
+            //    {
+            //        Name = "FieldOwner",
+            //        NormalizedName = "FIELDOWNER",
+            //    },
+            //    new IdentityRole
+            //    {
+            //        Name = "User",
+            //        NormalizedName = "USER",
+            //    },
+            //};
+            //modelBuilder.Entity<IdentityRole>().HasData(roles);
 
             modelBuilder.Entity<UserField>()
                 .HasKey(pc => new { pc.UserId, pc.FieldId });
