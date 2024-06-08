@@ -124,7 +124,7 @@ namespace Reservations.Controllers
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return Unauthorized("المستخدم غير مسجل الدخول.");
+                return Unauthorized("لا تملك صلاحية القيام بهذا الاجراء!!");
             }
 
             var field = await _footballFieldRepository.GetFootballFieldAsync(user.FootballFieldId.Value);

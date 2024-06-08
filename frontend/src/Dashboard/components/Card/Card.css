@@ -1,0 +1,21 @@
+
+.CompactCard:hover {
+  box-shadow: none !important;
+}
+
+.CircularProgressbar {
+  width: 4rem !important;
+  overflow: visible;
+  padding: 0
+}
+.CircularProgressbar-path {
+  stroke: white !important;
+  stroke-width: 12px !important;
+  filter: drop-shadow(2px 4px 6px white);
+}
+.CircularProgressbar-trail {
+  display: none;
+}
+.CircularProgressbar-text {
+  fill: white !important;
+}

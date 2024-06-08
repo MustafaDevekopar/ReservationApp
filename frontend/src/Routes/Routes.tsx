@@ -19,6 +19,8 @@ import AddPost from "../Pages/AddPost";
 import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
+import Dashboard from "../Dashboard/Dashboard";
+
 
 export const router = createBrowserRouter([
     {
@@ -37,6 +39,7 @@ export const router = createBrowserRouter([
             { path: "addpost/:fieldId", element: <AddPost />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},
+            { path: "dashboard", element: <Dashboard />},
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 

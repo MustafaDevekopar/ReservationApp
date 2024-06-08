@@ -9,8 +9,10 @@ module.exports = {
       xl: "1440px",
     },
     extend: {
-      colors: {
-        
+      backgroundImage: {
+        dashboardGradient: 'linear-gradient(90deg, rgba(168,253,141,1) 0%, rgba(206,253,116,1) 35%, rgba(200,237,220,1) 100%)',
+      },
+      colors: {        
         Darkgreen: "#29B612",
         WhiteGreen: "#7AEE68",
         DarkGray: "#716C6C",
@@ -28,6 +30,8 @@ module.exports = {
         lightGreen: "hsl(156.62, 73.33%, 58.82%)",
 
         BackgroundBody: "#F7F7F7",
+        Glass: 'rgba(255, 255, 255, 0.692)',
+
       },
       aspectRatio: {
         '9/16': '9 / 16',
