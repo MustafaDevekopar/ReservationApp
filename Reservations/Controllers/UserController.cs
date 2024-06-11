@@ -65,8 +65,6 @@ namespace Reservations.Controllers
                 Id = userId,
                 Name = user.Name,
                 Username = user.Username,
-                //Password = user.Password,
-                //PhoneNumbr = user.PhoneNumbr,
                 CreatedAt = user.CreatedAt,
                 Avatar = avatarBase64 
             };

@@ -104,56 +104,6 @@ namespace Reservations.Controllers
             return Ok(postMap);
         }
 
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
-        //[HttpPost]
-        //public async Task<IActionResult> CreatePost([FromForm] PostDto postCreate)
-        //{
-        //    if (postCreate == null)
-        //    {
-        //        ModelState.AddModelError("", "لا يمكن ان تكون البيانات فارغة");
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var emailClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
-        //    if (emailClaim == null)
-        //    {
-        //        return Unauthorized("التوكن غير صالح أو مفقود.");
-        //    }
-
-        //    var email = emailClaim.Value;
-        //    //get user from token informations  
-        //    var user = await _userManager.FindByEmailAsync(email);
-        //    if (user == null)
-        //    {
-        //        return Unauthorized("لا تملك صلاحية القيام بهذا الاجراء!!");
-        //    }
-
-        //    var field = await _footballFieldRepository.GetFootballFieldAsync(user.FootballFieldId.Value);
-        //    if (field == null)
-        //    {
-        //        return NotFound("ملعب كرة القدم غير موجود.");
-        //    }
-
-        //    using var stream = new MemoryStream();
-        //    await postCreate.Image.CopyToAsync(stream);
-
-        //    var postMap = new Post
-        //    {
-        //        Title = postCreate.Title,
-        //        Text = postCreate.Text,
-        //        Image = stream.ToArray(),
-        //        FootballField = field
-        //    };
-
-        //    if (!_postRepository.CreatePost(postMap))
-        //    {
-        //        ModelState.AddModelError("", "حدث خطأ أثناء اضافة المنشور.");
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    return Ok("تم الإنشاء بنجاح");
-        //}
-
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
         [HttpPost]
         public async Task<IActionResult> CreatePost([FromForm] PostDto postCreate)

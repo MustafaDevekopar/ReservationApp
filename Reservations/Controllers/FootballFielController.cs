@@ -200,8 +200,6 @@ namespace Reservations.Controllers
                 Id =updateFootBallField.Id,
                 Name = updateFootBallField.Name,
                 Username = updateFootBallField.Username,
-                //Password = updateFootBallField.Password,
-                //PhoneNumbr = updateFootBallField.PhoneNumbr,
                 Location = updateFootBallField.Location,
                 Avatar = strem.ToArray()
             };

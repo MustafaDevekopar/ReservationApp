@@ -12,7 +12,7 @@ using Reservations.Models;
 
 namespace Reservations.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdminAdmin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserAdminController : ControllerBase
@@ -30,18 +30,8 @@ namespace Reservations.Controllers
             _context = context;
         }
 
-        // http get 
         //[Authorize(Policy = "MainAdminAdminFieldOwnerUser")]
-
-        //[HttpGet("usersByType/{userType}")]
-        //public async Task<IEnumerable<AppUser>> GetUsersByTypeAsync(string userType)
-        //{
-        //    // Get all users
         //    var users = await _userManager.Users.Where(a => a.AccountType == userType).ToListAsync();
-
-
-        //    return users;
-        //}
 
         [HttpGet("users")]
         public async Task<IActionResult> GetUsersAsync()
