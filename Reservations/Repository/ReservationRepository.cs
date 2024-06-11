@@ -39,7 +39,7 @@ namespace Reservations.Repository
                     Id = c.FootballField.Id,
                     Name = c.FootballField.Name,
                     Username = c.FootballField.Username,
-                    PhoneNumbr = c.FootballField.PhoneNumbr,
+                    //PhoneNumbr = c.FootballField.PhoneNumbr,
                 }
             }).ToList();
             return res;

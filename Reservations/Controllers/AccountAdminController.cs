@@ -1,21 +1,25 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Dto.Account;
 using Reservations.Interfaces;
 using Reservations.Models;
-using Reservations.Repository;
+
 
 using System.Security.Claims;
 
 
 namespace Reservations.Controllers
 {
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountAdminController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;//AccountAdminController
         private readonly ITokenService _tokenService;
@@ -29,7 +33,7 @@ namespace Reservations.Controllers
         private readonly IReservationStatusRepository _reservationStatusRepository;
         private readonly IConfiguration _config;
 
-        public AccountController(UserManager<AppUser> userManager,
+        public AccountAdminController(UserManager<AppUser> userManager,
                       ITokenService tokenService,
                       SignInManager<AppUser> signInManager,
                       DataContext context,
@@ -75,12 +79,11 @@ namespace Reservations.Controllers
 
                 int? relatedId = null;
 
-                if (registerDto.AccountType == "User")
+                if (registerDto.AccountType == "Admin" || registerDto.AccountType == "MainAdmin")
                 {
                     var newUser = new User
                     {
                         Username = registerDto.Username,
-                        //PhoneNumbr = decimal.Parse(registerDto.PhoneNumber),
                     };
 
                     if (!_userRepository.CreateUser(newUser))
@@ -94,60 +97,42 @@ namespace Reservations.Controllers
 
                     var userId = await _userRepository.GetUserIdByUsername(registerDto.Username);
                     relatedId = userId;
-                }
-                else if (registerDto.AccountType == "FieldOwner")
-                {
-                    var footballField = new FootballField
+
+                    var appUser = new AppUser
                     {
-                        Username = registerDto.Username,
+                        UserName = registerDto.Username,
+                        PhoneNumber = registerDto.PhoneNumber,
+                        AccountType = registerDto.AccountType,
+                        UserId = relatedId,
+                        FootballFieldId = null
                     };
 
-                    footballField.Category = await _categoryRepository.GetCategoryAsync(1);
-                    footballField.Governorate = await _governorateRepository.GetGovernorateAsync(1);
-                    footballField.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(1);
-                    footballField.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(1);
+                    var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
-                    if (!_footballFieldRepository.CreateFootballField(footballField))
+                    if (!createdUser.Succeeded)
+                        return StatusCode(500, createdUser.Errors);
+
+                    var userClaims = new List<Claim>
                     {
-                        ModelState.AddModelError("", "حدث خطأ أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
-                        return BadRequest(ModelState);
-                    }
+                        new Claim(ClaimTypes.MobilePhone, registerDto.PhoneNumber),
+                        new Claim(ClaimTypes.Role, registerDto.AccountType)
+                    };
 
-                    if (!_footballFieldRepository.FieldExixtsUsername(registerDto.Username))
-                        return NotFound(ModelState);
+                    await _userManager.AddClaimsAsync(appUser, userClaims);
 
-                    var fieldId = await _footballFieldRepository.GetFieldIdByUsername(registerDto.Username);
-                    relatedId = fieldId;
+                    return Ok(new NewUserDto
+                    {
+                        UserName = appUser.UserName,
+                        PhoneNumber = appUser.PhoneNumber,
+                        Token = await _tokenService.CreateTokenAsync(appUser)
+                    });
+                }
+                else
+                {
+                    ModelState.AddModelError("", "نوع الحساب خارج عن النمط المقبول");
+                    return BadRequest(ModelState);
                 }
 
-                var appUser = new AppUser
-                {
-                    UserName = registerDto.Username,
-                    PhoneNumber = registerDto.PhoneNumber,
-                    AccountType = registerDto.AccountType,
-                    UserId = registerDto.AccountType == "User" ? relatedId : null,
-                    FootballFieldId = registerDto.AccountType == "FieldOwner" ? relatedId : null
-                };
-
-                var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
-
-                if (!createdUser.Succeeded)
-                    return StatusCode(500, createdUser.Errors);
-
-                var userClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.MobilePhone, registerDto.PhoneNumber),
-                    new Claim(ClaimTypes.Role, registerDto.AccountType)
-                };
-
-                await _userManager.AddClaimsAsync(appUser, userClaims);
-
-                return Ok(new NewUserDto
-                {
-                    UserName = appUser.UserName,
-                    PhoneNumber = appUser.PhoneNumber,
-                    Token = await _tokenService.CreateTokenAsync(appUser)
-                });
             }
             catch (Exception ex)
             {
@@ -155,36 +140,6 @@ namespace Reservations.Controllers
             }
         }
 
-
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
-        {
-            try
-            {
-                if (!ModelState.IsValid) return BadRequest(ModelState);
-
-                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == loginDto.PhoneNumber);
-
-                if (user == null)
-                    return NotFound("رقم الهاتف غير موجود");
-
-                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-
-                if (!result.Succeeded)
-                    return Unauthorized("كلمة المرور غير صحيحة");
-
-                return Ok(new NewUserDto
-                {
-                    UserName = user.UserName,
-                    PhoneNumber = user.PhoneNumber,
-                    Token = await _tokenService.CreateTokenAsync(user),
-                });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
-        }
 
     }
 }

@@ -7,12 +7,12 @@ import { Link } from "react-router-dom";
 
 type Props = {}
 type loginFormsInputs = {
-    userName: string;
+    phoneNumber: string;
     password: string;
 };
 
 const validation = Yup.object().shape({
-    userName: Yup.string().required("يرجى ادخال اسم المستخدم"),
+    phoneNumber: Yup.string().required("يرجى ادخال رقم الهاتف "),
     password: Yup.string().required("يرجى ادخال كلمة المرور"),
 })
 
@@ -25,7 +25,7 @@ const LoginPage = (props: Props) => {
     } = useForm<loginFormsInputs>({resolver: yupResolver(validation)});
 
     const handleLogin = (form: loginFormsInputs) => {
-        loginUser(form.userName, form.password);
+        loginUser(form.phoneNumber, form.password);
     };
 
   return (
@@ -50,10 +50,10 @@ const LoginPage = (props: Props) => {
                   type="text"
                   id="username"
                   className="shadow appearance-none border-2 border-LightXlGray rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-Darkgreen"
-                  placeholder="اسم المستخدم"
-                  {...register("userName")}
+                  placeholder=" رقم الهاتف"
+                  {...register("phoneNumber")}
                 />
-                {errors.userName ? <p>{errors.userName.message}</p> : ""}
+                {errors.phoneNumber ? <p>{errors.phoneNumber.message}</p> : ""}
               </div>
               <div>
                 <label

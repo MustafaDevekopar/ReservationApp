@@ -12,7 +12,7 @@ namespace Reservations.Interfaces
         Task<int?> GetFieldIdByUsername(string username);
         ICollection<User> GetUsersOfField(int fieldId);
         bool FootballFieldExists(int FieldId);
-        bool FieldExixtsUsername(string username);// i arriveed hear
+        bool FieldExixtsUsername(string username);
         bool CreateFootballField(FootballField footballField);
         bool UpdateFootBallField(FootballField footballField);
         bool Save();

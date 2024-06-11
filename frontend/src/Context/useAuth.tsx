@@ -2,17 +2,20 @@
 import React, { createContext, useEffect, useState } from "react";
 import { UserProfile, UserProfileToken } from "../Models/User";
 import { useNavigate } from "react-router";
-import { loginAPI, registerAPI } from "../Services/AuthService";
+import { loginAPI, registerAPI, registerAdminAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import axios from "axios";
+import {jwtDecode} from "jwt-decode"; // تأكد من استيراد مكتبة فك تشفير التوكن بشكل صحيح
 
 type UserContextType = {
     user: UserProfile | null;
     token: string | null;
-    registerUser: (email: string, username: string, password: string, accountType: string) => void;
+    registerUser: (phonenumber: string, username: string, password: string, accountType: string) => void;
+    registerAdmin: (phonenumber: string, username: string, password: string, accountType: string) => void;
     loginUser: (username: string, password: string) => void;
     logout: () => void;
     isLoggedIn: () => boolean;
+    hasRole: (roles: string[]) => boolean;
 };
 
 type Props = { children: React.ReactNode };
@@ -26,28 +29,53 @@ export const UserProvider = ({ children }: Props) => {
     const [isReady, setIsReady] = useState(false);
 
     useEffect(() => {
-        const storedUser = localStorage.getItem("user");
         const storedToken = localStorage.getItem("token");
-        if (storedUser && storedToken) {
-            setUser(JSON.parse(storedUser));
+        if (storedToken) {
+            const decodedToken: any = jwtDecode(storedToken); // تأكد من استخدام jwt_decode كدالة
+            const userObj: UserProfile = {
+                userName: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+                phonenumber: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"],
+                accountType: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+            };
+            setUser(userObj);
             setToken(storedToken);
             axios.defaults.headers.common["Authorization"] = "Bearer " + storedToken;
         }
-
         setIsReady(true);
     }, []);
 
-    const registerUser = async (email: string, username: string, password: string, accountType: string) => {
-        await registerAPI(email, username, password, accountType).then((res: any) => {
+    const registerUser = async (phonenumber: string, username: string, password: string, accountType: string) => {
+        await registerAPI(phonenumber, username, password, accountType).then((res: any) => {
             if (res) {
-                localStorage.setItem("token", res?.data.token);
+                const token = res?.data.token;
+                localStorage.setItem("token", token);
+                const decodedToken: any = jwtDecode(token);
                 const userObj: UserProfile = {
-                    userName: res?.data.userName,
-                    email: res?.data.email,
-                    accountType: res?.data.accountType,
+                    userName: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+                    phonenumber: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"],
+                    accountType: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
                 };
                 localStorage.setItem("user", JSON.stringify(userObj));
-                setToken(res?.data.token);
+                setToken(token);
+                setUser(userObj);
+                toast.success("تم تسجيل الدخول بنجاح");
+                navigate("/reservations/current");
+            }
+        }).catch((e) => toast.warning("حدث خطأ من جانب السيرفر"));
+    };
+    const registerAdmin = async (phonenumber: string, username: string, password: string, accountType: string) => {
+        await registerAdminAPI(phonenumber, username, password, accountType).then((res: any) => {
+            if (res) {
+                const token = res?.data.token;
+                localStorage.setItem("token", token);
+                const decodedToken: any = jwtDecode(token);
+                const userObj: UserProfile = {
+                    userName: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+                    phonenumber: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"],
+                    accountType: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
+                };
+                localStorage.setItem("user", JSON.stringify(userObj));
+                setToken(token);
                 setUser(userObj);
                 toast.success("تم تسجيل الدخول بنجاح");
                 navigate("/reservations/current");
@@ -58,14 +86,16 @@ export const UserProvider = ({ children }: Props) => {
     const loginUser = async (username: string, password: string) => {
         await loginAPI(username, password).then((res: UserProfileToken | any) => {
             if (res) {
-                localStorage.setItem("token", res?.data.token);
+                const token = res?.data.token;
+                localStorage.setItem("token", token);
+                const decodedToken: any = jwtDecode(token);
                 const userObj: UserProfile = {
-                    userName: res?.data.userName,
-                    email: res?.data.email,
-                    accountType: res?.data.accountType,
+                    userName: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"],
+                    phonenumber: decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone"],
+                    accountType: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"],
                 };
                 localStorage.setItem("user", JSON.stringify(userObj));
-                setToken(res?.data.token);
+                setToken(token);
                 setUser(userObj);
                 toast.success("تم تسجيل الدخول بنجاح");
                 navigate("/reservations/current");
@@ -77,6 +107,11 @@ export const UserProvider = ({ children }: Props) => {
         return !!user;
     };
 
+    const hasRole = (roles: string[]) => {
+        if (!user) return false;
+        return roles.includes(user.accountType);
+    };
+
     const logout = () => {
         localStorage.removeItem("token");
         localStorage.removeItem("user");
@@ -86,11 +121,10 @@ export const UserProvider = ({ children }: Props) => {
     };
 
     return (
-        <UserContext.Provider value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}>
+        <UserContext.Provider value={{ loginUser, user, token, logout, isLoggedIn, registerUser, registerAdmin ,hasRole }}>
             {isReady ? children : null}
         </UserContext.Provider>
     );
 };
 
 export const useAuth = () => React.useContext(UserContext);
-

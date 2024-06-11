@@ -5,7 +5,9 @@ namespace Reservations.Dto.Account
     public class LoginDto
     {
         [Required]
-        public string Username { get; set; }
+        [Phone]
+        public string PhoneNumber { get; set; }
+
         [Required]
         public string Password { get; set; }
     }

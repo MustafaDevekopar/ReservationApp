@@ -20,6 +20,11 @@ import LoginPage from "../Pages/LoginPage";
 import RegisterPage from "../Pages/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import Dashboard from "../Dashboard/Dashboard";
+import UserList from "../Dashboard/components/Table/TableList/UserList";
+import FieldList from "../Dashboard/components/Table/TableList/FieldList";
+import RoleProtectedRoute from "./RoleProtectedRoute";
+import AddNewAdminPage from "../Dashboard/AddNewAdminPage";
+
 
 
 export const router = createBrowserRouter([
@@ -39,7 +44,21 @@ export const router = createBrowserRouter([
             { path: "addpost/:fieldId", element: <AddPost />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},
-            { path: "dashboard", element: <Dashboard />},
+            { 
+                path: "dashboard/", element:
+                        <RoleProtectedRoute allowedRoles={['Admin', 'MainAdmin']}>
+                            <Dashboard />
+                        </RoleProtectedRoute> ,
+                children: [
+                    {path: "fields" , element: <FieldList />},
+                    {path: "Users" , element: <UserList />},
+                    {path: "newAdmin" , element: 
+                            <RoleProtectedRoute allowedRoles={['MainAdmin']}>
+                                <AddNewAdminPage />
+                            </RoleProtectedRoute>
+                            },
+                ],
+            },
             { 
                 path: "reservations/", 
                 element: <ReservationsPage />, 

@@ -12,8 +12,8 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240601231534_AppUserRelationShip")]
-    partial class AppUserRelationShip
+    [Migration("20240610152419_init2")]
+    partial class init2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,32 +50,6 @@ namespace Reservations.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "58106356-3b13-4b4f-a7d5-0d8a82ca86be",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "e893ba54-be65-4792-a2bf-36d6c9a033d0",
-                            Name = "MainAdmin",
-                            NormalizedName = "MAINADMIN"
-                        },
-                        new
-                        {
-                            Id = "0fd79d13-f3b7-4b04-905b-1c300ef7610a",
-                            Name = "FieldOwner",
-                            NormalizedName = "FIELDOWNER"
-                        },
-                        new
-                        {
-                            Id = "f517e434-82e9-49a8-81d9-780c503c166d",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -338,22 +312,13 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Location")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double?>("Longitude")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PhoneNumbr")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("ReservationBlockId")
                         .HasColumnType("int");
@@ -538,15 +503,7 @@ namespace Reservations.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PhoneNumbr")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Username")
                         .IsRequired()

@@ -52,8 +52,8 @@ namespace Reservations.Controllers
                     Id = field.Id,
                     Name = field.Name,
                     Username = field.Username,
-                    Password = field.Password,
-                    PhoneNumbr = field.PhoneNumbr,
+                    //Password = field.Password,
+                    //PhoneNumbr = field.PhoneNumbr,
                     Location = field.Location,
                     Latitude = field.Latitude,
                     Longitude = field.Longitude,
@@ -80,8 +80,8 @@ namespace Reservations.Controllers
                 Id = field.Id,
                 Name = field.Name,
                 Username = field.Username,
-                Password = field.Password,
-                PhoneNumbr = field.PhoneNumbr,
+                //Password = field.Password,
+                //PhoneNumbr = field.PhoneNumbr,
                 Location = field.Location,
                 Latitude = field.Latitude,
                 Longitude = field.Longitude,
@@ -151,8 +151,8 @@ namespace Reservations.Controllers
             {
                 Name = footballFieldCreate.Name,
                 Username = footballFieldCreate.Username,
-                Password = footballFieldCreate.Password,
-                PhoneNumbr = footballFieldCreate.PhoneNumbr,
+                //Password = footballFieldCreate.Password,
+                //PhoneNumbr = footballFieldCreate.PhoneNumbr,
                 Location = footballFieldCreate.Location,
                 Avatar = strem.ToArray()
             };
@@ -200,8 +200,8 @@ namespace Reservations.Controllers
                 Id =updateFootBallField.Id,
                 Name = updateFootBallField.Name,
                 Username = updateFootBallField.Username,
-                Password = updateFootBallField.Password,
-                PhoneNumbr = updateFootBallField.PhoneNumbr,
+                //Password = updateFootBallField.Password,
+                //PhoneNumbr = updateFootBallField.PhoneNumbr,
                 Location = updateFootBallField.Location,
                 Avatar = strem.ToArray()
             };
@@ -221,6 +221,7 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+
     }
 }
 

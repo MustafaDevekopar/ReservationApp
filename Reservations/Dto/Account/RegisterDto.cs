@@ -7,13 +7,16 @@ namespace Reservations.Dto.Account
     {
         [Required]
         public string? Username { get; set; }
+
         [Required]
-        [EmailAddress]
-        public string? Email { get; set; }
+        [Phone]
+        public string? PhoneNumber { get; set; }
+
         [Required]
         public string? Password { get; set; }
+
         [Required]
-        public string? AccountType { get; set; } // acountType == Role  
+        public string? AccountType { get; set; } // AccountType == Role   
     }
 }
 

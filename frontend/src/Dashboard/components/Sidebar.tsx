@@ -4,6 +4,7 @@ import "./Sidebar.css";
 import { SidebarData } from "./SidebarDatats";
 import { motion } from "framer-motion";
 import { Icon } from "@iconify-icon/react";
+import { Link } from "react-router-dom";
 
 
 const Sidebar: React.FC = ()  => {
@@ -44,7 +45,7 @@ const Sidebar: React.FC = ()  => {
 
         <div className="menuD flex flex-col justify-between gap-8 mt-16">
           {SidebarData.map((item, index) => (
-            <div
+            <Link to={`${item.path}`}
               className={`menuItem rounded-l-xl text-md  gap-2 py-2 cursor-pointer flex items-center 
                 ${selected === index ? "bg-Darkgreen text-white transition-all duration-500 ease-in-out justify-center" 
                                      : "text-Darkgreen mr-2 relative "}`}
@@ -54,7 +55,7 @@ const Sidebar: React.FC = ()  => {
               <Icon icon={item.icon} className="text-xl"/>
 
               <span className="block">{item.heading}</span>
-            </div>
+            </Link>
           ))}
           {/* signoutIcon */}
           <div className=" text-md  gap-2 py-2 cursor-pointer flex  justify-center text-WhiteRed">

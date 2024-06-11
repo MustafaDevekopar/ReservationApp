@@ -317,12 +317,6 @@ namespace Reservations.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PhoneNumbr")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<int>("ReservationBlockId")
                         .HasColumnType("int");
 
@@ -507,12 +501,6 @@ namespace Reservations.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Password")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("PhoneNumbr")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Username")
                         .IsRequired()

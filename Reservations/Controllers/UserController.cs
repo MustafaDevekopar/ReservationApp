@@ -38,8 +38,8 @@ namespace Reservations.Controllers
                     Id = user.Id,
                     Name = user.Name,
                     Username = user.Username,
-                    Password = user.Password,
-                    PhoneNumbr = user.PhoneNumbr,
+                    //Password = user.Password,
+                    //PhoneNumbr = user.PhoneNumbr,
                     CreatedAt = user.CreatedAt,
                     Avatar = avatarBase64
                 };
@@ -65,8 +65,8 @@ namespace Reservations.Controllers
                 Id = userId,
                 Name = user.Name,
                 Username = user.Username,
-                Password = user.Password,
-                PhoneNumbr = user.PhoneNumbr,
+                //Password = user.Password,
+                //PhoneNumbr = user.PhoneNumbr,
                 CreatedAt = user.CreatedAt,
                 Avatar = avatarBase64 
             };
@@ -82,7 +82,7 @@ namespace Reservations.Controllers
         [HttpGet("UserIdByUsername/{username}")]
         public async Task<IActionResult> GetUserIdByUsername(string username)
         {
-            if (!_userRepository.UserExistsbyUsername (username))
+            if (!_userRepository.UserExistsbyUsername(username))
                 return NotFound(ModelState);
             var userId = await _userRepository.GetUserIdByUsername(username);
 
@@ -106,8 +106,8 @@ namespace Reservations.Controllers
                 Id = user.Id,
                 Name = user.Name,
                 Username = user.Username,
-                Password = user.Password,
-                PhoneNumbr = user.PhoneNumbr,
+                //Password = user.Password,
+                //PhoneNumbr = user.PhoneNumbr,
                 CreatedAt = user.CreatedAt,
                 Avatar = avatarBase64
             };
@@ -136,9 +136,9 @@ namespace Reservations.Controllers
             var userMap = new User
             {
                 Name = CreateUser.Name,
-                Username = CreateUser.Username,
-                Password = CreateUser.Password,
-                PhoneNumbr = CreateUser.PhoneNumbr,
+                //Username = CreateUser.Username,
+                //Password = CreateUser.Password,
+                //PhoneNumbr = CreateUser.PhoneNumbr,
                 CreatedAt = CreateUser.CreatedAt,
                 Avatar = strem.ToArray()
             };
