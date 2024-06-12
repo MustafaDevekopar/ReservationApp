@@ -4,13 +4,15 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./../Table.css";
 import {Icon} from "@iconify-icon/react"
 import { Field } from "../../../AdminType";
 import { FieldsGet } from "../../../AdminApi";
+import Tablehead from "./Components/Tablehead";
+import TableTitle from "./Components/TableTitle";
+import { DefaultPost } from "../../../../assets/Image";
 
 interface Props {}
 
@@ -31,23 +33,14 @@ const FieldList = (props: Props) => {
     }, []);
   return (
     <div className="overflow-x-hidden">
-      <h3>المستخدمين</h3>
+      <TableTitle tableTitle="الملاعب"/>
       <TableContainer
         component={Paper}
         style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow className="font-bold">
-              <TableCell align="center">id</TableCell>
-              <TableCell align="center">المستخدم</TableCell>
-              <TableCell align="center">رقم الهاتف</TableCell>
-              <TableCell align="center">التاريخ</TableCell>
-              <TableCell align="center">نوع</TableCell>
-              <TableCell align="center">نوع</TableCell>
-              <TableCell align="center"></TableCell>
-            </TableRow>
-          </TableHead>
+        <Tablehead titleData={["id","الملعب","الاسم", "رقم الهاتف", "التاريخ", "نوع", ""]}/>
+        
           <TableBody  className="bg-white" >
             {Field.map((row) => (
               <TableRow
@@ -57,13 +50,23 @@ const FieldList = (props: Props) => {
               >
                 <TableCell component="th" scope="row" align="center">{row.fieldGet.id}</TableCell>
                 <TableCell align="center" className="flex flex-col">
+                    <div className="flex flex-col justify-center items-center">
+                        <img 
+                            src={
+                                row.fieldGet.avatar === null
+                                ? DefaultPost
+                                : `data:image/png;base64,${row.fieldGet.avatar}`
+                            }
+                            alt="صورة" className="object-cover w-12 min-w-12 h-12 rounded-md " 
+                        />  
+                        <span className="text-xs font-buld">{row.userName}</span>  
+                    </div>     
+                    
+                </TableCell>
+                <TableCell align="center" className="flex flex-col">
                     <div>
                         {row.fieldGet.name != null ? row.fieldGet.name : "غير معروف" }
                     </div>
-                    <div>
-                        {row.userName}
-                    </div>
-                    
                 </TableCell>
                 <TableCell align="center">{row.phoneNumber}</TableCell> 
                 <TableCell align="center">{row.fieldGet.createdAt }</TableCell>

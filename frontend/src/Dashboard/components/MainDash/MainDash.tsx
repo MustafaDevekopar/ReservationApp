@@ -6,7 +6,7 @@ import Table from "../Table/Table";
 
 const MainDash: React.FC = () => {
   return (
-    <div className="flex flex-col gap-8 lg:mt-20 xl:mt-20 w-full p-2">
+    <div className="flex flex-col gap-8 lg:mt-16 xl:mt-16 w-full p-2">
       <Cards />
       <Table />
     </div>

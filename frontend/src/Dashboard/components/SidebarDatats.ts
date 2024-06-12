@@ -23,6 +23,12 @@
 
     },
     {
+      icon: "solar:posts-carousel-horizontal-linear",//solar:posts-carousel-horizontal-bold"
+      heading: "المنشورات",
+      path: "posts"
+
+    },
+    {
       icon: "icon-park-outline:agreement",// icon-park-solid:agreement
       heading: "الحجوزات",
       path: "/"

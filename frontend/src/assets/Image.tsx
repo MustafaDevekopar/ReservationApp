@@ -1,5 +1,8 @@
 
-export const DefaultAvatar = "https://login.vivaldi.net/profile/avatar/default-avatar.png";
+  const DefaultAvatar =  require("./DefaultImages/DefaultAvatar.png");
+  const DefaultPost =  require("./DefaultImages/DefaultPost.jpg");
+
+  export {DefaultAvatar, DefaultPost}
 
 
-  
+ 

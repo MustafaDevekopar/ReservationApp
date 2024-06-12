@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
+    "typeRoots": ["./node_modules/@types", "./src/Reservations.d.ts.d.ts"],
     "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -25,6 +27,7 @@
     "src/custom.d.ts",
     // "**/*.ts", "**/*.tsx", "images.d.ts"
   ]
+  
 }
 
 

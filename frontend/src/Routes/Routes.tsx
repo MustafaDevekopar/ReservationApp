@@ -24,6 +24,7 @@ import UserList from "../Dashboard/components/Table/TableList/UserList";
 import FieldList from "../Dashboard/components/Table/TableList/FieldList";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 import AddNewAdminPage from "../Dashboard/AddNewAdminPage";
+import PostList from "../Dashboard/components/Table/TableList/PostList";
 
 
 
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
                 children: [
                     {path: "fields" , element: <FieldList />},
                     {path: "Users" , element: <UserList />},
+                    {path: "Posts" , element: <PostList />},
                     {path: "newAdmin" , element: 
                             <RoleProtectedRoute allowedRoles={['MainAdmin']}>
                                 <AddNewAdminPage />

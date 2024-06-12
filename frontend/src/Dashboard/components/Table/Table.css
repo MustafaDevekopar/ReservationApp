@@ -19,10 +19,6 @@ th {
   border-radius: 9px;
 }
 
-.Details {
-  color: #00b5ff !important;
-}
-
 @media screen and (max-width: 1200px) {
   .Table {
     width: 170%;
