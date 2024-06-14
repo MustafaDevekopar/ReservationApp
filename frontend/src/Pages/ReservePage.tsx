@@ -1,6 +1,6 @@
 
 import ExplanatoryIcons from '../Components/ReserveElement/ExplanatoryIcons'
-import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox'
+//import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox'
 import ReservDate from '../Components/ReserveElement/ReservDate'
 import FieldInformation from '../Components/ReserveElement/FieldInformation'
 

@@ -9,7 +9,6 @@ import ButtonComponent from '../Components/FormElements/ButtonComponent';
 import ImageUploader from './ImageUploader';
 import { Crop, PixelCrop } from 'react-image-crop';
 import Cropper from './Cropper';
-import { Icon } from '@iconify-icon/react';
 
 interface PropsInfo  {
     image: File | null;

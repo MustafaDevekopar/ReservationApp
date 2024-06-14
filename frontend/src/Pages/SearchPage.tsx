@@ -1,7 +1,7 @@
-import { information } from "../Api"
+//import { information } from "../Api"
 import CardList from "../Components/Lists/CardList"
 import DropdownCat from "../Components/Dropdowns/DropdownCat"
-import  Card  from "./../Components/Cards/Card"
+//import  Card  from "./../Components/Cards/Card"
 // import {information} from "./../Api"
 
 type Props = {}

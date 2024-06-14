@@ -4,7 +4,7 @@ import DesecriptionShowPost from "../Components/CommentElements/DesecriptionShow
 import AvatarRow from "../Components/ProfileElements/AvatarRow"
 import NavIconsProfile from "../Components/ProfileElements/NavIconsProfile"
 import { Link, useParams } from 'react-router-dom';
-import {FootbalfieldsGetById, PostsOfFieldGet, information} from "../Api"
+import {FootbalfieldsGetById, PostsOfFieldGet} from "../Api"
 import { useEffect, useState } from "react";
 import { FootballFaild, Post } from "../Reservations";
 
