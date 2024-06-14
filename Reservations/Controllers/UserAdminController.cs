@@ -51,6 +51,7 @@ namespace Reservations.Controllers
                 {
                     Id = x.User.Id,
                     Name = x.User.Name,
+                    CreatedAt = x.User.CreatedAt,
                     Avatar = (x.User.Avatar != null) ? Convert.ToBase64String(x.User.Avatar) : null
                 }
             }).ToList();
@@ -76,6 +77,7 @@ namespace Reservations.Controllers
                 {
                     Id = x.FootballField.Id,
                     Name = x.FootballField.Name,
+                    CreatedAt = x.FootballField.CreatedAt,
                     Location = x.FootballField.Location,
                     Avatar = (x.FootballField.Avatar != null) ? Convert.ToBase64String(x.FootballField.Avatar) : null
                 }

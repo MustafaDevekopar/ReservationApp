@@ -14,6 +14,7 @@ namespace Reservations.Interfaces
         bool UserExists(int userId);
         bool UserExistsbyUsername(string username);
         bool CreateUser(User user);
+        bool UpdateUser(User user);
         bool Save();
     }
 }

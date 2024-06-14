@@ -70,6 +70,7 @@ const FieldList = (props: Props) => {
                 </TableCell>
                 <TableCell align="center">{row.phoneNumber}</TableCell> 
                 <TableCell align="center">{row.fieldGet.createdAt }</TableCell>
+                {/* <TableCell align="center">{formatDate(new Date(row.fieldGet.createdAt)) }</TableCell> */}
                 <TableCell align="center">{row.fieldGet.location != null ? row.fieldGet.location : "غير معروف" }</TableCell>
                 <TableCell align="center" className="Details">{row.accountType}</TableCell>
                 <TableCell align="center" className="Details ">

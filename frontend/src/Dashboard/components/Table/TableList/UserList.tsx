@@ -13,6 +13,7 @@ import { UsersGet } from "../../../AdminApi";
 import Tablehead from "./Components/Tablehead";
 import TableTitle from "./Components/TableTitle";
 import { DefaultAvatar } from "../../../../assets/Image";
+import { formatDate } from "../../../../Components/ReserveElement/Helpers";
 
 interface Props {}
 
@@ -57,7 +58,7 @@ const UserList = (props: Props) => {
                     <div className="flex flex-col justify-center items-center">
                         <img 
                             src={
-                                row.userGet.avatar === null
+                                row.userGet.avatar === null || !row.userGet.avatar
                                 ? DefaultAvatar
                                 : `data:image/png;base64,${row.userGet.avatar}`
                             }
@@ -71,7 +72,7 @@ const UserList = (props: Props) => {
                 </TableCell> 
                 <TableCell align="center">{row.phoneNumber}</TableCell> 
                 <TableCell align="center">
-                  {row.userGet.createdAt }
+                  {formatDate(new Date(row.userGet.createdAt)) }
                 </TableCell>
                 <TableCell align="center" className="Details">{row.accountType}</TableCell>
                 <TableCell align="center" className="Details ">

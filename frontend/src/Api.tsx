@@ -76,7 +76,7 @@ export const NavContentMobile = [
 
   ];
   // ======================== api ==========================
- 
+ const API_URL = "https://localhost:7249/api/";
 
   interface AddPostRequest {
     title: string;
@@ -347,5 +347,49 @@ export const addReserve = async (fieldId: number, userId: number, dateTimeValue:
     }
   }
 }
+
+// ==========updat user ===============
+
+
+export const UpdateUserAvatar = async (userId: number, image: File): Promise<void> => {
+  try {
+    const formData = new FormData();
+    formData.append('Avatar', image);
+
+    await axios.put(`${API_URL}User/6/avatar`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        //'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+    console.log("Post added successfully");
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+// ==========updat user ===============
+
+
+export const UpdateUser = async (userId: number, patchData: any) => {
+  try {
+    const response = await axios.patch(`${URL}/${userId}`, patchData, {
+      headers: {
+        'Content-Type': 'application/json-patch+json',
+      },
+    });
+    console.log(response.data)
+    return response.data;
+  } catch (error: any) {
+    throw error.response?.data || 'Unknown error occurred';
+  }
+};
+
 
 

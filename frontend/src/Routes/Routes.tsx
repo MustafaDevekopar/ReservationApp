@@ -25,6 +25,7 @@ import FieldList from "../Dashboard/components/Table/TableList/FieldList";
 import RoleProtectedRoute from "./RoleProtectedRoute";
 import AddNewAdminPage from "../Dashboard/AddNewAdminPage";
 import PostList from "../Dashboard/components/Table/TableList/PostList";
+import UpdateProfilePage from "../Pages/UpdateProfilePage";
 
 
 
@@ -45,6 +46,7 @@ export const router = createBrowserRouter([
             { path: "addpost/:fieldId", element: <AddPost />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},
+            { path: "profile/update/:userId", element: <UpdateProfilePage />},
             { 
                 path: "dashboard/", element:
                         <RoleProtectedRoute allowedRoles={['Admin', 'MainAdmin']}>

@@ -1,11 +1,14 @@
-import React, { useCallback } from 'react';
+import { Icon } from '@iconify-icon/react';
+import React, { ReactNode, useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 
 interface ImageUploaderProps {
   onDrop: (acceptedFiles: File[]) => void;
+  chooseImageElement: ReactNode;
+  classNameStyle: string;
 }
 
-const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop }) => {
+const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop, chooseImageElement ,classNameStyle}) => {
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
     accept: { 'image/*': ['.jpeg', '.png', '.jpg'] },
@@ -15,10 +18,10 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({ onDrop }) => {
   return (
     <div
       {...getRootProps()}
-      className="border-dashed border-2 border-LightXlGray hover:border-Darkgreen rounded-lg p-6 text-center cursor-pointer"
+      className={classNameStyle}
     >
       <input {...getInputProps()} />
-      <p>اختر صورة</p>
+      {chooseImageElement} 
     </div>
   );
 };

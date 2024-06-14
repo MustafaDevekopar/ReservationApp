@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Dto;
+using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;
 
@@ -134,9 +136,6 @@ namespace Reservations.Controllers
             var userMap = new User
             {
                 Name = CreateUser.Name,
-                //Username = CreateUser.Username,
-                //Password = CreateUser.Password,
-                //PhoneNumbr = CreateUser.PhoneNumbr,
                 CreatedAt = CreateUser.CreatedAt,
                 Avatar = strem.ToArray()
             };
@@ -179,5 +178,74 @@ namespace Reservations.Controllers
             }
             return Ok("Successfully Created");
         }
+
+        //===========update ==========================
+        [HttpPatch("{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, 
+            [FromBody] JsonPatchDocument<UserPatchDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                return BadRequest();
+            }
+
+            var user = await _userRepository.GetUserAsync(userId);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "غير موجود");
+                return NotFound(ModelState);
+            }
+
+            var userToPatch = _mapper.Map<UserPatchDto>(user);
+            patchDoc.ApplyTo(userToPatch, ModelState);
+
+            if (!TryValidateModel(userToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(userToPatch, user);
+
+            if (!_userRepository.UpdateUser(user))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating");
+                return BadRequest(ModelState);
+            }
+
+            return Ok("تم التعديل ");
+        }
+        // ============== update avatar ==============
+        [HttpPut("{userId}/avatar")]
+        public async Task<IActionResult> UpdateAvatar(int userId, [FromForm] UserAvatarUpdateDto avatarUpdateDto)
+        {
+            if (avatarUpdateDto?.Avatar == null)
+            {
+                ModelState.AddModelError("", "Avatar file is required");
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userRepository.GetUserAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            using var memoryStream = new MemoryStream();
+            await avatarUpdateDto.Avatar.CopyToAsync(memoryStream);
+            user.Avatar = memoryStream.ToArray();
+
+            if (!_userRepository.UpdateUser(user))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Avatar updated successfully");
+        }
+
+
+
+
     }
 }
+

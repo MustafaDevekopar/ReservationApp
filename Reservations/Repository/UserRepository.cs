@@ -12,6 +12,7 @@ namespace Reservations.Repository
         {
             _context = context;
         }
+
         public async Task<List<User>> GetUsersAsync()
         {
             return await _context.Users.ToListAsync();
@@ -59,6 +60,12 @@ namespace Reservations.Repository
         public bool CreateUserFollowedField(UserField userField)
         {
             _context.UserFields.Add(userField);
+            return Save();
+        }
+
+        public bool UpdateUser(User user)
+        {
+            _context.Users.Update(user);
             return Save();
         }
     }

@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AddNewPost } from '../Api';
-import InputComponent from '../Components/FormElements/InputComponent';
-import TextareaComponent from '../Components/FormElements/TextareaComponent';
-import ButtonComponent from '../Components/FormElements/ButtonComponent';
-import ImageUploader from './ImageUploader';
+
 import { Crop, PixelCrop } from 'react-image-crop';
-import Cropper from './Cropper';
+import { UpdateUserAvatar } from '../../Api';
+import Cropper from '../../Helper/Cropper';
+import ImageUploader from '../../Helper/ImageUploader';
+import ButtonComponent from '../FormElements/ButtonComponent';
 import { Icon } from '@iconify-icon/react';
 
 interface PropsInfo  {
@@ -26,7 +25,7 @@ interface PropsInfo  {
     setImage: React.Dispatch<React.SetStateAction<File | null>>
 }
 
-const PostForm: React.FC<PropsInfo> = ({ 
+const UpdateAvatarForm: React.FC<PropsInfo> = ({ 
     image,
     onDrop,
     imageSrc,
@@ -41,14 +40,12 @@ const PostForm: React.FC<PropsInfo> = ({
   }) => {
 
   const { fieldId } = useParams<{ fieldId?: string }>();
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (image) {
       try {
-        await AddNewPost(Number(fieldId), { title, text, image });
+        await UpdateUserAvatar(Number(fieldId),  image );
         toast.success('تمت اضافة المنشور بنجاح');
       } catch (error: any) {
         console.error("Error adding post:", error.message);
@@ -60,26 +57,15 @@ const PostForm: React.FC<PropsInfo> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} >
-      <InputComponent
-        label='العنوان'
-        type='text'
-        value={title}
-        onChange={(e) => setTitle(e.target.value)} 
-      />
-      <TextareaComponent
-        label='الوصف'
-        value={text}
-        onChange={(e) => setText(e.target.value)} 
-      />
+    <form onSubmit={handleSubmit} className=" relative top-[-3rem]">
       <ImageUploader 
-        onDrop={onDrop}
-        chooseImageElement={<p>اختر صورة</p>}
-        classNameStyle="border-dashed border-2 border-LightXlGray hover:border-Darkgreen rounded-lg p-6 text-center cursor-pointer" 
+        onDrop={onDrop} 
+        chooseImageElement={<Icon icon="mage:image-check" className="text-[2rem] text-DarkGray "/>}
+        classNameStyle="cursor-pointer w-0"
       />
        
       {imageSrc && (
-        <Cropper 
+        <Cropper
           imageSrc={imageSrc}
           crop={crop}
           setCrop={setCrop}
@@ -93,7 +79,7 @@ const PostForm: React.FC<PropsInfo> = ({
       )}
 
       <ButtonComponent
-        text='اضافة منشور'
+        text='تعديل الصورة'
         type='submit'
         onClick={() => console.log()} 
       />
@@ -103,4 +89,4 @@ const PostForm: React.FC<PropsInfo> = ({
   );
 };
 
-export default PostForm;
+export default UpdateAvatarForm;
