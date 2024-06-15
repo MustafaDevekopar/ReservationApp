@@ -49,7 +49,7 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
       setIsSubmitting(true); // Set submitting state to true
       UpdateUserAvatar(Number(userId), image)
         .then(response => {
-          toast.success(`تم تحديث الصورة بنجاح: ${response || 'تم التحديث بنجاح'}`);
+          toast.success(response );
         })
         .catch(error => {
           console.error("Error updating avatar:", error.message);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import { PostsGet, information } from '../../Api';
+import { PostsGet } from '../../Api';
 import { Post } from '../../Reservations';
 import { DefaultAvatar } from '../../assets/Image';
 

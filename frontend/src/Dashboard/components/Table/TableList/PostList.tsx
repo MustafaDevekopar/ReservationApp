@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import "./../Table.css";
 import {Icon} from "@iconify-icon/react"
 import Tablehead from "./Components/Tablehead";
-import { PostsGet, information } from '../../../../Api';
+import { PostsGet } from '../../../../Api';
 import { Post } from '../../../../Reservations';
 import { DefaultAvatar, DefaultPost } from "../../../../assets/Image";
 import TextShowTogel from "./Components/TextShowTogel";
