@@ -1,12 +1,15 @@
-import React, { useCallback, useState } from 'react';
-import { UpdateUser } from '../Api';
+
+import React, { useCallback, useEffect, useState } from 'react';
+import { UpdateUserProfile, UserGetById } from '../Api';
 import { useParams } from 'react-router';
 import { DefaultAvatar } from '../assets/Image';
 import UpdateAvatarForm from '../Components/ProfileUpdateElements/UpdateAvatarForm';
 import { Crop, PixelCrop } from 'react-image-crop';
+import { UserDataType, UserProfiletype } from '../Reservations';
+import { ToastContainer, toast } from 'react-toastify';
+import ButtonComponent from '../Components/FormElements/ButtonComponent';
 
 const UpdateProfilePage: React.FC = () => {
-  // ======================================================
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>({
@@ -27,11 +30,35 @@ const UpdateProfilePage: React.FC = () => {
     setCroppingMode(true);
     setCroppedImageUrl(null);
   }, []);
-  // ======================================================
+
+  // ======================= fetch user data ======================
   const { userId } = useParams<{ userId?: string }>();
+  const [userData, setUserData] = useState<UserDataType | null>(null); 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (!userId) return; 
+
+        const data = await UserGetById(parseInt(userId)); // Convert id to number
+        setUserData(data); // Update state with the fetched data
+        // Initialize form fields with fetched user data
+        setName(data.userGet.name);
+        setUsername(data.userName);
+        setBiography(data.userGet.biography);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchData(); 
+  }, [userId]); 
+  // ======================= fetch user data ======================
+
   const [name, setName] = useState<string>('');
   const [username, setUsername] = useState<string>('');
-  const [responseMessage, setResponseMessage] = useState<string>('');
+  const [biography, setBiography] = useState<string>('');
+  //const [responseMessage, setResponseMessage] = useState<string>('');
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -40,65 +67,89 @@ const UpdateProfilePage: React.FC = () => {
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
+  
+  const handleBiographyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBiography(e.target.value);
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const patchData = [];
-    if (name) patchData.push({ op: 'replace', path: '/name', value: name });
-    if (username) patchData.push({ op: 'replace', path: '/username', value: username });
-
+    const data: UserProfiletype = {
+      userName: username,
+      name: name,
+      biography: biography,
+    }
     try {
-      const response = await UpdateUser(Number(userId), patchData);
-      setResponseMessage(`Success: ${response}`);
+      const response = await UpdateUserProfile(Number(userId), data);
+      toast.success(response);
     } catch (error) {
-      setResponseMessage(`Error: ${error}`);
+      toast.error(`Error: ${error}`);
     }
   };
 
   return (
-    <div className='w-full'>
-      <h3 className="m-6 font-bold text-DarkGray">تعديل الملف الشخصي</h3>
-      <div className="flex flex-col gap-4 w-full justify-center items-center m-2 static">
-        <img src={DefaultAvatar} alt="صورة" className="w-20 h-20 rounded-full" />
-          <UpdateAvatarForm 
-                  image={image} 
-                  onDrop={onDrop}
-          
-                  imageSrc={preview}
-                  crop={crop}
-                  setCrop={setCrop}
-                  completedCrop={completedCrop}
-                  setCompletedCrop={setCompletedCrop}
-                  croppingMode={croppingMode}
-                  setCroppedImageUrl={setCroppedImageUrl}
-                  croppedImageUrl={croppedImageUrl} // Pass croppedImageUrl here
-                  setImage={setImage}  
-          />
+    <div className='max-w-md min-w-2xl mx-auto mt-6'>
+      <h3 className="font-bold text-DarkGray mx-4 mb-4">تعديل الملف الشخصي</h3>
+      <div className="flex flex-col gap-4 w-full justify-center items-center static ">
+           <img  src={`${croppedImageUrl 
+            ? (croppedImageUrl) 
+            : ( 
+                !userData?.userGet.avatar || userData?.userGet.avatar === null 
+                  ? DefaultAvatar
+                  : `data:image/png;base64,${userData?.userGet.avatar}`
+              )  }`}  
+            alt="Cropped" className="w-24 h-24 rounded-full object-cover"/> 
+        <UpdateAvatarForm 
+          image={image} 
+          onDrop={onDrop}
+          imageSrc={preview}
+          crop={crop}
+          setCrop={setCrop}
+          completedCrop={completedCrop}
+          setCompletedCrop={setCompletedCrop}
+          croppingMode={croppingMode}
+          setCroppedImageUrl={setCroppedImageUrl}
+          croppedImageUrl={croppedImageUrl}
+          setImage={setImage}  
+        />
       </div>
-      <form onSubmit={handleSubmit}
-      className="flex flex-col justify-center items-center mx-2"
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center mx-2">
         <div className="w-full border-b-2 border-gray-900">
           <label className="text-xs">الاسم</label>
-          <input type="text" value={name} onChange={handleNameChange} 
+          <input 
+            type="text" 
+            value={name} 
+            onChange={handleNameChange} 
             className="border-none bg-transparent outline-none focus:border-none focus:outline-none w-full p-3"
           />
         </div>
         <div className="w-full border-b-2 border-gray-900">
           <label className='text-xs'>اسم المستخدم</label>
-          <input type="text" value={username} onChange={handleUsernameChange}
-                      className="border-none bg-transparent outline-none focus:border-none focus:outline-none w-full p-3"
-           />
+          <input 
+            type="text" 
+            value={username} 
+            onChange={handleUsernameChange}
+            className="border-none bg-transparent outline-none focus:border-none focus:outline-none w-full p-3"
+          />
         </div>
         <div className="w-full border-b-2 border-gray-900">
           <label className='text-xs'>السيرة الذاتيه</label>
-          <input type="text" 
-                      className="border-none bg-transparent outline-none focus:border-none focus:outline-none w-full p-3"
-           />
+          <input 
+            type="text" 
+            value={biography} 
+            onChange={handleBiographyChange}
+            className="border-none bg-transparent outline-none focus:border-none focus:outline-none w-full p-3"
+          />
         </div>
-        <button type="submit">Update User</button>
+        <div className="w-full">
+          <ButtonComponent 
+            text='تعديل'
+            type='submit'
+            onClick={()=> console.log()}
+          />
+        </div>
+        <ToastContainer/>
       </form>
-      {responseMessage && <p>{responseMessage}</p>}
     </div>
   );
 };

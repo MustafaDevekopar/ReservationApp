@@ -26,6 +26,7 @@ import RoleProtectedRoute from "./RoleProtectedRoute";
 import AddNewAdminPage from "../Dashboard/AddNewAdminPage";
 import PostList from "../Dashboard/components/Table/TableList/PostList";
 import UpdateProfilePage from "../Pages/UpdateProfilePage";
+import UserProfilePage from "../Pages/UserProfilePage";
 
 
 
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
             { path: "showpost/:id", element: <ShowPost />},
             { path: "comments/:postId", element: <ShowPostComments />},
             { path: "profile/:fieldId", element: <ProfilePage />},
+            { path: "userprofile/:userId", element: <UserProfilePage />},
             { path: "users", element: <UsersPage />},
             { path: "addpost/:fieldId", element: <AddPost />},
             { path: "login", element: <LoginPage />},

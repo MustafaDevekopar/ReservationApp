@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Reservations.Dto;
+using Reservations.Dto.Admin;
 using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;
@@ -17,15 +20,19 @@ namespace Reservations.Controllers
         private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly IUserFieldRepository _userFieldRepository;
         private readonly IMapper _mapper;
+        private readonly UserManager<AppUser> _userManager;
         public UserController(IUserRepository userRepository,
             IFootballFieldRepository footballFieldRepository,
             IUserFieldRepository userFieldRepository,
-            IMapper mapper)
+            IMapper mapper,
+            UserManager<AppUser> userManager)
         {
             _mapper = mapper;
             _userRepository = userRepository;
             _footballFieldRepository = footballFieldRepository;
             _userFieldRepository = userFieldRepository;
+            _userManager = userManager;
+
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -53,31 +60,64 @@ namespace Reservations.Controllers
             return Ok(usersMap);
         }
 
+        //[HttpGet("{userId}")]
+        //public async Task<IActionResult> GetUser(int userId)
+        //{
+        //    if (!_userRepository.UserExists(userId))
+        //        return NotFound(ModelState);
+        //    var user = await _userRepository.GetUserAsync(userId);
+
+        //    string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+
+        //    var userMap = new UserGetDto
+        //    {
+        //        Id = userId,
+        //        Name = user.Name,
+        //        Username = user.Username,
+        //        CreatedAt = user.CreatedAt,
+        //        Avatar = avatarBase64 
+        //    };
+
+        //    //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));GetUserByUsernameAsync
+
+        //    if (!ModelState.IsValid)
+        //        return BadRequest(ModelState);
+
+        //    return Ok(userMap);
+        //}
+        //========= get all user data user by id =================
         [HttpGet("{userId}")]
-        public async Task<IActionResult> GetUser(int userId)
+        public async Task<IActionResult> GetUsersAsync(int userId)
         {
-            if (!_userRepository.UserExists(userId))
-                return NotFound(ModelState);
-            var user = await _userRepository.GetUserAsync(userId);
+            // Ensure the User navigation property is included
+            var user = await _userManager.Users
+                .Where(x => x.UserId == userId)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
 
-            string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+            if (user == null) return NotFound();
 
-            var userMap = new UserGetDto
+            var userDto = new UserAdminDto
             {
-                Id = userId,
-                Name = user.Name,
-                Username = user.Username,
-                CreatedAt = user.CreatedAt,
-                Avatar = avatarBase64 
+                Id = user.Id,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                AccountType = user.AccountType,
+                UserGet = new UserGetDto
+                {
+                    Id = user.User.Id,
+                    Username = user.User.Username,
+                    Name = user.User.Name,
+                    Biography = user.User.Biography,
+                    CreatedAt = user.User.CreatedAt,
+                    Avatar = (user.User.Avatar != null) ? Convert.ToBase64String(user.User.Avatar) : null
+                }
             };
 
-            //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));GetUserByUsernameAsync
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            return Ok(userMap);
+            return Ok(userDto); // Return an OkObjectResult containing the userDto
         }
+
+
 
         [HttpGet("UserIdByUsername/{username}")]
         public async Task<IActionResult> GetUserIdByUsername(string username)
@@ -242,6 +282,58 @@ namespace Reservations.Controllers
 
             return Ok("Avatar updated successfully");
         }
+
+
+        [HttpPut("updateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromForm] UpdateUserNameDto updateUserDto)
+        {
+            // Find the User by userId
+            //var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await _userRepository.GetUserAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Find the AppUser associated with the User
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (appUser == null)
+            {
+                return NotFound("AppUser not found");
+            }
+
+            // Update UserName in AppUser table
+            appUser.UserName = updateUserDto.UserName;
+
+            // Update Username in User table
+            user.Username = updateUserDto.UserName;
+            user.Name = updateUserDto.Name;
+            user.Biography = updateUserDto.Biography;
+            //_context.Users.Update(user);
+
+
+            // Save changes in the database
+            var result = await _userManager.UpdateAsync(appUser);
+
+            if (result.Succeeded)
+            {
+                //await _context.SaveChangesAsync();
+                if (!_userRepository.UpdateUser(user))
+                {
+                    ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                    return BadRequest(ModelState);
+                }
+                return Ok("User updated successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to update user");
+            }
+        }
+
+
 
 
 

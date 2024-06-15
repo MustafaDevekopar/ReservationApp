@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -348,21 +348,23 @@ export const addReserve = async (fieldId: number, userId: number, dateTimeValue:
   }
 }
 
-// ==========updat user ===============
+// ==========updat user avatar ===============
 
 
-export const UpdateUserAvatar = async (userId: number, image: File): Promise<void> => {
+export const UpdateUserAvatar = async (userId: number, image: File): Promise<string> => {
   try {
     const formData = new FormData();
     formData.append('Avatar', image);
 
-    await axios.put(`${API_URL}User/6/avatar`, formData, {
+    const response = await axios.put(`${API_URL}User/${userId}/avatar`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         //'Authorization': `Bearer ${token}` // Ensure token is sent
       },
     });
-    console.log("Post added successfully");
+
+    console.log("Avatar updated successfully");
+    return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
@@ -373,6 +375,36 @@ export const UpdateUserAvatar = async (userId: number, image: File): Promise<voi
     }
   }
 }
+// ==========updat user profile ===============
+
+
+export const UpdateUserProfile = async (userId: number, updatData: UserProfiletype): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append('userName', updatData.userName);
+    formData.append('name', updatData.name);
+    formData.append('biography', updatData.biography);
+
+    const response = await axios.put(`${API_URL}User/updateUser/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        //'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+
+    console.log("updated successfully");
+    return response.data; // Return the response data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
 
 // ==========updat user ===============
 
@@ -390,6 +422,23 @@ export const UpdateUser = async (userId: number, patchData: any) => {
     throw error.response?.data || 'Unknown error occurred';
   }
 };
+
+// =============== getuserById ==========
+export const UserGetById = async (userId: number): Promise<UserDataType> => {
+  try {
+    const response: AxiosResponse<UserDataType> = await axios.get<UserDataType>(`${API_URL}User/${userId}`);
+    console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
 
 
 

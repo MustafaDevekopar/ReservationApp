@@ -70,6 +70,28 @@ export interface Comment {
         phoneNumbr: string;
       }
   }
+// ===========userProfile update data ==========
+  export interface UserProfiletype {
+    userName: string,
+    name : string,
+    biography : string; 
+  }
+
+  export interface UserDataType {
+    id: string;
+    userName: "Mustafa",
+    phoneNumber: "07830574093",
+    accountType: "User",
+    userGet: {
+      id: interactive;
+      name: string;
+      username: string;
+      biography : string;
+      createdAt : string;
+      avatar : Text;
+    }
+
+  }
 
 // imag types
 declare module "*.png" {

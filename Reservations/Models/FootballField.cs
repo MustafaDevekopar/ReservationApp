@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string? Name { get; set; }
         public string Username { get; set; }
+        public string? Biography { get; set; }
         public string? Location { get; set; }
         public byte[]? Avatar { get; set; }
         public double? Latitude { get; set; }

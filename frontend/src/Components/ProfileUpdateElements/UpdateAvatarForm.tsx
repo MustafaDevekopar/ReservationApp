@@ -1,15 +1,15 @@
+
 import React, { useState } from 'react';
 import { useParams } from 'react-router';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { Crop, PixelCrop } from 'react-image-crop';
-import { UpdateUserAvatar } from '../../Api';
-import Cropper from '../../Helper/Cropper';
-import ImageUploader from '../../Helper/ImageUploader';
-import ButtonComponent from '../FormElements/ButtonComponent';
-import { Icon } from '@iconify-icon/react';
 
+import { Icon } from '@iconify-icon/react';
+import { UpdateUserAvatar } from '../../Api';
+import ImageUploader from '../../Helper/ImageUploader';
+import Cropper from '../../Helper/Cropper';
 interface PropsInfo  {
     image: File | null;
     onDrop: (acceptedFiles: File[]) => void;
@@ -39,31 +39,46 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
     setImage
   }) => {
 
-  const { fieldId } = useParams<{ fieldId?: string }>();
+  const { userId } = useParams<{ userId?: string }>();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (image) {
-      try {
-        await UpdateUserAvatar(Number(fieldId),  image );
-        toast.success('تمت اضافة المنشور بنجاح');
-      } catch (error: any) {
-        console.error("Error adding post:", error.message);
-        toast.error('حدث خطأ أثناء إضافة المنشور. الرجاء المحاولة مرة أخرى.');
-      }
+      setIsSubmitting(true); // Set submitting state to true
+      UpdateUserAvatar(Number(userId), image)
+        .then(response => {
+          toast.success(`تم تحديث الصورة بنجاح: ${response || 'تم التحديث بنجاح'}`);
+        })
+        .catch(error => {
+          console.error("Error updating avatar:", error.message);
+          toast.error('حدث خطأ أثناء تحديث الصورة. الرجاء المحاولة مرة أخرى.');
+        })
+        .finally(() => {
+          setIsSubmitting(false); // Reset submitting state
+        });
     } else {
-      toast.error('يرجى تقديم صورة مقصوصة قبل تقديم المنشور.');
+      toast.error('يرجى تقديم صورة مقصوصة قبل تحديث الصورة.');
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className=" relative top-[-3rem]">
-      <ImageUploader 
-        onDrop={onDrop} 
-        chooseImageElement={<Icon icon="mage:image-check" className="text-[2rem] text-DarkGray "/>}
-        classNameStyle="cursor-pointer w-0"
-      />
-       
+    <form onSubmit={handleSubmit} className="relative top-[-3rem] flex flex-col items-center">
+      <div className="flex w-28 justify-between">
+        <ImageUploader
+          onDrop={onDrop} 
+          chooseImageElement={<Icon icon="fluent:image-add-20-regular"  className="text-2xl text-DarkGray  bg-white rounded-full p-1 border-2  "/>}
+          classNameStyle="cursor-pointer w-0"
+        />
+        {croppedImageUrl && 
+        <button type='submit' disabled={isSubmitting}>
+          <Icon icon="flat-color-icons:ok" className='text-Darkgreen text-4xl' />
+        </button>    }    
+      </div>
+
+      {isSubmitting && <p className="text-center">جارٍ تحديث الصورة...</p>} {/* Show loading message while submitting */}
+      
       {imageSrc && (
         <Cropper
           imageSrc={imageSrc}
@@ -77,14 +92,6 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
           setImage={setImage}
         />
       )}
-
-      <ButtonComponent
-        text='تعديل الصورة'
-        type='submit'
-        onClick={() => console.log()} 
-      />
-      
-        <ToastContainer />
     </form>
   );
 };

@@ -8,11 +8,13 @@ using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
+using Reservations.Dto.User;
 using Reservations.Models;
+using Reservations.Repository;
 
 namespace Reservations.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdminAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdminAdmin")]
     [Route("api/[controller]")]
     [ApiController]
     public class UserAdminController : ControllerBase
@@ -23,15 +25,14 @@ namespace Reservations.Controllers
         public UserAdminController(
             UserManager<AppUser> userManager,
             IMapper mapper, 
-            DataContext context)
+            DataContext context
+            )
         {
             _userManager = userManager;
             _mapper = mapper;
             _context = context;
-        }
 
-        //[Authorize(Policy = "MainAdminAdminFieldOwnerUser")]
-        //    var users = await _userManager.Users.Where(a => a.AccountType == userType).ToListAsync();
+        }
 
         [HttpGet("users")]
         public async Task<IActionResult> GetUsersAsync()
@@ -50,7 +51,9 @@ namespace Reservations.Controllers
                 UserGet = new UserGetDto
                 {
                     Id = x.User.Id,
+                    Username = x.User.Username,
                     Name = x.User.Name,
+                    Biography = x.User.Biography,
                     CreatedAt = x.User.CreatedAt,
                     Avatar = (x.User.Avatar != null) ? Convert.ToBase64String(x.User.Avatar) : null
                 }
@@ -76,6 +79,7 @@ namespace Reservations.Controllers
                 FieldGet = new FootballFieldGetDto
                 {
                     Id = x.FootballField.Id,
+                    Username = x.FootballField.Username,
                     Name = x.FootballField.Name,
                     CreatedAt = x.FootballField.CreatedAt,
                     Location = x.FootballField.Location,
@@ -86,6 +90,7 @@ namespace Reservations.Controllers
             return Ok(fieldMap); // Return an OkObjectResult containing the userDtos
         }
 
+
         [HttpGet("usersByType/{userType}")]
         public async Task<IActionResult> GetUsersByTypeAsync(string userType)
         {
@@ -95,6 +100,49 @@ namespace Reservations.Controllers
 
             return Ok(users);
         }
+
+
+        [HttpPut("updateUser/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromBody] UpdateUserNameDto updateUserDto)
+        {
+            // Find the User by userId
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Find the AppUser associated with the User
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (appUser == null)
+            {
+                return NotFound("AppUser not found");
+            }
+
+            // Update UserName in AppUser table
+            appUser.UserName = updateUserDto.UserName;
+
+            // Update Username in User table
+            user.Username = updateUserDto.UserName;
+            _context.Users.Update(user);
+
+            // Save changes in the database
+            var result = await _userManager.UpdateAsync(appUser);
+
+            if (result.Succeeded)
+            {
+                await _context.SaveChangesAsync();
+                return Ok("User updated successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to update user");
+            }
+        }
+
+
 
 
     }
