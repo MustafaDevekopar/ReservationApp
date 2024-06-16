@@ -123,7 +123,7 @@ namespace Reservations.Controllers
             var phoneNumber = phoneClaim.Value;
             // Get user from token information
             var user = await _userManager.Users.Include(u => u.FootballField)
-                                                .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+                                           .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
             if (user == null)
             {
                 return Unauthorized("لا تملك صلاحية القيام بهذا الاجراء!!");

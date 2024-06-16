@@ -79,13 +79,14 @@ export const NavContentMobile = [
       formData.append('text', postData.text);
       formData.append('image', postData.image);
   
-      await axios.post(`https://localhost:7249/api/Post?FieldId=${fieldId}`, formData, {
+      const response = await axios.post(`https://localhost:7249/api/Post?FieldId=${fieldId}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}` // Ensure token is sent
         },
       });
-      console.log("Post added successfully");
+      console.log("responce : " + response.data);
+      return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.error("Axios error:", error.message);
@@ -377,7 +378,7 @@ export const UpdateUserProfile = async (userId: number, updatData: UserProfilety
       },
     });
 
-    console.log("updated successfully");
+    console.log("responce: " + response.data);
     return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {

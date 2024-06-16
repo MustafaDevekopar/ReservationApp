@@ -137,6 +137,7 @@ namespace Reservations.Controllers
                 var userClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.MobilePhone, registerDto.PhoneNumber),
+                    new Claim(ClaimTypes.Name, registerDto.Username),
                     new Claim(ClaimTypes.Role, registerDto.AccountType)
                 };
 

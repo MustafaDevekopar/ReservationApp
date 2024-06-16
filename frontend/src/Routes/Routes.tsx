@@ -45,10 +45,13 @@ export const router = createBrowserRouter([
             { path: "profile/:fieldId", element: <ProfilePage />},
             { path: "userprofile/:userId", element: <UserProfilePage />},
             { path: "users", element: <UsersPage />},
-            { path: "addpost/:fieldId", element: <AddPost />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},
             { path: "profile/update/:userId", element: <UpdateProfilePage />},
+            { path: "addpost/:fieldId", element: 
+                <RoleProtectedRoute allowedRoles={['FieldOwner']}>
+                    <AddPost />
+                </RoleProtectedRoute>},
             { 
                 path: "dashboard/", element:
                         <RoleProtectedRoute allowedRoles={['Admin', 'MainAdmin']}>

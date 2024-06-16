@@ -16,6 +16,8 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
         {isLoggedIn() 
           ? ( 
             <div className="flex flex-col text-xs">
+              <span className="">{user?.phonenumber}</span>
+              <span className="">{user?.accountType}</span>
               <span className="">{user?.userName}</span>
               <a onClick={logout} className="bg-Darkgreen text-white p-1 rounded-md">تسجيل خروج</a>            
             </div>

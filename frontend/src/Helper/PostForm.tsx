@@ -47,8 +47,14 @@ const PostForm: React.FC<PropsInfo> = ({
     e.preventDefault();
     if (image) {
       try {
-        await AddNewPost(Number(fieldId), { title, text, image });
-        toast.success('تمت اضافة المنشور بنجاح');
+        AddNewPost(Number(fieldId), { title, text, image })
+        .then(response => {
+            toast.success(String(response) );
+        })
+        .catch(error => {
+          console.error("حدث خطا:", error.message);
+          toast.error('حدث خطأ أثناء تحديث الصورة. الرجاء المحاولة مرة أخرى.');
+        })
       } catch (error: any) {
         console.error("Error adding post:", error.message);
         toast.error('حدث خطأ أثناء إضافة المنشور. الرجاء المحاولة مرة أخرى.');

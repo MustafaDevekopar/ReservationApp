@@ -59,32 +59,6 @@ namespace Reservations.Controllers
 
             return Ok(usersMap);
         }
-
-        //[HttpGet("{userId}")]
-        //public async Task<IActionResult> GetUser(int userId)
-        //{
-        //    if (!_userRepository.UserExists(userId))
-        //        return NotFound(ModelState);
-        //    var user = await _userRepository.GetUserAsync(userId);
-
-        //    string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
-
-        //    var userMap = new UserGetDto
-        //    {
-        //        Id = userId,
-        //        Name = user.Name,
-        //        Username = user.Username,
-        //        CreatedAt = user.CreatedAt,
-        //        Avatar = avatarBase64 
-        //    };
-
-        //    //var user =_mapper.Map<UserDto>(await _userRepository.GetUserAsync(userId));GetUserByUsernameAsync
-
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    return Ok(userMap);
-        //}
         //========= get all user data user by id =================
         [HttpGet("{userId}")]
         public async Task<IActionResult> GetUsersAsync(int userId)
