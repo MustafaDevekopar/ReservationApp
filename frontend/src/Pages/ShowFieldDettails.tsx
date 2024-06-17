@@ -8,7 +8,7 @@ import FieldTitleRateingLikes from '../Components/FieldElements/FieldTitleRatein
 import { useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { FootbalfieldsGetById } from '../Api'
-import { FootballFaild } from '../Reservations'
+import { FieldDataType, FootballFaild } from '../Reservations'
 //import { fileURLToPath } from 'url'
 import { calculateDistance } from '../Helper/Helper'
   
@@ -16,7 +16,7 @@ import { calculateDistance } from '../Helper/Helper'
 
     const ShowFieldDettails: React.FC<Props> = (): JSX.Element  => {
         const { id } = useParams<{ id?: string }>(); // Dynamically retrieve the id parameter from the URL
-        const [fieldData, setFieldData] = useState<FootballFaild | null>(null); // State to store the fetched data
+        const [fieldData, setFieldData] = useState<FieldDataType | null>(null); // State to store the fetched data
       
         useEffect(() => {
           const fetchData = async () => {
@@ -41,11 +41,11 @@ import { calculateDistance } from '../Helper/Helper'
     <div className="static flex justify-center w-full lg:px-10 xl:px-10 lg:pt-10 xl:pt-10 h-screen">
         <div className="flex flex-col lg:flex-row-reverse xl:flex-row-reverse lg:mx-12  w-full h-full">
 
-            <ImageShowField imageSrc={fieldData.avatar}/>
+            <ImageShowField imageSrc={fieldData.userGet.avatar}/>
 
             <div className="px-3 md:p-4 lg:m-0 xl:m-0 lg:flex-1 xl:flex-1 h-full ">
                 <FieldTitleRateingLikes 
-                    fieldName={fieldData.name}
+                    fieldName={fieldData.userGet.name}
                     rating="3.5"
                     likes="163"
                 />
@@ -53,10 +53,10 @@ import { calculateDistance } from '../Helper/Helper'
                 <div className=' flex flex-col justify-between lg:ml-10 xl:ml-10 h-[80%]'>
                     <div>
                         <CardIconsTextsBox 
-                            locationText={fieldData.location}
-                            distance={String(calculateDistance(33.476281, 43.417747 , (fieldData.latitude), (fieldData.longitude) ) )}
+                            locationText={fieldData.userGet.location}
+                            distance={String(calculateDistance(33.476281, 43.417747 , (fieldData.userGet.latitude), (fieldData.userGet.longitude) ) )}
                             views="223"
-                            phoneNumber={fieldData.phoneNumbr}
+                            phoneNumber={fieldData.phoneNumber}
                         />                     
                     </div>
 

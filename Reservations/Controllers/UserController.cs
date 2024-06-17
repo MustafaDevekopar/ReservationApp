@@ -307,11 +307,6 @@ namespace Reservations.Controllers
             }
         }
 
-
-
-
-
-
     }
 }
 

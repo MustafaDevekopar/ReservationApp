@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import { LocationIcon, LikeIcon, TimeIcon } from '../IconsComponent/IconComponent';
 import { calculateDistance } from '../../Helper/Helper';
+import { DefaultPost } from '../../assets/Image';
 
 type InfoProps = {
   id: number;
@@ -25,7 +26,7 @@ const CardMini = ({
         <img 
             src={
               imgSrc === null
-              ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+              ? DefaultPost
               : `data:image/png;base64,${imgSrc}`
             }
         className="aspect-[9/6] w-full object-cover"alt="صورة"/>

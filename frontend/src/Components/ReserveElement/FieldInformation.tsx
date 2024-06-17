@@ -1,15 +1,14 @@
 
 import { useParams } from "react-router";
-import { FootballFaild } from "../../Reservations";
+import { FieldDataType, FootballFaild } from "../../Reservations";
 import { useEffect, useState } from "react";
 import { FootbalfieldsGetById } from "../../Api";
 type Props = {}
 
 const FieldInformation = (props: Props) => {
 
-
 const { fieldId } = useParams<{ fieldId?: string }>(); // Dynamically retrieve the id parameter from the URL
-const [fieldData, setFieldData] = useState<FootballFaild | null>(null); // State to store the fetched data
+const [fieldData, setFieldData] = useState<FieldDataType | null>(null); // State to store the fetched data
 
 useEffect(() => {
   const fetchData = async () => {
@@ -33,7 +32,7 @@ if (!fieldData) {
 }
   return (
     <div>
-        <h2 className="mb-2 text-DarkGray">الحجوزات المتاحه ل {fieldData.name}</h2>
+        <h2 className="mb-2 text-DarkGray">الحجوزات المتاحه ل {fieldData.userGet.name}</h2>
     </div>
   )
 }

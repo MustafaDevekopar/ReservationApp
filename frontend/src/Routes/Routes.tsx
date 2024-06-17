@@ -12,7 +12,6 @@ import ShowPost from "../Pages/ShowPost";
 import ShowPostComments from "../Pages/ShowPostComments";
 import FieldServices from "../Components/FieldElements/FieldServices";
 import FieldOffers from "../Components/FieldElements/FieldOffers";
-import ProfilePage from "../Pages/ProfilePage";
 import UsersPage from "../Pages/UsersPage";
 import ShowFieldDettails from "../Pages/ShowFieldDettails";
 import AddPost from "../Pages/AddPost";
@@ -26,7 +25,9 @@ import RoleProtectedRoute from "./RoleProtectedRoute";
 import AddNewAdminPage from "../Dashboard/AddNewAdminPage";
 import PostList from "../Dashboard/components/Table/TableList/PostList";
 import UpdateProfilePage from "../Pages/UpdateProfilePage";
-import UserProfilePage from "../Pages/UserProfilePage";
+import UserProfilePage from "../Pages/ProfileUserPage";
+import UpdateFieldProfilePage from "../Pages/UpdateFieldProfilePage";
+import ProfileFieldPage from "../Pages/ProfileFieldPage";
 
 
 
@@ -42,12 +43,13 @@ export const router = createBrowserRouter([
             { path: "reserve/:fieldId", element: <ProtectedRoute> <ReservePage /> </ProtectedRoute> },
             { path: "showpost/:id", element: <ShowPost />},
             { path: "comments/:postId", element: <ShowPostComments />},
-            { path: "profile/:fieldId", element: <ProfilePage />},
+            { path: "fieldprofile/:fieldId", element: <ProfileFieldPage />},
             { path: "userprofile/:userId", element: <UserProfilePage />},
             { path: "users", element: <UsersPage />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},
             { path: "profile/update/:userId", element: <UpdateProfilePage />},
+            { path: "field-update/:userId", element: <UpdateFieldProfilePage />},
             { path: "addpost/:fieldId", element: 
                 <RoleProtectedRoute allowedRoles={['FieldOwner']}>
                     <AddPost />

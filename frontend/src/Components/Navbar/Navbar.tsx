@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 import { useAuth } from "../../Context/useAuth";
+import { DefaultAvatar } from "../../assets/Image";
 const notificationIcon: string  = require( "./../../assets/Icons/notificationIcon.svg").default;
 
 
@@ -10,16 +11,21 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
   const {isLoggedIn, user, logout} = useAuth();
   return (
     <div className=" flex justify-evenly items-center h-20 w-full shadow-md bg-white">
-        {/* <Link to={"/profile"}>
-           <img className="rounded-full w-12 h-12" src="https://th.bing.com/th/id/OIP.wRtvON_8JKRQghdROw5QvQHaHa?rs=1&pid=ImgDetMain" alt="" />
-        </Link> */}
+
         {isLoggedIn() 
           ? ( 
-            <div className="flex flex-col text-xs">
-              <span className="">{user?.phonenumber}</span>
-              <span className="">{user?.accountType}</span>
-              <span className="">{user?.userName}</span>
-              <a onClick={logout} className="bg-Darkgreen text-white p-1 rounded-md">تسجيل خروج</a>            
+            <div className="flex items-center">
+              <div className="flex flex-col text-xs">
+                <Link to={"/profile"}>
+                  <img className="rounded-full w-12 h-12" src={DefaultAvatar} alt="" />
+                </Link>
+                <span className="">{user?.phonenumber}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="">{user?.accountType}</span>
+                <span className="">{user?.userName}</span>
+                <a onClick={logout} className="bg-Darkgreen text-white p-1 rounded-md">تسجيل خروج</a>            
+              </div>
             </div>
   
           ) : (

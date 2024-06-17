@@ -11,6 +11,7 @@ import { UpdateUserAvatar } from '../../Api';
 import ImageUploader from '../../Helper/ImageUploader';
 import Cropper from '../../Helper/Cropper';
 interface PropsInfo  {
+    isUserAvatar: boolean;
     image: File | null;
     onDrop: (acceptedFiles: File[]) => void;
 
@@ -26,6 +27,7 @@ interface PropsInfo  {
 }
 
 const UpdateAvatarForm: React.FC<PropsInfo> = ({ 
+    isUserAvatar,
     image,
     onDrop,
     imageSrc,
@@ -43,11 +45,12 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (image) {
       setIsSubmitting(true); // Set submitting state to true
-      UpdateUserAvatar(Number(userId), image)
+      UpdateUserAvatar(Number(userId), image, isUserAvatar)
         .then(response => {
           toast.success(response );
         })

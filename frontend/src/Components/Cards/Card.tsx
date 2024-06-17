@@ -6,6 +6,7 @@ import { LikeIcon, TimeIcon } from './../IconsComponent/IconComponent';
 import CardIconsTextsBox from "../CardElements/CardIconsTextsBox";
 import LinkToButton from "../Buttons/LinkToButton";
 import { calculateDistance } from "../../Helper/Helper";
+import { DefaultAvatar, DefaultPost } from "../../assets/Image";
 
 type InfoProps = {
   id: number;
@@ -30,10 +31,10 @@ const Card = ({
 
   <div className="relative rounded-t-3xl overflow-hidden shadow-lg">
     <Link to={`/showfield/${id}/services`}> 
-      <img className="aspect-[7/3] w-full object-cover" 
+      <img className="aspect-[7/3] w-full object-cover "
       src={
-        imgSrc === null
-        ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+        imgSrc === null 
+        ? DefaultPost
         : `data:image/png;base64,${imgSrc}`
       }
       alt="Sunset in the mountains"/>

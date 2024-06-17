@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Dto;
+using Reservations.Dto.Admin;
+using Reservations.Dto.FieldDto;
+using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
@@ -20,12 +25,15 @@ namespace Reservations.Controllers
         private readonly IReservationStatusRepository _reservationStatusRepository;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
+        private readonly UserManager<AppUser> _userManager;
+
         public FootballFielController(IFootballFieldRepository footballFieldRepository,
             ICategoryRepository categoryRepository,
             IGovernorateRepository governorateRepository,
             IReservationBlockRepository reservationBlockRepository,
             IReservationStatusRepository reservationStatusRepository,
-            IMapper mapper, DataContext context)
+            IMapper mapper, DataContext context, 
+            UserManager<AppUser> userManager)
         {
             _footballFieldRepository = footballFieldRepository;
             _categoryRepository = categoryRepository;
@@ -34,6 +42,7 @@ namespace Reservations.Controllers
             _reservationStatusRepository = reservationStatusRepository;
             _mapper = mapper;
             _context = context;
+            _userManager = userManager;
         }
 
         [HttpGet]
@@ -68,27 +77,34 @@ namespace Reservations.Controllers
         [HttpGet("{FieldId}")]
         public async Task<IActionResult> GetField(int FieldId)
         {
-            if (!_footballFieldRepository.FootballFieldExists(FieldId))
-                return NotFound(ModelState);
+            var user = await _userManager.Users
+                .Where(x => x.FootballFieldId == FieldId)
+                .Include(x => x.FootballField)
+                .FirstOrDefaultAsync();
 
-            var field = await _footballFieldRepository.GetFootballFieldAsync(FieldId);
+            if (user == null) return NotFound();
 
-            string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
-
-            var fieldMap = new FootballGetDto
+            var userDto = new FieldUserAppGetDto
             {
-                Id = field.Id,
-                Name = field.Name,
-                Username = field.Username,
-                //Password = field.Password,
-                //PhoneNumbr = field.PhoneNumbr,
-                Location = field.Location,
-                Latitude = field.Latitude,
-                Longitude = field.Longitude,
-                Avatar = avatarBase64
+                Id = user.Id,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                AccountType = user.AccountType,
+                UserGet = new FieldGetDto
+                {
+                    Id = user.FootballField.Id,
+                    Username = user.FootballField.Username,
+                    Name = user.FootballField.Name,
+                    Biography = user.FootballField.Biography,
+                    CreatedAt = user.FootballField.CreatedAt,
+                    Avatar = (user.FootballField.Avatar != null) ? Convert.ToBase64String(user.FootballField.Avatar) : null,
+                    Latitude = user.FootballField.Latitude,
+                    Longitude = user.FootballField.Longitude,
+                    Location = user.FootballField.Location,
+                }
             };
 
-            return Ok(fieldMap);
+            return Ok(userDto);
         }
 
         [HttpGet("fieldIdByUsername/{username}")]
@@ -219,7 +235,54 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+        [HttpPut("updateProfile/{fieldId}")]
+        public async Task<IActionResult> UpdateUser(int fieldId, [FromForm] UpdateUserNameDto updateUserDto)
+        {
+            // Find the User by userId
+            //var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var field = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
 
+            if (field == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Find the AppUser associated with the User
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == fieldId);
+
+            if (appUser == null)
+            {
+                return NotFound("AppUser not found");
+            }
+
+            // Update UserName in AppUser table
+            appUser.UserName = updateUserDto.UserName;
+
+            // Update Username in User table
+            field.Username = updateUserDto.UserName;
+            field.Name = updateUserDto.Name;
+            field.Biography = updateUserDto.Biography;
+            //_context.Users.Update(user);
+
+
+            // Save changes in the database
+            var result = await _userManager.UpdateAsync(appUser);
+
+            if (result.Succeeded)
+            {
+                //await _context.SaveChangesAsync();
+                if (!_footballFieldRepository.UpdateFootBallField(field))
+                {
+                    ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                    return BadRequest(ModelState);
+                }
+                return Ok("User updated successfully");
+            }
+            else
+            {
+                return BadRequest("Failed to update user");
+            }
+        }
     }
 }
 

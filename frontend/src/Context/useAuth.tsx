@@ -98,7 +98,13 @@ export const UserProvider = ({ children }: Props) => {
                 setToken(token);
                 setUser(userObj);
                 toast.success("تم تسجيل الدخول بنجاح");
-                navigate("/reservations/current");
+                if(userObj.accountType === "MainAdmin" || userObj.accountType == "Admin"){
+                    navigate("/dashboard");
+                }else if(userObj.accountType === "FieldOwner"){
+                    navigate("/reservations/current");
+                }else if(userObj.accountType === "User"){
+                    navigate("/");
+                }
             }
         }).catch((e) => toast.warning("حدث خطأ من جانب السيرفر"));
     };

@@ -1,3 +1,4 @@
+import { DefaultPost } from "../../assets/Image";
 import { LikeIcon, StarRatting } from "../IconsComponent/IconComponent";
 
 type infoProps = {
@@ -11,7 +12,7 @@ const ImageShowField = ({imageSrc}: infoProps) => {
         className="aspect-[16/9] w-full object-cover lg:rounded-3xl xl:rounded-3xl"
         src={
           imageSrc === null
-          ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+          ? DefaultPost
           : `data:image/png;base64,${imageSrc}`
         }
         alt="" />

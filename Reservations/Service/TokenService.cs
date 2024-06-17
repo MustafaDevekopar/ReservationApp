@@ -25,7 +25,8 @@ namespace Reservations.Service
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = await _userManager.GetClaimsAsync(user);
-
+            
+            claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             //claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.UserName));
             //claims.Add(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber)); // إضافة رقم الهاتف إلى الـclaims
 

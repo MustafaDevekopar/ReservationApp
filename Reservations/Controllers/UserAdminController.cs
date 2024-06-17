@@ -9,6 +9,7 @@ using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
 using Reservations.Dto.User;
+using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
 
@@ -22,15 +23,19 @@ namespace Reservations.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
         public UserAdminController(
             UserManager<AppUser> userManager,
             IMapper mapper, 
-            DataContext context
+            DataContext context,
+            IUserRepository userRepository
+
             )
         {
             _userManager = userManager;
             _mapper = mapper;
             _context = context;
+            _userRepository = userRepository;
 
         }
 
@@ -134,16 +139,38 @@ namespace Reservations.Controllers
             if (result.Succeeded)
             {
                 await _context.SaveChangesAsync();
-                return Ok("User updated successfully");
+                return Ok("تم التحديث بنجاح");
             }
-            else
-            {
-                return BadRequest("Failed to update user");
-            }
+             
+                return BadRequest("فشل !!");
         }
+        ///=============== dlelte =========== <summary>
+      
+
+        [HttpDelete("Delete/{userId}")]
+        public async Task<IActionResult> DeleteUser(int userId)
+        {
+            // if(_userRepository.UserExists(userId))
+            //     return NotFound("المستخدم غير موجود");
 
 
+            // var user = await _userRepository.GetUserAsync(userId);
+            // if (user == null)
+            //     return NotFound("User not found");
+
+            //if(! _userRepository.DeleteUser(user))
+            //     ModelState.AddModelError("", "Something went wring deleting");
+
+            // // Find the AppUser associated with the User
+            // var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+            // if (appUser == null)
+            //     return NotFound("AppUser not found");
 
 
+            return Ok();
+
+
+        }
     }
 }

@@ -79,9 +79,9 @@ export interface Comment {
 
   export interface UserDataType {
     id: string;
-    userName: "Mustafa",
-    phoneNumber: "07830574093",
-    accountType: "User",
+    userName: string;
+    phoneNumber: string;
+    accountType: string;
     userGet: {
       id: interactive;
       name: string;
@@ -89,6 +89,24 @@ export interface Comment {
       biography : string;
       createdAt : string;
       avatar : Text;
+    }
+  }
+  
+  export interface FieldDataType {
+    id: string;
+    userName: string;
+    phoneNumber: string;
+    accountType: string;
+    userGet: {
+      id: interactive;
+      name: string;
+      username: string;
+      biography : string;
+      createdAt : string;
+      avatar : Text;
+      location: string;
+      latitude: number;
+      longitude: number;
     }
 
   }

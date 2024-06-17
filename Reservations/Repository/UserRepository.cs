@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Reservations.Data;
 using Reservations.Interfaces;
 using Reservations.Models;
@@ -66,6 +67,12 @@ namespace Reservations.Repository
         public bool UpdateUser(User user)
         {
             _context.Users.Update(user);
+            return Save();
+        }
+
+        public bool DeleteUser(User user)
+        {
+            _context.Users.Remove(user);
             return Save();
         }
     }

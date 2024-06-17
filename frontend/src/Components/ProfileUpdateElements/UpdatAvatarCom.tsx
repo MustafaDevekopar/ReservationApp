@@ -1,15 +1,16 @@
 import React, { useCallback, useState } from 'react';
 import { UserDataType } from '../../Reservations';
 import { Crop, PixelCrop } from 'react-image-crop';
-import { DefaultAvatar } from '../../assets/Image';
+import { DefaultAvatar, DefaultPost } from '../../assets/Image';
 import UpdateAvatarForm from './UpdateAvatarForm';
 
 
 interface AvatarFormProps {
   userData: UserDataType | null;
+  isUserAvatar: boolean;
 }
 
-const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ userData }) => {
+const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ userData, isUserAvatar }) => {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>({
@@ -38,12 +39,13 @@ const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ userData }) => {
           ? (croppedImageUrl) 
           : ( 
               !userData?.userGet.avatar || userData?.userGet.avatar === null 
-                ? DefaultAvatar
+                ? DefaultPost
                 : `data:image/png;base64,${userData?.userGet.avatar}`
             )}`}  
-        alt="Cropped" className="w-24 h-24 rounded-full object-cover" 
+        alt="Cropped" className={`${isUserAvatar ? "w-24 rounded-full" : "aspect-[16/9] rounded-t-2xl"} object-cover h-24 `} 
       /> 
       <UpdateAvatarForm
+        isUserAvatar={isUserAvatar}
         image={image} 
         onDrop={onDrop}
         imageSrc={preview}

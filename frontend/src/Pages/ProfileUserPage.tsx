@@ -7,12 +7,15 @@ import { Link, useParams } from 'react-router-dom';
 import { PostsOfFieldGet, UserGetById} from "../Api"
 import { useEffect, useState } from "react";
 import { FootballFaild, Post, UserDataType, UserProfiletype } from "../Reservations";
+import { useAuth } from "../Context/useAuth";
 
 
 
 type Props = {}
 
 const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
+
+  const {isLoggedIn, user, logout} = useAuth();
 
   const { userId } = useParams<{ userId?: string }>(); 
   const [UserData, setUserData] = useState<UserDataType | null>(null); 
@@ -52,15 +55,18 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
     return <div>Loading.post..</div>; // Add loading indicator while fetching data
     
   }
+  const isMyAccount: boolean = isLoggedIn() && user?.accountType === "User" && user.userName === UserData?.userName ;
 
   return (
     <div className="">
         <div className=" mt-2 mx-3 sm:mx-6  md:mx-6 lg:mx-60 xl:mx-60 mb-12">
-
-            <NavIconsProfile 
-              username={UserData.userName}
-              fieldId={userId}
-            />
+                <NavIconsProfile 
+                  username={UserData.userName}
+                  fieldId={userId}
+                  isFootbalField={false}
+                  isMyProfile={isMyAccount}
+                />
+            
             <AvatarRow 
               name={UserData.userGet.name}
               avatar={UserData.userGet.avatar}
@@ -81,6 +87,7 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
                   paddingy="2"
                   path={`/reserve/${userId}`}
                 />
+                {isMyAccount &&
                 <LinkToButton
                   text="تعديل الملف الشخصي"
                   bgColor="Darkgreen"
@@ -90,7 +97,7 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
                   paddingx="4"
                   paddingy="2"
                   path={`/profile/update/${userId}`}
-                />
+                />}
             </div>
  
 

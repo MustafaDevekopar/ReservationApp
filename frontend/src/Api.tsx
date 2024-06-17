@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -177,9 +177,9 @@ export const PostsOfFieldGet = async (fieldId: number): Promise<Post[]> => {
 }
 
 
-export const FootbalfieldsGetById = async (id: number): Promise<FootballFaild> => {
+export const FootbalfieldsGetById = async (id: number): Promise<FieldDataType> => {
   try {
-    const response: AxiosResponse<FootballFaild> = await axios.get<FootballFaild>(`https://localhost:7249/api/FootballFiel/${id}`);
+    const response: AxiosResponse<FieldDataType> = await axios.get<FieldDataType>(`https://localhost:7249/api/FootballFiel/${id}`);
     console.log(response.data);
     return response.data;
   } catch(error) {
@@ -337,12 +337,13 @@ export const addReserve = async (fieldId: number, userId: number, dateTimeValue:
 // ==========updat user avatar ===============
 
 
-export const UpdateUserAvatar = async (userId: number, image: File): Promise<string> => {
+export const UpdateUserAvatar = async (userId: number, image: File, isUserAvatar: boolean): Promise<string> => {
   try {
     const formData = new FormData();
     formData.append('Avatar', image);
+    const EndPoint_URL = isUserAvatar ? `User/${userId}/avatar` : `FootballFiel/updateFieldAvatar/${userId}` ;
 
-    const response = await axios.put(`${API_URL}User/${userId}/avatar`, formData, {
+    const response = await axios.put(API_URL + EndPoint_URL, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         //'Authorization': `Bearer ${token}` // Ensure token is sent
@@ -372,6 +373,35 @@ export const UpdateUserProfile = async (userId: number, updatData: UserProfilety
     formData.append('biography', updatData.biography);
 
     const response = await axios.put(`${API_URL}User/updateUser/${userId}`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        //'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+
+    console.log("responce: " + response.data);
+    return response.data; // Return the response data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+// ==========updat user profile ===============
+
+
+export const UpdateFieldProfile = async (userId: number, updatData: UserProfiletype): Promise<string> => {
+  try {
+    const formData = new FormData();
+    formData.append('userName', updatData.userName);
+    formData.append('name', updatData.name);
+    formData.append('biography', updatData.biography);
+
+    const response = await axios.put(`${API_URL}FootballFiel/updateProfile/${userId}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         //'Authorization': `Bearer ${token}` // Ensure token is sent
