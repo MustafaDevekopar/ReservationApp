@@ -31,7 +31,7 @@
     {
       icon: "icon-park-outline:agreement",// icon-park-solid:agreement
       heading: "الحجوزات",
-      path: "/"
+      path: "reservations"
 
     },
 

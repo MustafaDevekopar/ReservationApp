@@ -13,6 +13,7 @@ import { FieldsGet } from "../../../AdminApi";
 import Tablehead from "./Components/Tablehead";
 import TableTitle from "./Components/TableTitle";
 import { DefaultPost } from "../../../../assets/Image";
+import { formatDate } from "../../../../Components/ReserveElement/Helpers";
 
 interface Props {}
 
@@ -57,7 +58,7 @@ const FieldList = (props: Props) => {
                                 ? DefaultPost
                                 : `data:image/png;base64,${row.fieldGet.avatar}`
                             }
-                            alt="صورة" className="object-cover w-12 min-w-12 h-12 rounded-md " 
+                            alt="صورة" className="object-cover min-w-16 w-16 rounded-md " 
                         />  
                         <span className="text-xs font-buld">{row.userName}</span>  
                     </div>     
@@ -69,7 +70,7 @@ const FieldList = (props: Props) => {
                     </div>
                 </TableCell>
                 <TableCell align="center">{row.phoneNumber}</TableCell> 
-                <TableCell align="center">{row.fieldGet.createdAt }</TableCell>
+                <TableCell align="center">{formatDate(new Date(row.fieldGet.createdAt ))}</TableCell>
                 {/* <TableCell align="center">{formatDate(new Date(row.fieldGet.createdAt)) }</TableCell> */}
                 <TableCell align="center">{row.fieldGet.location != null ? row.fieldGet.location : "غير معروف" }</TableCell>
                 <TableCell align="center" className="Details">{row.accountType}</TableCell>

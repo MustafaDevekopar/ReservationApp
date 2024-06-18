@@ -235,6 +235,8 @@ namespace Reservations.Controllers
 
             return NoContent();
         }
+
+
         [HttpPut("updateProfile/{fieldId}")]
         public async Task<IActionResult> UpdateUser(int fieldId, [FromForm] UpdateUserNameDto updateUserDto)
         {
@@ -248,7 +250,7 @@ namespace Reservations.Controllers
             }
 
             // Find the AppUser associated with the User
-            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == fieldId);
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.FootballFieldId == fieldId);
 
             if (appUser == null)
             {
@@ -282,6 +284,35 @@ namespace Reservations.Controllers
             {
                 return BadRequest("Failed to update user");
             }
+        }
+
+        // ============== update avatar ==============
+        [HttpPut("updateFieldAvatar/{fieldId}")]
+        public async Task<IActionResult> UpdateAvatar(int fieldId, [FromForm] UserAvatarUpdateDto avatarUpdateDto)
+        {
+            if (avatarUpdateDto?.Avatar == null)
+            {
+                ModelState.AddModelError("", "Avatar file is required");
+                return BadRequest(ModelState);
+            }
+
+            var field = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+            if (field == null)
+            {
+                return NotFound("User not found");
+            }
+
+            using var memoryStream = new MemoryStream();
+            await avatarUpdateDto.Avatar.CopyToAsync(memoryStream);
+            field.Avatar = memoryStream.ToArray();
+
+            if (!_footballFieldRepository.UpdateFootBallField(field))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                return BadRequest(ModelState);
+            }
+
+            return Ok("Avatar updated successfully");
         }
     }
 }

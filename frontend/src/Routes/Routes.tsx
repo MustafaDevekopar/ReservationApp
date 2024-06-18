@@ -28,6 +28,7 @@ import UpdateProfilePage from "../Pages/UpdateProfilePage";
 import UserProfilePage from "../Pages/ProfileUserPage";
 import UpdateFieldProfilePage from "../Pages/UpdateFieldProfilePage";
 import ProfileFieldPage from "../Pages/ProfileFieldPage";
+import ReservationList from "../Dashboard/components/Table/TableList/ReservationList";
 
 
 
@@ -63,6 +64,7 @@ export const router = createBrowserRouter([
                     {path: "fields" , element: <FieldList />},
                     {path: "Users" , element: <UserList />},
                     {path: "Posts" , element: <PostList />},
+                    {path: "reservations" , element: <ReservationList />},
                     {path: "newAdmin" , element: 
                             <RoleProtectedRoute allowedRoles={['MainAdmin']}>
                                 <AddNewAdminPage />

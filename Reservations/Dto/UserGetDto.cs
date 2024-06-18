@@ -7,6 +7,6 @@
         public string Username { get; set; }
         public string Biography { get; set; }
         public DateTime CreatedAt  { get; set; }
-        public String Avatar { get; set; }
+        public string Avatar { get; set; }
     }
 }
