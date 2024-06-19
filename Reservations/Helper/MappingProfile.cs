@@ -1,6 +1,10 @@
 ﻿using AutoMapper;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
+using Reservations.Dto.Comment;
+using Reservations.Dto.FieldDto;
+using Reservations.Dto.Post;
+using Reservations.Dto.Reservation;
 using Reservations.Dto.User;
 using Reservations.Models;
 

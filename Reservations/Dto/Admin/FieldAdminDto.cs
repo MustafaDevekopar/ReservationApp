@@ -1,4 +1,6 @@
-﻿namespace Reservations.Dto.Admin
+﻿using Reservations.Dto.FieldDto;
+
+namespace Reservations.Dto.Admin
 {
     public class FieldAdminDto
     {

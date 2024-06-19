@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
+using Reservations.Dto.User;
 
-namespace Reservations.Dto
+namespace Reservations.Dto.Comment
 {
     public class CommentsWithUser
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Dto;
+using Reservations.Dto.Post;
 using Reservations.Interfaces;
 using Reservations.Models;
 

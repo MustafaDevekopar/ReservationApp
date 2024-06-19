@@ -1,9 +1,8 @@
-﻿namespace Reservations.Dto
+﻿namespace Reservations.Dto.Reservation
 {
-    public class CommentDto
+    public class ReservationDto
     {
         public int Id { get; set; }
-        public string Text { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
 
     }

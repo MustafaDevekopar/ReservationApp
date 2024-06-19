@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
+using Reservations.Dto.FieldDto;
 using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;

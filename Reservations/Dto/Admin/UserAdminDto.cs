@@ -1,4 +1,6 @@
-﻿namespace Reservations.Dto.Admin
+﻿using Reservations.Dto.User;
+
+namespace Reservations.Dto.Admin
 {
     public class UserAdminDto
     {

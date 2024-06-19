@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Dto;
+using Reservations.Dto.FieldDto;
+using Reservations.Dto.Post;
 using Reservations.Interfaces;
 using Reservations.Models;
 using System.Security.Claims;

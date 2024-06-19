@@ -1,4 +1,4 @@
-﻿namespace Reservations.Dto
+﻿namespace Reservations.Dto.User
 {
     public class UserGetDto
     {
@@ -6,7 +6,7 @@
         public string Name { get; set; }
         public string Username { get; set; }
         public string Biography { get; set; }
-        public DateTime CreatedAt  { get; set; }
+        public DateTime CreatedAt { get; set; }
         public string Avatar { get; set; }
     }
 }

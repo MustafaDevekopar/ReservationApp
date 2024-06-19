@@ -1,4 +1,4 @@
-﻿namespace Reservations.Dto
+﻿namespace Reservations.Dto.FieldDto
 {
     public class FootballfieldUpdateDto
     {

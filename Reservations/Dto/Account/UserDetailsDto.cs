@@ -1,4 +1,6 @@
-﻿namespace Reservations.Dto.Account
+﻿using Reservations.Dto.FieldDto;
+
+namespace Reservations.Dto.Account
 {
     public class UserDetailsDto
     {

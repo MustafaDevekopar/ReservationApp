@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
-using Reservations.Dto;
 using Reservations.Dto.FieldDto;
 using Reservations.Dto.Reservation;
 using Reservations.Interfaces;

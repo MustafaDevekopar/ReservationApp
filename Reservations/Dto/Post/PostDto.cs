@@ -1,6 +1,6 @@
 ﻿using Reservations.Models;
 
-namespace Reservations.Dto
+namespace Reservations.Dto.Post
 {
     public class PostDto
     {

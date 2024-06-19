@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using Reservations.Dto;
+using Reservations.Dto.Comment;
 using Reservations.Hubs;
 using Reservations.Interfaces;
 using Reservations.Models;

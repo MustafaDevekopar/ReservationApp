@@ -1,4 +1,4 @@
-﻿using Reservations.Dto;
+﻿using Reservations.Dto.Post;
 using Reservations.Models;
 
 namespace Reservations.Interfaces
