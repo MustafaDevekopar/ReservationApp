@@ -74,7 +74,7 @@ namespace Reservations.Controllers
                                     ? Convert.ToBase64String(reservation.User.Avatar) 
                                     : null,
 
-            },
+                    },
                     fieldGet = new FieldInReservation
                     {
                         Id = reservation.FootballField.Id,

@@ -16,10 +16,19 @@ const DateSelection: React.FC<Props> = ({ reservationStatus, selectedDate, handl
 
   let datesArray: Date[] = [];
 
+  // if (openAt && closeAt) {
+  //   let currentDate = new Date(Date.now());
+  //   while (currentDate <= closeAt) {
+  //     datesArray.push(new Date(currentDate));
+  //     currentDate.setDate(currentDate.getDate() + 1);
+  //   }
+  // }
   if (openAt && closeAt) {
     let currentDate = new Date(openAt);
-    while (currentDate <= closeAt) {
-      datesArray.push(new Date(currentDate));
+    while (currentDate <= closeAt ) {
+      if(currentDate >= new Date(Date.now())){
+        datesArray.push(new Date(currentDate));
+      } 
       currentDate.setDate(currentDate.getDate() + 1);
     }
   }

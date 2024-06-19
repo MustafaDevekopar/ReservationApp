@@ -8,6 +8,7 @@ export interface User {
       name: string,
       createdAt: string,
       avatar: string|null,
+      biography: string,
     }
   }
   

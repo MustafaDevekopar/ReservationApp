@@ -55,7 +55,7 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
     return <div>Loading.post..</div>; // Add loading indicator while fetching data
     
   }
-  const isMyAccount: boolean = isLoggedIn() && user?.accountType === "User" && user.userName === UserData?.userName ;
+  const isMyAccount: boolean = isLoggedIn() &&  user?.userName === UserData?.userName ;
 
   return (
     <div className="">

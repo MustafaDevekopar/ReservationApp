@@ -66,6 +66,34 @@ namespace Reservations.Controllers
 
             return Ok(userDtos); // Return an OkObjectResult containing the userDtos
         }
+        //============ get Admin and main admin ================
+        [HttpGet("Admins")]
+        public async Task<IActionResult> GetAdminAsync()
+        {
+            // Ensure the User navigation property is included
+            var users = await _userManager.Users
+                .Where(x =>( x.AccountType == "MainAdmin" ||  x.AccountType == "Admin"))
+                .Include(x => x.User).ToListAsync();
+
+            var userDtos = users.Select(x => new UserAdminDto
+            {
+                Id = x.Id,
+                UserName = x.UserName,
+                PhoneNumber = x.PhoneNumber,
+                AccountType = x.AccountType,
+                UserGet = new UserGetDto
+                {
+                    Id = x.User.Id,
+                    Username = x.User.Username,
+                    Name = x.User.Name,
+                    Biography = x.User.Biography,
+                    CreatedAt = x.User.CreatedAt,
+                    Avatar = (x.User.Avatar != null) ? Convert.ToBase64String(x.User.Avatar) : null
+                }
+            }).ToList();
+
+            return Ok(userDtos); // Return an OkObjectResult containing the userDtos
+        }
 
         [HttpGet("footbalfields")]
         public async Task<IActionResult> GetFootbalfieldsAsync()

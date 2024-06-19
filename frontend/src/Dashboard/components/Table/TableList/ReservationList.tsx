@@ -41,7 +41,7 @@ const ReservationList = (props: Props) => {
         style={{ boxShadow: "0px 13px 20px 0px #80808029" }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <Tablehead titleData={["id","صورة","معلومات الملعب", "صاحب الحجز","username","موعد الحجز", ""]}/>
+        <Tablehead titleData={["id","صورة","معلومات الملعب", "صاحب الحجز","معلومات الحاجز","موعد الحجز", ""]}/>
         
           <TableBody  className="bg-white" >
             {reservation.map((row) => (

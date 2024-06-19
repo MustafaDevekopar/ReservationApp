@@ -22,6 +22,26 @@ export const UsersGet = async (): Promise<User[]> => {
       }
     }
   }
+// ==getUser================================
+export const AdminsGet = async (): Promise<User[]> => {
+    try {
+  
+      const response: AxiosResponse<User[]> = await axios.get<User[]>("https://localhost:7249/api/UserAdmin/Admins");
+      console.log(response.data);
+      return response.data; // Return the array of users from the response
+  
+    } catch(error) {
+  
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.message);
+        throw error;
+  
+      } else {
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred");
+      }
+    }
+  }
 
 // ==getfield================================
 export const FieldsGet = async (): Promise<Field[]> => {

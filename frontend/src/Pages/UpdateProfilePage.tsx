@@ -30,7 +30,7 @@ const UpdateProfilePage: React.FC = () => {
 
   return (
     <div className='max-w-md min-w-2xl mx-auto mt-6'>
-      {isLoggedIn() && user?.accountType === "User" && user.userName === userData?.userName 
+      {isLoggedIn() &&  user?.userName === userData?.userName 
       ?(<div>
           <h3 className="font-bold text-DarkGray mx-4 mb-4">تعديل الملف الشخصي</h3>
           <UpdateAvatarCom userData={userData} isUserAvatar={true}/>
