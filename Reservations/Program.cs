@@ -143,10 +143,20 @@ builder.Services.AddAuthorizationBuilder()
         o.RequireAuthenticatedUser();
         o.RequireRole("MainAdmin");
     })
+    .AddPolicy("FieldOwnerUser", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("FieldOwner", "User");
+    })
     .AddPolicy("FieldOwner", o =>
     {
         o.RequireAuthenticatedUser();
         o.RequireRole("FieldOwner");
+    })
+    .AddPolicy("User", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("User");
     });
 
 var app = builder.Build();

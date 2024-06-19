@@ -111,6 +111,26 @@ export interface Comment {
 
   }
 
+
+  export interface ReservationFieldType {
+    id: number;
+    dateTime: string;
+    userGet: {
+      id: number;
+      name: string;
+      username : string;
+      phoneNumber: string;
+      avatar: string | null;
+    },
+    fieldGet: {
+      id: number;
+      name: string;
+      username: string;
+      phoneNumber: string;
+      avatar: string | null;
+    }
+  }
+
 // imag types
 declare module "*.png" {
   const value: string;

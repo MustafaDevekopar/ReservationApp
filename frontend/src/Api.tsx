@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -291,6 +291,58 @@ export const GetReservationsOfField = async (fieldId: number): Promise<Reservati
 
   }
 }
+
+
+//========== get reservation of field by token ============
+export const GetMyReservationsOfField = async (isReservationsUser: boolean): Promise<ReservationFieldType[]> => {
+
+  const endPoient_url = isReservationsUser? "Reservation/MyReservationsUser" : "Reservation/MyReservationsField";
+  try {
+
+    const response: AxiosResponse<ReservationFieldType[]> = await axios.get<ReservationFieldType[]>
+    ( API_URL + endPoient_url,{
+      headers: {
+        'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+
+    return response.data; 
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+
+// ==========delete reservation by id ============
+export const DeleteReservation = async (reservationId: string): Promise<string> => {
+  try {
+    const response = await axios.delete(API_URL + `Reservation/${reservationId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+
+    return response.data; // Return the response data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+
 export const GetReservationsOfUser = async (userId: number): Promise<ReservaiotionWithField[]> => {
   try {
 
