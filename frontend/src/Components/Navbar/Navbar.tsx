@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Search from "../Search/Search";
 import { useAuth } from "../../Context/useAuth";
 import { DefaultAvatar } from "../../assets/Image";
+import { Icon } from "@iconify-icon/react";
 const notificationIcon: string  = require( "./../../assets/Icons/notificationIcon.svg").default;
 
 
@@ -15,16 +16,19 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
         {isLoggedIn() 
           ? ( 
             <div className="flex items-center">
-              <div className="flex flex-col text-xs">
+              {/* <div className="flex flex-col text-xs">
                 <Link to={"/profile"}>
                   <img className="rounded-full w-12 h-12" src={DefaultAvatar} alt="" />
                 </Link>
-                <span className="">{user?.phonenumber}</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="">{user?.accountType}</span>
                 <span className="">{user?.userName}</span>
-                <a onClick={logout} className="bg-Darkgreen text-white p-1 rounded-md">تسجيل خروج</a>            
+                <span className="">{user?.phonenumber}</span>
+              </div> */}
+              <div className="flex ">
+                {/* <span className="">{user?.accountType}</span> */}
+                <span className="">{user?.userName}</span>
+              
+                <Icon icon="mynaui:logout" onClick={logout} className=" p-1 rounded-md"/>
+               
               </div>
             </div>
   

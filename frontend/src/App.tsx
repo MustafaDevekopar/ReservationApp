@@ -17,7 +17,7 @@ function App() {
   const shouldHideComponent = pathsToHideComponents.includes(location.pathname);
 
   return (
-    <div className="App">
+    <div className="App mb-20">
       <UserProvider >
 
         <Notification />

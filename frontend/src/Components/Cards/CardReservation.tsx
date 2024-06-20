@@ -62,7 +62,7 @@ const CardReservation: React.FC<ReservationsProps> = (
               />  
           </div> 
           <div className="flex flex-col">          
-            <span className="text-sm font-bold">{fieldName}</span>
+            <span className="text-xs ">{fieldName}</span>
             <span className="text-xs font-buld">{username}</span>  
           </div>              
         </div>

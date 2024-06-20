@@ -94,13 +94,6 @@ namespace Reservations.Controllers
 
             }).ToList();
             return Ok(ReseravtionMap);
-            //var reservations = _mapper.Map<List<ReservationDto>>
-            //    (await _reservationRepository.GetReservationsAsync());
-
-            //if (!ModelState.IsValid)
-            //    return BadRequest(ModelState);
-
-            //return Ok(reservations);
         }
         // [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
 
@@ -157,22 +150,12 @@ namespace Reservations.Controllers
   
             return Ok(ReseDto);
 
-
-            //var reservation = _mapper.Map<ReservationDto>
-            //    (await _reservationRepository.GetReservationAsync(resevationId));
-
-                //if (!ModelState.IsValid)
-                //    return BadRequest(ModelState);
-
-            //return Ok(reservation);
         }
 
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetReservationsByUser(int userId)
         {
             var reservations = await _reservationRepository.GetReservationsOfUserAsync(userId);
-            //var reservations = _mapper.Map<List<ReservationDto>>
-            //           (await _reservationRepository.GetReservationsOfUserAsync(userId));
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
@@ -193,7 +176,7 @@ namespace Reservations.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
         [HttpGet("MyReservationsField")]
-        public async Task<IActionResult> GetMyReservationsField(int fieldId)
+        public async Task<IActionResult> GetMyReservationsField()
         {
             var phoneClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone);
             if (phoneClaim == null)
@@ -210,17 +193,11 @@ namespace Reservations.Controllers
                 return Unauthorized("لا تملك صلاحية الوصول!!");
             }
 
-            var field = user.FootballField;
-            if (field == null)
+            var footballField_id = user.FootballField.Id;
+            if (footballField_id == null)
             {
                 return NotFound("ملعب كرة القدم غير موجود.");
             }
-            var relatindId = user.FootballFieldId;
-            var footballField_id = await _userManager.Users
-                .Include(f => f.FootballField)
-                .Where(f => f.FootballField.Id == relatindId)
-                .Select(f => f.FootballField.Id)
-                .FirstOrDefaultAsync();
 
             var reservations = await _context.Reservations
                         .Include(u => u.User)
@@ -228,7 +205,7 @@ namespace Reservations.Controllers
                         .ToListAsync();
 
             if (reservations == null) return NotFound(ModelState);
-            //var usersMap = users.Select(user =>
+            
             var ReseravtionMap = reservations.Select(reservation =>
             {
                 var phoneUser = _userManager.Users
@@ -253,9 +230,8 @@ namespace Reservations.Controllers
                     },
                 };
 
-
-
             }).ToList();
+
             return Ok(ReseravtionMap);
         }
 
@@ -264,7 +240,7 @@ namespace Reservations.Controllers
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "User")]
         [HttpGet("MyReservationsUser")]
-        public async Task<IActionResult> GetMyReservationsUser(int fieldId)
+        public async Task<IActionResult> GetMyReservationsUser()
         {
             var phoneClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone);
             if (phoneClaim == null)
@@ -281,18 +257,11 @@ namespace Reservations.Controllers
                 return Unauthorized("لا تملك صلاحية الوصول!!");
             }
 
-            var Myuser = user.User;
-            if (Myuser == null)
+            var user_id = user.User.Id;
+            if (user_id == null)
             {
                 return NotFound("المستخدم غير موجود.");
             }
-
-            var relatindId = user.UserId;
-            var user_id = await _userManager.Users
-                .Include(f => f.User)
-                .Where(f => f.User.Id == relatindId)
-                .Select(f => f.User.Id)
-                .FirstOrDefaultAsync();
 
             var reservations = await _context.Reservations
                         .Include(u => u.FootballField)
@@ -300,7 +269,7 @@ namespace Reservations.Controllers
                         .ToListAsync();
 
             if (reservations == null) return NotFound(ModelState);
-            //var usersMap = users.Select(user =>
+            
             var ReseravtionMap = reservations.Select(reservation =>
             {
 
@@ -333,20 +302,48 @@ namespace Reservations.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateReservation([FromBody] ReservationDto ReservationCreate,
-            [FromQuery] int fieldId, 
-            [FromQuery] int uderId)
+        public async Task<IActionResult> CreateReservation(
+            [FromBody] ReservationDto ReservationCreate,
+            [FromQuery] int fieldId)
         {
             if (ReservationCreate == null)
                 return BadRequest(ModelState);
-
-            var resMap = _mapper.Map<Reservation>(ReservationCreate);
-            resMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
-            resMap.User = await _userRepository.GetUserAsync(uderId);
-            if (!_reservationRepository.CreateReservation(resMap))
+            // get userReservation owner by using token 
+            var phoneClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone);
+            if (phoneClaim == null)
             {
-                ModelState.AddModelError("", "Something woring while savin");
-                return BadRequest(ModelState);
+                return Unauthorized("التوكن غير صالح أو مفقود.");
+            }
+
+            var phoneNumber = phoneClaim.Value;
+            // Get user from token information
+            var user = await _userManager.Users
+                                    .Include(u => u.User)
+                                    .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            if (user == null)
+            {
+                return Unauthorized("لا تملك صلاحية الوصول!!");
+            }
+
+            if(user.AccountType == "User")
+            {
+              var MyuserId = user.User.Id;
+                if (MyuserId == null)
+                {
+                    return NotFound("المستخدم غير موجود.");
+                }
+    
+                var resMap = _mapper.Map<Reservation>(ReservationCreate);
+                resMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+                resMap.User = await _userRepository.GetUserAsync(MyuserId);
+                if (!_reservationRepository.CreateReservation(resMap))
+                {
+                    ModelState.AddModelError("", "Something woring while savin");
+                    return Ok(ModelState);
+                }
+            } else {
+                ModelState.AddModelError("", "المستخدمين هم من يمكنهم الحجز فقط");
+                return BadRequest(ModelState); 
             }
             return Ok("Successfully Created");
         }

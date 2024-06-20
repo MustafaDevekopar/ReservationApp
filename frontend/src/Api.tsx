@@ -367,13 +367,13 @@ export const GetReservationsOfUser = async (userId: number): Promise<Reservaioti
 interface AddReserveBody {
   dateTime: string;
 }
-export const addReserve = async (fieldId: number, userId: number, dateTimeValue: string): Promise<void> => {
+export const addReserve = async (fieldId: number, dateTimeValue: string): Promise<void> => {
   try {
     // const requestBody: AddCommentRequest = { text: commentText };
     const requestBody: AddReserveBody = { dateTime: dateTimeValue };
     console.log("to server")
     console.log(requestBody)
-    await axios.post(`https://localhost:7249/api/Reservation?fieldId=${fieldId}&uderId=${userId}`, requestBody);
+    await axios.post(`https://localhost:7249/api/Reservation?fieldId=${fieldId}`, requestBody);
     console.log("Reserved successfully");
   } catch(error) {
     if (axios.isAxiosError(error)) {

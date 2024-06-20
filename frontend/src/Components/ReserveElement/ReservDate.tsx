@@ -45,7 +45,7 @@ const ReservDate: React.FC = (): JSX.Element => {
   const handleAddReservation = async () => {
     try {
       if (selectedDate && selectedTime) {
-        await addReserve(Number(fieldId), 1, selectedTime);
+        await addReserve(Number(fieldId), selectedTime);
         toast.success('تم الحجز بنجاح');
       } else {
         toast.error('!!يرجى اختيار كلا من التاريخ والوقت');

@@ -32,8 +32,7 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
   }, []);
 
   const now = new Date();
-  now.setHours(now.getHours() + 3); //UTC + 3 time in baghdad 
-
+  //now.setHours(now.getHours() + 3); dont need to add 3 hours time in baghdad 
   const filteredReservations = reservations.filter((res) =>
     filter === 'current' ? new Date(res.dateTime) >= now : new Date(res.dateTime) < now
   );
