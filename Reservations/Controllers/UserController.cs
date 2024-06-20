@@ -107,30 +107,47 @@ namespace Reservations.Controllers
             return Ok(userId);
         }
 
-        [HttpGet("username/{username}")]
-        public async Task<IActionResult> GetUserByUserName(string username)
+
+
+        [HttpGet("UserByUsername/{username}")]
+        public async Task<IActionResult> GetFieldByUsername(string username)
         {
             if (!_userRepository.UserExistsbyUsername(username))
-                return NotFound(ModelState);
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+                    return NotFound(ModelState);
 
-            string avatarBase64 = user.Avatar != null ? Convert.ToBase64String(user.Avatar) : null;
+                var userId = await _userRepository.GetUserIdByUsername(username);
 
-            var userMap = new UserGetDto
+            var user = await _userManager.Users
+                .Where(x => x.UserId == userId)
+                .Include(x => x.User)
+                .FirstOrDefaultAsync();
+
+            if (user == null) return NotFound();
+
+            var userDto = new UserUserAppGetDto
             {
                 Id = user.Id,
-                Name = user.Name,
-                Username = user.Username,
-                //Password = user.Password,
-                //PhoneNumbr = user.PhoneNumbr,
-                CreatedAt = user.CreatedAt,
-                Avatar = avatarBase64
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                AccountType = user.AccountType,
+                UserGet = new UserGetDto
+                {
+                    Id = user.User.Id,
+                    Username = user.User.Username,
+                    Name = user.User.Name,
+                    Biography = user.User.Biography,
+                    CreatedAt = user.User.CreatedAt,
+                    Avatar = (user.User.Avatar != null) ? Convert.ToBase64String(user.User.Avatar) : null,
+                    Latitude = user.User.Latitude,
+                    Longitude = user.User.Longitude,
+                    //Location = user.FootballField.Location,
+                }
             };
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
 
-            return Ok(userMap);
+            return Ok(userDto);
         }
+
+
         [HttpGet("{userId}/fields")]
         public async Task<IActionResult> GetUserOfField(int userId)
         {

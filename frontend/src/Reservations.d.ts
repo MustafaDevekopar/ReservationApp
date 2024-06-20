@@ -98,7 +98,7 @@ export interface Comment {
     phoneNumber: string;
     accountType: string;
     userGet: {
-      id: interactive;
+      id: number;
       name: string;
       username: string;
       biography : string;
@@ -130,6 +130,15 @@ export interface Comment {
       avatar: string | null;
     }
   }
+
+  // export interface UserOrFiledType {
+  //   id: number;
+  //   name: string;
+  //   username: string;
+  //   biography: string;
+  //   createdAt: string;
+  //   avatar:Text;
+  // }
 
 // imag types
 declare module "*.png" {

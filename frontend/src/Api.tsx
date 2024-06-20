@@ -119,10 +119,10 @@ export const UsersGet = async (): Promise<User[]> => {
 
   }
 }
-export const FootbalfieldsGet = async (): Promise<FootballFaild[]> => {
+export const FootbalfieldsGet = async (): Promise<FieldDataType[]> => {
   try {
 
-    const response: AxiosResponse<FootballFaild[]> = await axios.get<FootballFaild[]>("https://localhost:7249/api/FootballFiel");
+    const response: AxiosResponse<FieldDataType[]> = await axios.get<FieldDataType[]>(`${API_URL}FootballFiel`);
     console.log(response.data);
     return response.data; // Return the array of users from the response
 
@@ -179,7 +179,7 @@ export const PostsOfFieldGet = async (fieldId: number): Promise<Post[]> => {
 
 export const FootbalfieldsGetById = async (id: number): Promise<FieldDataType> => {
   try {
-    const response: AxiosResponse<FieldDataType> = await axios.get<FieldDataType>(`https://localhost:7249/api/FootballFiel/${id}`);
+    const response: AxiosResponse<FieldDataType> = await axios.get<FieldDataType>(`${API_URL}FootballFiel/${id}`);
     console.log(response.data);
     return response.data;
   } catch(error) {
@@ -192,6 +192,8 @@ export const FootbalfieldsGetById = async (id: number): Promise<FieldDataType> =
     }
   }
 }
+
+
 export const CommentsGet = async (postId: number): Promise<Comment[]> => {
   try {
     const response: AxiosResponse<Comment[]> = await axios.get<Comment[]>(`https://localhost:7249/api/Comment/${postId}/commentPost`);
@@ -495,6 +497,23 @@ export const UpdateUser = async (userId: number, patchData: any) => {
 export const UserGetById = async (userId: number): Promise<UserDataType> => {
   try {
     const response: AxiosResponse<UserDataType> = await axios.get<UserDataType>(`${API_URL}User/${userId}`);
+    console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+// =============== getuserById ==========
+export const UserOrFieldGetByUsername = async (Usename: string, isFieldOwner: boolean): Promise<UserDataType> => {
+  const endpoint_url = isFieldOwner ? `FootballFiel/FieldByUsername/${Usename}`: `User/UserByUsername/${Usename}`;
+  try {
+    const response: AxiosResponse<UserDataType> = await axios.get<UserDataType>(API_URL + endpoint_url);
     console.log(response.data);
     return response.data;
   } catch(error) {

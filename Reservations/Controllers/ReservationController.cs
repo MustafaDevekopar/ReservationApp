@@ -339,7 +339,7 @@ namespace Reservations.Controllers
                 if (!_reservationRepository.CreateReservation(resMap))
                 {
                     ModelState.AddModelError("", "Something woring while savin");
-                    return Ok(ModelState);
+                    return BadRequest(ModelState);
                 }
             } else {
                 ModelState.AddModelError("", "المستخدمين هم من يمكنهم الحجز فقط");

@@ -1,3 +1,4 @@
+import { Icon } from '@iconify-icon/react';
 import React, { SyntheticEvent, useState } from 'react'
 
 type Propss = {}
@@ -16,13 +17,16 @@ const Search: React.FC<Propss> = (props: Propss): JSX.Element => {
 
   };
   return (
-    <div className=" flex outline outline-2 outline-offset-2 outline-LightXlGray  rounded-md h-8 ">
+    <div className=" flex bg-gray-200  rounded-md h-8 w-[60%] ">
+      <button onClick={(e) => onClick(e)} className="flex items-center justify-center p-2"> 
+         <Icon icon="humbleicons:search" className="text-xl"/>
+          بحث
+        </button>
       <input 
         type={search}
         onChange={(e) => handelChange(e)}
-        className="flex-1 border-none focus:border-none outline-none focus:outline-none mr-2 w-40"
+        className="flex-1 bg-transparent border-none focus:border-none outline-none focus:outline-none mr-2 w-40"
          />
-         <button onClick={(e) => onClick(e)} className='w-8 bg-LightXlGray tesxt-xs text-white rounded-md hover:bg-Darkgreen hover:ease-in-out' > بحث</button>
     </div>
   )
 }

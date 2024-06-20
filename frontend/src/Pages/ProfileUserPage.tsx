@@ -6,7 +6,7 @@ import NavIconsProfile from "../Components/ProfileElements/NavIconsProfile"
 import { Link, useParams } from 'react-router-dom';
 import { PostsOfFieldGet, UserGetById} from "../Api"
 import { useEffect, useState } from "react";
-import { FootballFaild, Post, UserDataType, UserProfiletype } from "../Reservations";
+import {  Post, UserDataType, UserProfiletype } from "../Reservations";
 import { useAuth } from "../Context/useAuth";
 
 

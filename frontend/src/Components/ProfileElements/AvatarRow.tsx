@@ -20,7 +20,7 @@ const AvatarRow: React.FC<Props> = ({
   return (
     <div className="flex justify-between mb-8">
         <div className="flex-none w-32  flex flex-col items-center ">
-            <img className="rounded-full w-14 h-14 mr-" 
+            <img className="rounded-full w-14 h-14 object-cover" 
             src={
               avatar === null
               ? DefaultAvatar

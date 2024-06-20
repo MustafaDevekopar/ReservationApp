@@ -48,29 +48,32 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> GerFields()
         {
-            var footballFields = await _footballFieldRepository.GetFootballFieldsAsync();
+            // Ensure the User navigation property is included
+            var users = await _userManager.Users
+                .Where(x => x.AccountType == "FieldOwner")
+                .Include(x => x.FootballField).ToListAsync();
 
-            if (!ModelState.IsValid) 
-                return BadRequest(ModelState);
-
-            var usersMap = footballFields.Select(field =>
+            var fieldMap = users.Select(x => new FieldUserAppGetDto
             {
-                string avatarBase64 = field.Avatar != null ? Convert.ToBase64String(field.Avatar) : null;
-                return new FootballGetDto
+                Id = x.Id,
+                UserName = x.UserName,
+                PhoneNumber = x.PhoneNumber,
+                AccountType = x.AccountType,
+                UserGet = new FieldGetDto
                 {
-                    Id = field.Id,
-                    Name = field.Name,
-                    Username = field.Username,
-                    //Password = field.Password,
-                    //PhoneNumbr = field.PhoneNumbr,
-                    Location = field.Location,
-                    Latitude = field.Latitude,
-                    Longitude = field.Longitude,
-                    Avatar = avatarBase64
-                };
+                    Id = x.FootballField.Id,
+                    Username = x.FootballField.Username,
+                    Name = x.FootballField.Name,
+                    Biography = x.FootballField.Biography,
+                    CreatedAt = x.FootballField.CreatedAt,
+                    Avatar = (x.FootballField.Avatar != null) ? Convert.ToBase64String(x.FootballField.Avatar) : null,
+                    Latitude = x.FootballField.Latitude,
+                    Longitude = x.FootballField.Longitude,
+                    Location = x.FootballField.Location,
+                }
             }).ToList();
 
-            return Ok(usersMap);
+            return Ok(fieldMap); // Return an OkObjectResult containing the userDtos
         }
 
         //=================================================================================
@@ -120,6 +123,45 @@ namespace Reservations.Controllers
 
             return Ok(fieldId);
         }
+
+
+        [HttpGet("FieldByUsername/{username}")]
+        public async Task<IActionResult> GetFieldByUsername(string username)
+        {
+            if (!_footballFieldRepository.FieldExixtsUsername(username))
+                return NotFound(ModelState);
+            var FieldId = await _footballFieldRepository.GetFieldIdByUsername(username);
+
+            var user = await _userManager.Users
+                .Where(x => x.FootballFieldId == FieldId)
+                .Include(x => x.FootballField)
+                .FirstOrDefaultAsync();
+
+            if (user == null) return NotFound();
+
+            var userDto = new FieldUserAppGetDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                PhoneNumber = user.PhoneNumber,
+                AccountType = user.AccountType,
+                UserGet = new FieldGetDto
+                {
+                    Id = user.FootballField.Id,
+                    Username = user.FootballField.Username,
+                    Name = user.FootballField.Name,
+                    Biography = user.FootballField.Biography,
+                    CreatedAt = user.FootballField.CreatedAt,
+                    Avatar = (user.FootballField.Avatar != null) ? Convert.ToBase64String(user.FootballField.Avatar) : null,
+                    Latitude = user.FootballField.Latitude,
+                    Longitude = user.FootballField.Longitude,
+                    Location = user.FootballField.Location,
+                }
+            };
+
+            return Ok(userDto);
+        }
+
 
         [HttpGet("{fieldId}/Category")]
         public async Task<IActionResult> GetCategoryOfField(int fieldId)

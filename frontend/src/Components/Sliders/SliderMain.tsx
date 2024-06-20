@@ -10,7 +10,7 @@ const SliderMain:React.FC<Props> = (props: Props): JSX.Element => {
 
 <div id="default-carousel" className="relative w-full" data-carousel="slide">
     {/* <!-- Carousel wrapper --> */}
-    <div className="relative h-56 overflow-hidden rounded-lg md:h-96">
+    <div className="relative h-32  overflow-hidden rounded-lg md:h-56">
         <div className=" duration-700 ease-in-out" data-carousel-item>
             <img  src="https://th.bing.com/th/id/R.47a753a2aebdff63eb16a87b73084962?rik=AZy90cAwum4Atg&pid=ImgRaw&r=0"  
             className="absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2" alt="..."/>
