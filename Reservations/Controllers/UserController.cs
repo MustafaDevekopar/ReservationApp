@@ -113,9 +113,9 @@ namespace Reservations.Controllers
         public async Task<IActionResult> GetFieldByUsername(string username)
         {
             if (!_userRepository.UserExistsbyUsername(username))
-                    return NotFound(ModelState);
+                return NotFound(ModelState);
 
-                var userId = await _userRepository.GetUserIdByUsername(username);
+            var userId = await _userRepository.GetUserIdByUsername(username);
 
             var user = await _userManager.Users
                 .Where(x => x.UserId == userId)

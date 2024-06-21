@@ -51,8 +51,9 @@ namespace Reservations.Controllers
             // Ensure the User navigation property is included
             var users = await _userManager.Users
                 .Where(x => x.AccountType == "FieldOwner")
-                .Include(x => x.FootballField).ToListAsync();
-
+                .Include(x => x.FootballField )
+                .Include(x =>  x.FootballField.Governorate)
+                .ToListAsync();
             var fieldMap = users.Select(x => new FieldUserAppGetDto
             {
                 Id = x.Id,
@@ -70,6 +71,11 @@ namespace Reservations.Controllers
                     Latitude = x.FootballField.Latitude,
                     Longitude = x.FootballField.Longitude,
                     Location = x.FootballField.Location,
+                    GovernorateGet = new GovernorateDto
+                    {
+                        Id = x.FootballField.Governorate.Id,
+                        Name = x.FootballField.Governorate.Name
+                    }
                 }
             }).ToList();
 

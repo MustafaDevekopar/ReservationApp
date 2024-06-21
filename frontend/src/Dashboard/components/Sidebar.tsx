@@ -39,8 +39,10 @@ const Sidebar: React.FC = ()  => {
       >
         {/* logo */}
         <div className="flex justify-center items-center gap-4 text-Darkgreen font-bold text-xl h-[4%] ">
-          <Icon icon="ion:football" className=" text-4xl"/>
-          <span >بلنتي</span>
+          <Link to={"/"}>
+            <Icon icon="ion:football" className=" text-4xl"/>
+            <span >بلنتي</span>
+          </Link>
         </div>
 
         <div className="menuD flex flex-col justify-between gap-8 mt-16">

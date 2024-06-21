@@ -296,9 +296,9 @@ export const GetReservationsOfField = async (fieldId: number): Promise<Reservati
 
 
 //========== get reservation of field by token ============
-export const GetMyReservationsOfField = async (isReservationsUser: boolean): Promise<ReservationFieldType[]> => {
+export const GetMyReservationsOfField = async (isFieldOwner: boolean): Promise<ReservationFieldType[]> => {
 
-  const endPoient_url = isReservationsUser? "Reservation/MyReservationsUser" : "Reservation/MyReservationsField";
+  const endPoient_url = isFieldOwner ?"Reservation/MyReservationsField" : "Reservation/MyReservationsUser" ;
   try {
 
     const response: AxiosResponse<ReservationFieldType[]> = await axios.get<ReservationFieldType[]>

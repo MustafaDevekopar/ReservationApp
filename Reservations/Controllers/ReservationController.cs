@@ -238,7 +238,7 @@ namespace Reservations.Controllers
 
         // =========== get reservations of user by token =========
 
-        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "User")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdminAdminUser")]
         [HttpGet("MyReservationsUser")]
         public async Task<IActionResult> GetMyReservationsUser()
         {
@@ -325,8 +325,8 @@ namespace Reservations.Controllers
                 return Unauthorized("لا تملك صلاحية الوصول!!");
             }
 
-            if(user.AccountType == "User")
-            {
+            //if(user.AccountType == "User")
+            //{
               var MyuserId = user.User.Id;
                 if (MyuserId == null)
                 {
@@ -341,10 +341,10 @@ namespace Reservations.Controllers
                     ModelState.AddModelError("", "Something woring while savin");
                     return BadRequest(ModelState);
                 }
-            } else {
-                ModelState.AddModelError("", "المستخدمين هم من يمكنهم الحجز فقط");
-                return BadRequest(ModelState); 
-            }
+            //} else {
+            //    ModelState.AddModelError("", "المستخدمين هم من يمكنهم الحجز فقط");
+            //    return BadRequest(ModelState); 
+            //}
             return Ok("Successfully Created");
         }
 

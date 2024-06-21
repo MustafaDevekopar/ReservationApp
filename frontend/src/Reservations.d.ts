@@ -107,6 +107,10 @@ export interface Comment {
       location: string;
       latitude: number;
       longitude: number;
+      governorateGet: {
+        id: Number
+        name: string;
+      }
     }
 
   }

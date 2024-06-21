@@ -1,32 +1,36 @@
-import { useEffect, useState } from 'react'
-import Card from '../Cards/Card'
-import { FieldDataType} from '../../Reservations';
+
+import React, { useEffect, useState } from 'react';
+import Card from '../Cards/Card';
+import { FieldDataType } from '../../Reservations';
 import { FootbalfieldsGet } from '../../Api';
 
-type Props = {}
+type Props = {
+  selectedGovernorate: number | null;
+};
 
-const CardList = (props: Props) => {
-    const [fields, setFields] = useState<FieldDataType[]>([]); 
+const CardList: React.FC<Props> = ({ selectedGovernorate }) => {
+  const [fields, setFields] = useState<FieldDataType[]>([]);
 
-    useEffect(() => {
-      const fetchUsers = async () => {
-        try {
-          const fieldData = await FootbalfieldsGet(); // Call UsersGet function to fetch users
-          setFields(fieldData); // Update state with fetched users
-        } catch (error) {
-          console.error('Error fetching users:', error);
-        }
-      };
-  
-      fetchUsers(); // Call fetchUsers function when component mounts
-    }, []);
+  useEffect(() => {
+    const fetchFields = async () => {
+      try {
+        const fieldData = await FootbalfieldsGet();
+        setFields(fieldData);
+      } catch (error) {
+        console.error('Error fetching fields:', error);
+      }
+    };
+
+    fetchFields();
+  }, []);
+
   return (
-
-        <div className="grid gap-4 
-        sm:grid-cols-1  md:grid-cols-2  lg:grid-cols-3 
-        mx-3 sm:mx-6  md:mx-12 lg:mr-24 lg:ml-8  w-full ">
-        {fields.map((fld) => (
-          <Card 
+    <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-3 sm:mx-6 md:mx-12 lg:mr-24 lg:ml-8 w-full">
+      {fields
+        .filter((field) => !selectedGovernorate || field.userGet.governorateGet.id === selectedGovernorate)
+        .map((fld) => (
+          <Card
+            key={fld.userGet.id}
             id={fld.userGet.id}
             imgSrc={fld.userGet.avatar}
             fieldName={fld.userGet.name}
@@ -34,10 +38,10 @@ const CardList = (props: Props) => {
             phoneNumber={fld.phoneNumber}
             latitude={fld.userGet.latitude}
             longitude={fld.userGet.longitude}
-            />
-        ))}        
+          />
+        ))}
     </div>
-  )
-}
+  );
+};
 
-export default CardList
+export default CardList;

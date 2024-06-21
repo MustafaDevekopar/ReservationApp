@@ -15,13 +15,13 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
   // const [reservations, setReservations] = useState<ReservaiotionWithField[]>([]);
   const [reservations, setReservations] = useState<ReservationFieldType[]>([]);
   const {isLoggedIn, user, logout} = useAuth();
-  const isUserNotField: boolean = user?.accountType === "User";
+  const IsFieldOwner: boolean = user?.accountType === "FieldOwner";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // const reservationsData = await GetReservationsOfUser(1);
-        const reservationsData = await GetMyReservationsOfField(isUserNotField);
+        const reservationsData = await GetMyReservationsOfField(IsFieldOwner);
         setReservations(reservationsData);
       } catch (error) {
         console.error('Error fetching reservation status or reservations:', error);
@@ -45,10 +45,10 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
             dateformat={formatDate(new Date(res.dateTime))}
             dateTimeformat={formatTime(new Date(res.dateTime))}
             fieldId={res.id}
-            fieldName={isUserNotField ? res.fieldGet.name : res.userGet.name}
-            username={isUserNotField ? res.fieldGet.username : res.userGet.username}
-            fieldPhonNumber={isUserNotField ? res.fieldGet.phoneNumber : res.userGet.phoneNumber}
-            avatar={isUserNotField ? res.fieldGet.avatar : res.userGet.avatar}
+            fieldName={IsFieldOwner ? res.userGet.name : res.fieldGet.name}
+            username={IsFieldOwner ? res.userGet.username : res.fieldGet.username}
+            fieldPhonNumber={IsFieldOwner ? res.userGet.phoneNumber : res.fieldGet.phoneNumber}
+            avatar={IsFieldOwner ? res.userGet.avatar : res.fieldGet.avatar}
           />))
       }
     </div>

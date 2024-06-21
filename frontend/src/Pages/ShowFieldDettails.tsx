@@ -65,8 +65,8 @@ import { calculateDistance } from '../Helper/Helper'
 
                     {/* services and Offers box */}
                     <ServicesOffers 
-                        servicesPath={`/showfield/${fieldData.id}/services`} 
-                        offersPath={`/showfield/${fieldData.id}/offers`}
+                        servicesPath={`/showfield/${fieldData.userGet.id}/services`} 
+                        offersPath={`/showfield/${fieldData.userGet.id}/offers`}
                     />
 
                     {/* to reserve page  */}

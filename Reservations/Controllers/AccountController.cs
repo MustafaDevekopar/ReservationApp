@@ -137,7 +137,7 @@ namespace Reservations.Controllers
                 var userClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.MobilePhone, registerDto.PhoneNumber),
-                    new Claim(ClaimTypes.Name, registerDto.Username),
+                    //new Claim(ClaimTypes.Name, registerDto.Username),
                     new Claim(ClaimTypes.Role, registerDto.AccountType)
                 };
 
@@ -180,6 +180,33 @@ namespace Reservations.Controllers
                     PhoneNumber = user.PhoneNumber,
                     Token = await _tokenService.CreateTokenAsync(user),
                 });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+
+        [HttpDelete("delete/{phoneNumber}")]
+        public async Task<IActionResult> DeleteUser(string phoneNumber)
+        {
+            try
+            {
+                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == phoneNumber);
+                if (user == null)
+                {
+                    return NotFound("User not found");
+                }
+
+                var result = await _userManager.DeleteAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    return StatusCode(500, "Failed to delete user");
+                }
+
+                return Ok("User deleted successfully");
             }
             catch (Exception ex)
             {

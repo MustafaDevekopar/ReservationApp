@@ -133,6 +133,11 @@ builder.Services.AddAuthorizationBuilder()
         o.RequireAuthenticatedUser();
         o.RequireRole("MainAdmin", "Admin", "FieldOwner");
     })
+    .AddPolicy("MainAdminAdminUser", o =>
+    {
+        o.RequireAuthenticatedUser();
+        o.RequireRole("MainAdmin", "Admin", "User");
+    })
     .AddPolicy("MainAdminAdmin", o =>
     {
         o.RequireAuthenticatedUser();
