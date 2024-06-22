@@ -1,37 +1,41 @@
 import React from 'react';
 import BtnDateTime from './BtnDateTime';
-import { Reservation, ReservationStatus } from '../../Reservations';
-import { formatDate } from './Helpers'; // Import formatDate helper function
+import { FieldDataType, Reservation, ReservationStatus } from '../../Reservations';
+import { formatDate } from './Helpers';
 
 type Props = {
-  reservationStatus: ReservationStatus | null;
+  fieldData: FieldDataType | null;
   selectedDate: string;
   handleDateClick: (date: string) => void;
-  reservations: Reservation[];
+  reservationsData: Reservation[];
 };
 
-const DateSelection: React.FC<Props> = ({ reservationStatus, selectedDate, handleDateClick, reservations }: Props): JSX.Element => {
-  const openAt = reservationStatus?.openAt ? new Date(reservationStatus.openAt) : null;
-  const closeAt = reservationStatus?.closeAt ? new Date(reservationStatus.closeAt) : null;
+const DateSelection: React.FC<Props> = (
+  { 
+    fieldData, 
+    selectedDate, 
+    handleDateClick, 
+    reservationsData 
+  }: Props): JSX.Element => {
 
   let datesArray: Date[] = [];
 
-  // if (openAt && closeAt) {
-  //   let currentDate = new Date(Date.now());
-  //   while (currentDate <= closeAt) {
-  //     datesArray.push(new Date(currentDate));
-  //     currentDate.setDate(currentDate.getDate() + 1);
-  //   }
-  // }
-  if (openAt && closeAt) {
-    let currentDate = new Date(openAt);
-    while (currentDate <= closeAt ) {
-      if(currentDate >= new Date(Date.now())){
+
+    let currentDate = new Date();
+    currentDate.setHours(0, 0, 0, 0); // Set time to the start of the day
+    let opingDayNumber = 0;
+    if(fieldData?.userGet.openingDays != null){
+       opingDayNumber = fieldData?.userGet.openingDays;
+    }
+    
+    
+    let closeDate = new Date();
+    closeDate.setDate(currentDate.getDate() + opingDayNumber -1);
+    while (currentDate <= closeDate) {
         datesArray.push(new Date(currentDate));
-      } 
       currentDate.setDate(currentDate.getDate() + 1);
     }
-  }
+
 
   return (
     <div className="flex">

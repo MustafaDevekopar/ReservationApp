@@ -1,8 +1,8 @@
 // ReservDate.tsx
 
 import React, { useEffect, useState } from 'react';
-import { Reservation, ReservationStatus } from '../../Reservations';
-import { GetReservDate, GetReservationsOfField } from '../../Api';
+import { FieldDataType, Reservation, ReservationStatus } from '../../Reservations';
+import { FootbalfieldsGetById, GetReservDate, GetReservationsOfField } from '../../Api';
 import DateSelection from './DateSelection';
 import TimeSelection from './TimeSelection';
 import { addReserve } from '../../Api';
@@ -10,28 +10,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import ConfirmOrBackBox from './ConfirmOrBackBox';
 
-const ReservDate: React.FC = (): JSX.Element => {
+interface Props {
+  fieldData: FieldDataType | null;
+  reservationsData: Reservation[];
+}
+const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element => {
   const { fieldId } = useParams<{ fieldId?: string }>();
-  const [reservationStatus, setReservationStatus] = useState<ReservationStatus | null>(null);
-  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const statusData = await GetReservDate();
-        setReservationStatus(statusData);
-
-        const reservationsData = await GetReservationsOfField(Number(fieldId));
-        setReservations(reservationsData);
-      } catch (error) {
-        console.error('Error fetching reservation status or reservations:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const handleDateClick = (date: string) => {
     setSelectedDate(date);
@@ -62,18 +48,18 @@ const ReservDate: React.FC = (): JSX.Element => {
         <ToastContainer />
       </div>
       <DateSelection
-        reservationStatus={reservationStatus}
+        fieldData={fieldData}
         selectedDate={selectedDate}
         handleDateClick={handleDateClick}
-        reservations={reservations}
+        reservationsData={reservationsData}
       />
       
       <TimeSelection
         selectedDate={selectedDate}
         setSelectedTime={setSelectedTime}
         handleTimeClick={handleTimeClick}
-        reservationStatus={reservationStatus}
-        reservations={reservations}
+        fieldData={fieldData}
+        reservationsData={reservationsData}
         selectedTime={selectedTime}
       />
       {selectedDate && (<ConfirmOrBackBox onClick={handleAddReservation} /> )}

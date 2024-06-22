@@ -71,6 +71,8 @@ namespace Reservations.Controllers
                     Latitude = x.FootballField.Latitude,
                     Longitude = x.FootballField.Longitude,
                     Location = x.FootballField.Location,
+                    OpeningDays = (int)x.FootballField.OpeningDays,
+                    OpeningHouer = x.FootballField.OpeningHouer,
                     GovernorateGet = new GovernorateDto
                     {
                         Id = x.FootballField.Governorate.Id,
@@ -110,6 +112,8 @@ namespace Reservations.Controllers
                     Latitude = user.FootballField.Latitude,
                     Longitude = user.FootballField.Longitude,
                     Location = user.FootballField.Location,
+                    OpeningDays = (int)user.FootballField.OpeningDays,
+                    OpeningHouer = user.FootballField.OpeningHouer,
                 }
             };
 
@@ -162,6 +166,8 @@ namespace Reservations.Controllers
                     Latitude = user.FootballField.Latitude,
                     Longitude = user.FootballField.Longitude,
                     Location = user.FootballField.Location,
+                    OpeningDays = (int)user.FootballField.OpeningDays,
+                    OpeningHouer = user.FootballField.OpeningHouer,
                 }
             };
 

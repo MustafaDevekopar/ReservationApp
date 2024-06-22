@@ -1,12 +1,37 @@
 
 import ExplanatoryIcons from '../Components/ReserveElement/ExplanatoryIcons'
-//import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox'
+
 import ReservDate from '../Components/ReserveElement/ReservDate'
 import FieldInformation from '../Components/ReserveElement/FieldInformation'
+import { useParams } from 'react-router'
+import { useEffect, useState } from 'react'
+import { FieldDataType, Reservation } from '../Reservations'
+import { FootbalfieldsGetById, GetReservationsOfField } from '../Api'
 
 type Props = {}
 
 const ReservePage: React.FC<Props> = (props: Props): JSX.Element => {
+  const { fieldId } = useParams<{ fieldId?: string }>(); 
+const [fieldData, setFieldData] = useState<FieldDataType | null>(null); 
+const [reservationsData, setReservationsData] = useState<Reservation[]>([]);
+
+useEffect(() => {
+  const fetchData = async () => {
+    try {
+      if (!fieldId) return; 
+
+      const data = await FootbalfieldsGetById(parseInt(fieldId)); 
+      setFieldData(data); 
+
+      const reservationsData = await GetReservationsOfField(Number(fieldId));
+      setReservationsData(reservationsData);
+    } catch (error) {
+      console.error('Error fetching football field data:', error);
+    }
+  };
+
+  fetchData();
+}, [fieldId]); 
   return (
     <div className="flex flex-col lg:gap-8 xl:gap-8 items-center my-8 mx-3 sm:mx-4  md:mx-12 lg:mx-40">
         <div className="flex justify-center items-center gap-6 mb-6">
@@ -20,8 +45,10 @@ const ReservePage: React.FC<Props> = (props: Props): JSX.Element => {
               Color='bg-WhiteYellow'
               Text='مغلق' />
         </div>
-        <FieldInformation />
-        <ReservDate />
+        <FieldInformation fieldData={fieldData}/>
+        <ReservDate 
+          fieldData={fieldData}
+          reservationsData={reservationsData}/>
         {/* <ConfirmOrBackBox /> */}
     </div>
   )

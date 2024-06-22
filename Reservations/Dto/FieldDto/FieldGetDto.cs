@@ -11,6 +11,8 @@
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public DateTime CreatedAt { get; set; }
+        public int OpeningDays { get; set; } = 7;
+        public string? OpeningHouer { get; set; }
         public GovernorateDto GovernorateGet { get; set; }
 
     }
