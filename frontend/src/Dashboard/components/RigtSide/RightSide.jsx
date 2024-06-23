@@ -5,7 +5,7 @@ import Updates from "../Updates/Updates";
 
 const RightSide = () => {
   return (
-    <div className="flex flex-col   m-2  justify-evenly">
+    <div className="flex flex-col mx-2 mt-10 ">
       <div className="w-full">
         <h3>المشرفين</h3>
         <Updates />

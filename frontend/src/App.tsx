@@ -16,8 +16,8 @@ function App() {
   // Check if the current path is in the pathsToShowArray array
   const shouldHideComponent = pathsToHideComponents.includes(location.pathname);
 
-  return (
-    <div className="App mb-20">
+  return (// mb-20
+    <div className="App"> 
       <UserProvider >
 
         <Notification />

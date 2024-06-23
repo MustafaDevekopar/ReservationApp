@@ -5,7 +5,7 @@ import { Outlet } from "react-router";
 
 const BasicTable: React.FC = () => {
   return (
-    <Outlet />
+      <Outlet />
   );
 };
 

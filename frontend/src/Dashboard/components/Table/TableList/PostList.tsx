@@ -33,7 +33,7 @@ const PostList = (props: Props) => {
     }, []);
 
     return (
-        <div className="overflow-x-hidden">
+    <div className="overflow-x-hidden">
       <TableTitle tableTitle="المنشورات"/>
       <TableContainer 
         component={Paper}
