@@ -6,9 +6,10 @@ import { FootbalfieldsGet } from '../../Api';
 
 type Props = {
   selectedGovernorate: number | null;
+  setSelectedCategory: number | null;
 };
 
-const CardList: React.FC<Props> = ({ selectedGovernorate }) => {
+const CardList: React.FC<Props> = ({ selectedGovernorate, setSelectedCategory }) => {
   const [fields, setFields] = useState<FieldDataType[]>([]);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ const CardList: React.FC<Props> = ({ selectedGovernorate }) => {
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-3 sm:mx-6 md:mx-12 lg:mr-24 lg:ml-8 w-full">
       {fields
         .filter((field) => !selectedGovernorate || field.userGet.governorateGet.id === selectedGovernorate)
+        .filter((field) => !setSelectedCategory || field.userGet.categoryGet.id === setSelectedCategory)
         .map((fld) => (
           <Card
             key={fld.userGet.id}

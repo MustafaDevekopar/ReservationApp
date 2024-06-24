@@ -53,6 +53,7 @@ namespace Reservations.Controllers
                 .Where(x => x.AccountType == "FieldOwner")
                 .Include(x => x.FootballField )
                 .Include(x =>  x.FootballField.Governorate)
+                .Include(x => x.FootballField.Category)
                 .ToListAsync();
             var fieldMap = users.Select(x => new FieldUserAppGetDto
             {
@@ -77,7 +78,13 @@ namespace Reservations.Controllers
                     {
                         Id = x.FootballField.Governorate.Id,
                         Name = x.FootballField.Governorate.Name
+                    },
+                    CategoryGet = new CategoryDto
+                    {
+                        Id = x.FootballField.Category.Id,
+                        Name = x.FootballField.Category.Name
                     }
+                 
                 }
             }).ToList();
 

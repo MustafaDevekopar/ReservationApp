@@ -14,6 +14,7 @@
         public int OpeningDays { get; set; } = 7;
         public string? OpeningHouer { get; set; }
         public GovernorateDto GovernorateGet { get; set; }
+        public CategoryDto CategoryGet { get; set; }
 
     }
 }

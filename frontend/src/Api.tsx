@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -236,6 +236,26 @@ export const GovernorateGet = async (): Promise<Governorate[]> => {
   try {
 
     const response: AxiosResponse<Governorate[]> = await axios.get<Governorate[]>("https://localhost:7249/api/Governorate");
+    // console.log(response.data);
+    return response.data; // Return the array of users from the response
+
+  } catch(error) {
+
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+
+  }
+}
+export const CategoryGet = async (): Promise<CategoryType[]> => {
+  try {
+
+    const response: AxiosResponse<CategoryType[]> = await axios.get<CategoryType[]>(`${API_URL}Category`);
     // console.log(response.data);
     return response.data; // Return the array of users from the response
 

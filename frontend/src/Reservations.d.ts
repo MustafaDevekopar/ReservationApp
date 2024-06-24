@@ -113,6 +113,10 @@ export interface Comment {
         id: Number
         name: string;
       }
+      categoryGet: {
+        id: number;
+        Name: string;
+      }
     }
 
   }
@@ -137,6 +141,10 @@ export interface Comment {
     }
   }
 
+export interface  CategoryType {
+    id: number;
+    name: string;
+}
   // export interface UserOrFiledType {
   //   id: number;
   //   name: string;
