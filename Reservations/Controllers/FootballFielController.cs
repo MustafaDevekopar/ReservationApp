@@ -298,11 +298,13 @@ namespace Reservations.Controllers
         }
 
 
+
+        // update User  
+
         [HttpPut("updateProfile/{fieldId}")]
         public async Task<IActionResult> UpdateUser(int fieldId, [FromForm] UpdateUserNameDto updateUserDto)
         {
-            // Find the User by userId
-            //var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
             var field = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
 
             if (field == null)
@@ -347,6 +349,44 @@ namespace Reservations.Controllers
             }
         }
 
+        // ==== update location ======================
+
+
+        [HttpPut("updateLocation/{fieldId}")]
+        public async Task<IActionResult> UpdateUser(int fieldId, [FromForm] LocationDto updateUserDto)
+        {
+
+            var field = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+
+            if (field == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Find the AppUser associated with the User
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.FootballFieldId == fieldId);
+
+            if (appUser == null)
+            {
+                return NotFound("AppUser not found");
+            }
+
+            // Update Username in User table
+            field.Latitude = updateUserDto.Latitude;
+            field.Longitude = updateUserDto.Longitude;
+
+            // Save changes in the database
+            var result = await _userManager.UpdateAsync(appUser);
+
+            //await _context.SaveChangesAsync();
+            if (!_footballFieldRepository.UpdateFootBallField(field))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                return BadRequest(ModelState);
+            }
+            return Ok("Field Location updated successfully");
+
+        }
         // ============== update avatar ==============
         [HttpPut("updateFieldAvatar/{fieldId}")]
         public async Task<IActionResult> UpdateAvatar(int fieldId, [FromForm] UserAvatarUpdateDto avatarUpdateDto)

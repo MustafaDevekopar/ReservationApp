@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType, LocationDataType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -450,6 +450,36 @@ export const UpdateUserProfile = async (userId: number, updatData: UserProfilety
       headers: {
         'Content-Type': 'multipart/form-data',
         //'Authorization': `Bearer ${token}` // Ensure token is sent
+      },
+    });
+
+    console.log("responce: " + response.data);
+    return response.data; // Return the response data
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+
+// ==========updat user location ===============
+
+export const UpdateUserLocation = async (userId: number, LocationData: LocationDataType, isField: boolean): Promise<string> => {
+  try {
+    const Url = isField ? `${API_URL}FootballFiel/updateLocation/${userId}`: `${API_URL}User/updateLocation/${userId}`;
+    const formData = new FormData();
+    formData.append('Latitude', LocationData.latitude);
+    formData.append('Longitude', LocationData.longitude);
+  
+
+    const response = await axios.put(Url, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
       },
     });
 

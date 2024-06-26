@@ -1,5 +1,5 @@
 
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { NavigationIcon, NewPostIcon } from '../IconsComponent/IconComponent'
 import NotificationIconCom from './NotificationIconCom'
 
@@ -11,6 +11,7 @@ type Props = {
 }
 
 const NavIconsProfile: React.FC<Props> = ({username, fieldId, isFootbalField, isMyProfile}: Props): JSX.Element => {
+  const { userId } = useParams<{ userId?: string }>(); 
   return (
     <div className="flex h-16">
         <div className="flex-non flex justify-center items-end w-32">
@@ -24,7 +25,9 @@ const NavIconsProfile: React.FC<Props> = ({username, fieldId, isFootbalField, is
                   <NewPostIcon className="w-7"/>
                 </Link>
               }
-              <NavigationIcon className="w-7"/>
+              <Link to={`/setting/${userId}`}>
+                <NavigationIcon className="w-7"/>
+              </Link>
           </div>
         }
     </div>

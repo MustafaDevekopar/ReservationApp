@@ -88,7 +88,9 @@ export interface Comment {
       username: string;
       biography : string;
       createdAt : string;
-      avatar : Text;
+      avatar : Text ;
+      latitude: string;
+      longitude: string;
     }
   }
   
@@ -145,6 +147,11 @@ export interface  CategoryType {
     id: number;
     name: string;
 }
+
+export interface LocationDataType {
+  latitude: latitude,
+  longitude: longitude,
+};
   // export interface UserOrFiledType {
   //   id: number;
   //   name: string;

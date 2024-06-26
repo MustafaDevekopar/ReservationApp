@@ -14,16 +14,16 @@ import { DefaultPost } from "../assets/Image";
 type Props = {}
 
 const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
-  const { fieldId } = useParams<{ fieldId?: string }>(); 
+  const { userId } = useParams<{ userId?: string }>(); 
   const [fieldData, setFieldData] = useState<FieldDataType | null>(null); 
   // const [post, setPost] = useState<Post[]>([]); 
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!fieldId) return; 
+        if (!userId) return; 
 
-        const data = await FootbalfieldsGetById(parseInt(fieldId)); 
+        const data = await FootbalfieldsGetById(parseInt(userId)); 
         setFieldData(data); 
       } catch (error) {
         console.error('Error fetching football field data:', error);
@@ -31,7 +31,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     fetchData(); 
-  }, [fieldId]); 
+  }, [userId]); 
 
   if (!fieldData) {
     return <div>Loading...</div>; 
@@ -64,7 +64,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
 
             <NavIconsProfile 
               username={fieldData.userName}
-              fieldId={fieldId}
+              fieldId={userId}
               isFootbalField={true}
               isMyProfile={true}
             />
@@ -86,7 +86,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
                   width="auto"
                   paddingx="4"
                   paddingy="2"
-                  path={`/reserve/${fieldId}`}
+                  path={`/reserve/${userId}`}
                 />
                 <LinkToButton
                   text="تعديل الملف الشخصي"
@@ -96,7 +96,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
                   width="auto"
                   paddingx="4"
                   paddingy="2"
-                  path={`/field-update/${fieldId}`}
+                  path={`/field-update/${userId}`}
                 />
             </div>
  

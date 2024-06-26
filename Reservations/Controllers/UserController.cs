@@ -51,7 +51,9 @@ namespace Reservations.Controllers
                     //Password = user.Password,
                     //PhoneNumbr = user.PhoneNumbr,
                     CreatedAt = user.CreatedAt,
-                    Avatar = avatarBase64
+                    Avatar = avatarBase64,
+                    Latitude = user.Latitude,
+                    Longitude = user.Longitude,
                 };
             }).ToList();
 
@@ -85,7 +87,10 @@ namespace Reservations.Controllers
                     Name = user.User.Name,
                     Biography = user.User.Biography,
                     CreatedAt = user.User.CreatedAt,
-                    Avatar = (user.User.Avatar != null) ? Convert.ToBase64String(user.User.Avatar) : null
+                    Avatar = (user.User.Avatar != null) ? Convert.ToBase64String(user.User.Avatar) : null,
+                    Latitude = user.User.Latitude,
+                    Longitude = user.User.Longitude,
+
                 }
             };
 
@@ -277,7 +282,7 @@ namespace Reservations.Controllers
 
 
         [HttpPut("updateUser/{userId}")]
-        public async Task<IActionResult> UpdateUser(int userId, [FromForm] UpdateUserNameDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(int userId, [FromForm] UpdateUserNameDto updateUserDto)//LocationDto
         {
             // Find the User by userId
             //var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -325,6 +330,41 @@ namespace Reservations.Controllers
             }
         }
 
+
+        //update Location 
+
+        [HttpPut("updateLocation/{userId}")]
+        public async Task<IActionResult> UpdateUser(int userId, [FromForm] LocationDto updateUserDto)//LocationDto
+        {
+            // Find the User by userId
+            var user = await _userRepository.GetUserAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Find the AppUser associated with the User
+            var appUser = await _userManager.Users.FirstOrDefaultAsync(u => u.UserId == userId);
+
+            if (appUser == null)
+            {
+                return NotFound("AppUser not found");
+            }
+
+  
+            // Update Username in User table
+            user.Latitude = updateUserDto.Latitude;
+            user.Longitude = updateUserDto.Longitude;
+  
+            if (!_userRepository.UpdateUser(user))
+            {
+                ModelState.AddModelError("", "Something went wrong while updating the avatar");
+                return BadRequest(ModelState);
+            }
+            return Ok("User updated successfully");
+
+        }
     }
 }
 

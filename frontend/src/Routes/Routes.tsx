@@ -29,6 +29,8 @@ import UserProfilePage from "../Pages/ProfileUserPage";
 import UpdateFieldProfilePage from "../Pages/UpdateFieldProfilePage";
 import ProfileFieldPage from "../Pages/ProfileFieldPage";
 import ReservationList from "../Dashboard/components/Table/TableList/ReservationList";
+import SettingsPage from "../Pages/SettingsPage";
+import LocationUpdatePage from "../Pages/LocationUpdatePage";
 
 
 
@@ -44,8 +46,10 @@ export const router = createBrowserRouter([
             { path: "reserve/:fieldId", element: <ProtectedRoute> <ReservePage /> </ProtectedRoute> },
             { path: "showpost/:id", element: <ShowPost />},
             { path: "comments/:postId", element: <ShowPostComments />},
-            { path: "fieldprofile/:fieldId", element: <ProfileFieldPage />},
+            { path: "fieldprofile/:userId", element: <ProfileFieldPage />},
             { path: "userprofile/:userId", element: <UserProfilePage />},
+            { path: "setting/:userId", element: <SettingsPage />},
+            { path: "location/:userId", element: <LocationUpdatePage />},
             { path: "users", element: <UsersPage />},
             { path: "login", element: <LoginPage />},
             { path: "register", element: <RegisterPage />},

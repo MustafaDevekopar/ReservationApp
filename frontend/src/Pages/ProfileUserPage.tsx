@@ -60,12 +60,12 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
   return (
     <div className="">
         <div className=" mt-2 mx-3 sm:mx-6  md:mx-6 lg:mx-60 xl:mx-60 mb-12">
-                <NavIconsProfile 
-                  username={UserData.userName}
-                  fieldId={userId}
-                  isFootbalField={false}
-                  isMyProfile={isMyAccount}
-                />
+            <NavIconsProfile 
+              username={UserData.userName}
+              fieldId={userId}
+              isFootbalField={false}
+              isMyProfile={isMyAccount}
+            />
             
             <AvatarRow 
               name={UserData.userGet.name}

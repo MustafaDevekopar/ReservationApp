@@ -6,11 +6,11 @@ import UpdateAvatarForm from './UpdateAvatarForm';
 
 
 interface AvatarFormProps {
-  userData: UserDataType | null;
+  Avatar: Text | null | undefined;
   isUserAvatar: boolean;
 }
 
-const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ userData, isUserAvatar }) => {
+const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ Avatar, isUserAvatar }) => {
   const [image, setImage] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [crop, setCrop] = useState<Crop>({
@@ -38,9 +38,9 @@ const UpdateAvatarCom: React.FC<AvatarFormProps> = ({ userData, isUserAvatar }) 
         src={`${croppedImageUrl 
           ? (croppedImageUrl) 
           : ( 
-              !userData?.userGet.avatar || userData?.userGet.avatar === null 
+              !Avatar || Avatar === null 
                 ? DefaultPost
-                : `data:image/png;base64,${userData?.userGet.avatar}`
+                : `data:image/png;base64,${Avatar}`
             )}`}  
         alt="Cropped" className={`${isUserAvatar ? "w-24 rounded-full" : "aspect-[16/9] rounded-t-2xl"} object-cover h-24 `} 
       /> 

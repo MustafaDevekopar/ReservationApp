@@ -33,7 +33,7 @@ const UpdateFieldProfilePage: React.FC = () => {
       {isLoggedIn()  && user?.accountType === "FieldOwner" && user.userName === userData?.userName
       ?(<div>
           <h3 className="font-bold text-DarkGray mx-4 mb-4">تعديل الملف الشخصي</h3>
-          <UpdateAvatarCom userData={userData} isUserAvatar={false}/>
+          <UpdateAvatarCom Avatar={userData.userGet.avatar} isUserAvatar={false}/>
           <UpdateProfileFieldForm  fieldId={userId}/>
         </div>)
       :( <div className='w-full h-screen flex justify-center items-center text-2xl text-DarkGray'>لا يمكن الوصول</div>)
