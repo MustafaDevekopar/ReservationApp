@@ -16,7 +16,7 @@ type Props = {}
 const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
   const { userId } = useParams<{ userId?: string }>(); 
   const [fieldData, setFieldData] = useState<FieldDataType | null>(null); 
-  // const [post, setPost] = useState<Post[]>([]); 
+  const [post, setPost] = useState<Post[]>([]); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +25,9 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
 
         const data = await FootbalfieldsGetById(parseInt(userId)); 
         setFieldData(data); 
+
+        const postData = await PostsOfFieldGet(parseInt(userId)); 
+        setPost(postData);
       } catch (error) {
         console.error('Error fetching football field data:', error);
       }
@@ -42,8 +45,8 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
   // useEffect(() => {
   //   const fetchPosts = async () => {
   //     try {
-  //       if (!fieldId) return; 
-  //       const postData = await PostsOfFieldGet(parseInt(fieldId)); 
+  //       if (!userId) return; 
+  //       const postData = await PostsOfFieldGet(parseInt(userId)); 
   //       setPost(postData);
   //     } catch (error) {
   //       console.error('Error fetching users:', error);
@@ -102,7 +105,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
  
 
 
-    {/* <div className="flex flex-wrap   mt-6 mb-20">
+    <div className="flex flex-wrap   mt-6 mb-20">
       {post.map((post) => (
         <div key={post.id} className="w-1/3 p-[1px] lg:p-1 lg:w-1/4 xl:w-1/4">
           <Link to={`/showpost`} className="rounded-md overflow-hidden">
@@ -119,7 +122,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
           </Link>
         </div>
       ))}
-    </div> */}
+    </div>
     </div>
     </div>
 

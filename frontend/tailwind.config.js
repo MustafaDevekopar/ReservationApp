@@ -25,6 +25,7 @@ module.exports = {
         WhiteBlue: "#0672C0",
         bgWhight: "#F7F7F7",
         OutlineBlue: "#088FF0",
+        GlassLoader: "rgb(0 0 0 / 74%)",
 
         darkBlue: "hsl(213.86, 58.82%, 46.67%)",
         lightGreen: "hsl(156.62, 73.33%, 58.82%)",

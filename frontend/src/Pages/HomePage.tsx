@@ -2,7 +2,6 @@
 import SliderMain from "../Components/Sliders/SliderMain"
 import CardMiniList from "../Components/Lists/CardMiniList"
 
-
 type Props = {}
 
 const HomePage: React.FC<Props> = (props: Props): JSX.Element => {
