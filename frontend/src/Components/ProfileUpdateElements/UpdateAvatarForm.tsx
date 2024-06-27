@@ -10,6 +10,7 @@ import { Icon } from '@iconify-icon/react';
 import { UpdateUserAvatar } from '../../Api';
 import ImageUploader from '../../Helper/ImageUploader';
 import Cropper from '../../Helper/Cropper';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 interface PropsInfo  {
     isUserAvatar: boolean;
     image: File | null;
@@ -44,14 +45,17 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
   const { userId } = useParams<{ userId?: string }>();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (image) {
+      setLoading(true)
       setIsSubmitting(true); // Set submitting state to true
       UpdateUserAvatar(Number(userId), image, isUserAvatar)
         .then(response => {
+          window.location.reload();
           toast.success(response );
         })
         .catch(error => {
@@ -60,6 +64,7 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
         })
         .finally(() => {
           setIsSubmitting(false); // Reset submitting state
+          setLoading(false);
         });
     } else {
       toast.error('يرجى تقديم صورة مقصوصة قبل تحديث الصورة.');
@@ -68,6 +73,7 @@ const UpdateAvatarForm: React.FC<PropsInfo> = ({
 
   return (
     <form onSubmit={handleSubmit} className="relative top-[-3rem] flex flex-col items-center">
+      {loading && <FullPageLoader />}
       <div className="flex w-28 justify-between">
         <ImageUploader
           onDrop={onDrop} 

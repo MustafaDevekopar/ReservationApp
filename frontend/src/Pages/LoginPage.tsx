@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form";
 import {yupResolver } from "@hookform/resolvers/yup"
 import ButtonComponent from "../Components/FormElements/ButtonComponent";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import FullPageLoader from "../Components/FullPageLoader/FullPageLoader";
 
 type Props = {}
 type loginFormsInputs = {
@@ -17,6 +19,8 @@ const validation = Yup.object().shape({
 })
 
 const LoginPage = (props: Props) => {
+
+  const [loading, setLoading] = useState<boolean>(false);
     const { loginUser } = useAuth();
     const { 
         register, 
@@ -25,11 +29,14 @@ const LoginPage = (props: Props) => {
     } = useForm<loginFormsInputs>({resolver: yupResolver(validation)});
 
     const handleLogin = (form: loginFormsInputs) => {
+      setLoading(true);
         loginUser(form.phoneNumber, form.password);
+        setLoading(false);
     };
 
   return (
     <section className="bg-gray-50 ">
+      {loading && <FullPageLoader />}
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mb-20 sm:max-w-md xl:p-0 ">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

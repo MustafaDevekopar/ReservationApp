@@ -9,6 +9,7 @@ import { addReserve } from '../../Api';
 import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import ConfirmOrBackBox from './ConfirmOrBackBox';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 interface Props {
   fieldData: FieldDataType | null;
@@ -18,6 +19,7 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
   const { fieldId } = useParams<{ fieldId?: string }>();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleDateClick = (date: string) => {
     setSelectedDate(date);
@@ -31,18 +33,25 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
   const handleAddReservation = async () => {
     try {
       if (selectedDate && selectedTime) {
+        setLoading(true);
         await addReserve(Number(fieldId), selectedTime);
         toast.success('تم الحجز بنجاح');
+        
       } else {
         toast.error('!!يرجى اختيار كلا من التاريخ والوقت');
       }
     } catch (error) {
       console.error('Error adding reservation:', error);
+    }finally{
+      setLoading(false);
+      new Promise(resolve => setTimeout(resolve, 2000));
+      window.location.replace("/reservations/current");
     }
   };
 
   return (
     <div className="mt-2 w-full">
+      {loading && <FullPageLoader />}
       <div className="s">
         <span className="text-sm text-DarkGray">التاريخ</span>
         <ToastContainer />

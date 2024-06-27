@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom';
 import { PostsGet } from '../../Api';
 import { Post } from '../../Reservations';
 import { DefaultAvatar } from '../../assets/Image';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 type Props = {}
 
 const PostList = (props: Props) => {
     const [post, setPost] = useState<Post[]>([]); 
+    const [loading, setLoading] = useState<boolean>(false)
 
     useEffect(() => {
       const fetchUsers = async () => {
         try {
+          setLoading(true)
           const postData = await PostsGet(); 
           setPost(postData);
         } catch (error) {
           console.error('Error fetching users:', error);
+        }finally{
+          setLoading(false)
         }
       };
   
@@ -25,6 +30,7 @@ const PostList = (props: Props) => {
     return (
         <div className="flex flex-wrap mt-6 mb-20
                          mx-3 sm:mx-6  md:mx-12 lg:mx-60 xl:mx-60">
+          {loading && <FullPageLoader/>}
           {post.map((pst) => (
             <div key={pst.id} className="w-1/3 p-[1px] lg:p-1 lg:w-1/4 xl:w-1/4">
               <Link to={`/showpost/${String(pst.id)}`} className="rounded-md overflow-hidden relative">

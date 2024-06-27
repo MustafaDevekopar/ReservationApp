@@ -3,6 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { UserProfiletype } from '../../Reservations';
 import { FootbalfieldsGetById, UpdateFieldProfile, UpdateUserProfile, UserGetById } from '../../Api';
 import ButtonComponent from '../FormElements/ButtonComponent';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 
 interface ProfileFormProps {
@@ -13,13 +14,14 @@ const UpdateProfileFieldForm: React.FC<ProfileFormProps> = ({ fieldId}) => {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [biography, setBiography] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!fieldId) return; 
-
+        setLoading(true);
         const data = await FootbalfieldsGetById(parseInt(fieldId)); 
         setName(data.userGet.name);
         setUsername(data.userName);
@@ -27,6 +29,8 @@ const UpdateProfileFieldForm: React.FC<ProfileFormProps> = ({ fieldId}) => {
         console.log(data.userGet.name)
       } catch (error) {
         console.error('Error fetching user data:', error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -53,15 +57,20 @@ const UpdateProfileFieldForm: React.FC<ProfileFormProps> = ({ fieldId}) => {
       biography: biography,
     };
     try {
+      setLoading(true);
       const response = await UpdateFieldProfile(Number(fieldId), FieldData);
+      window.location.reload();
       toast.success(response);
     } catch (error) {
       toast.error(`Error: ${error}`);
+    }finally{
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center mx-2">
+      {loading && <FullPageLoader />}
       <div className="w-full border-b-2 border-gray-900">
         <label className="text-xs">الاسم</label>
         <input 

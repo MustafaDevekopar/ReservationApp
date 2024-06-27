@@ -9,7 +9,7 @@ interface CommentListProps {
 
 const CommentList = ({ comments }: CommentListProps) => {
   if (comments.length === 0) {
-    return <div>Loading...</div>;
+    return <div className="text-DarkGray w-full  flex items-center justify-center mt-[30%]">لا توجد تعليقات</div>;
   }
 
   return (

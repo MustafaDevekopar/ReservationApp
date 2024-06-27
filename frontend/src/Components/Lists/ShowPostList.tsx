@@ -6,19 +6,24 @@ import UsernameAvaratBox from '../CommentElements/UsernameAvaratBox';
 import ImageOfShowPost from '../CommentElements/ImageOfShowPost';
 import IconsOfShowPost from '../CommentElements/IconsOfShowPost';
 import DesecriptionShowPost from '../CommentElements/DesecriptionShowPost';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 const ShowPostList = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [loading, setLoadiong] = useState<boolean>(false);
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     const fetchPosts = async () => {
       try {
+        setLoadiong(true);
         const postData = await PostsGet();
         setPosts(postData);
       } catch (error) {
         console.error('Error fetching posts:', error);
+      }finally{
+        setLoadiong(false);
       }
     };
 
@@ -51,6 +56,7 @@ const ShowPostList = () => {
         </div>
       )}
       {/* Render remaining posts */}
+      {loading && <FullPageLoader />}
       {posts.map((post) => (
         <div 
           key={post.id} 

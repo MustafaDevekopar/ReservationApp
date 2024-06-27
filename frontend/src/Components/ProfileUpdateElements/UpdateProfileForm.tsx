@@ -3,6 +3,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import { UserProfiletype } from '../../Reservations';
 import { UpdateUserProfile, UserGetById } from '../../Api';
 import ButtonComponent from '../FormElements/ButtonComponent';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 
 interface ProfileFormProps {
@@ -13,19 +14,22 @@ const UpdateProfileForm: React.FC<ProfileFormProps> = ({ userId}) => {
   const [name, setName] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [biography, setBiography] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!userId) return; 
-
+        setLoading(true);
         const data = await UserGetById(parseInt(userId)); 
         setName(data.userGet.name);
         setUsername(data.userName);
         setBiography(data.userGet.biography);
       } catch (error) {
         console.error('Error fetching user data:', error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -52,15 +56,20 @@ const UpdateProfileForm: React.FC<ProfileFormProps> = ({ userId}) => {
       biography: biography,
     };
     try {
+      setLoading(true);
       const response = await UpdateUserProfile(Number(userId), UserData);
+      window.location.reload();
       toast.success(response);
     } catch (error) {
       toast.error(`Error: ${error}`);
+    }finally{
+      setLoading(false);
     }
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center mx-2">
+      {loading && <FullPageLoader />}
       <div className="w-full border-b-2 border-gray-900">
         <label className="text-xs">الاسم</label>
         <input 

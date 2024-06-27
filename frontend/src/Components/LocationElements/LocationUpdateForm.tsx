@@ -7,6 +7,7 @@ import ButtonComponent from '../FormElements/ButtonComponent';
 import { Icon } from '@iconify-icon/react';
 import { useAuth } from '../../Context/useAuth';
 import MapComponent from './MapComponent';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 interface ProfileFormProps {
   userId: string | undefined;
@@ -19,6 +20,7 @@ const LocationUpdateForm: React.FC<ProfileFormProps> = ({ userId }) => {
   const [longitude, setLongitude] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
   const [userData, setUserData] = useState<UserDataType>();
+  const [loading, setLoading] = useState<boolean>(false);
   const isField: boolean = user?.accountType == "FieldOwner";
   let username: string = "";
   if(user?.userName != null){
@@ -61,10 +63,14 @@ const LocationUpdateForm: React.FC<ProfileFormProps> = ({ userId }) => {
       longitude,
     };
     try {
+      setLoading(true)
       const response = await UpdateUserLocation(Number(userId), UserData, isField);
       toast.success(response);
+      window.location.reload();
     } catch (error) {
       toast.error(`Error: ${error}`);
+    }finally{
+      setLoading(false);
     }
   };
 
@@ -82,14 +88,17 @@ const LocationUpdateForm: React.FC<ProfileFormProps> = ({ userId }) => {
 
   const getLocation = () => {
     if (navigator.geolocation) {
+      setLoading(true);
       navigator.geolocation.getCurrentPosition(handleSuccess, handleError);
+      setLoading(false)
     } else {
-      setError('Geolocation is not supported by this browser.');
+      setError("الموقع الجغرافي ليس مدعوما");
     }
   };
 //33.427077046582795   43.30538409231554
   return (
     <form onSubmit={handleSubmit} className="flex flex-col justify-center items-center mx-2">
+      {loading && <FullPageLoader />}
       <div className='w-full mb-12'>
         {userData?.userGet.latitude != null && userData?.userGet.longitude != null
         ? <MapComponent lat={parseFloat(userData?.userGet.latitude)  } lng={parseFloat(userData.userGet.longitude)} />

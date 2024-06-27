@@ -6,6 +6,7 @@ import { formatDate, formatTime } from '../ReserveElement/Helpers';
 import CardReservation from '../Cards/CardReservation';
 import { useAuth } from '../../Context/useAuth';
 import { boolean } from 'yup';
+import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 type Props = {
   filter: 'current' | 'past';
@@ -14,17 +15,20 @@ type Props = {
 const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
   // const [reservations, setReservations] = useState<ReservaiotionWithField[]>([]);
   const [reservations, setReservations] = useState<ReservationFieldType[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const {isLoggedIn, user, logout} = useAuth();
   const IsFieldOwner: boolean = user?.accountType === "FieldOwner";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const reservationsData = await GetReservationsOfUser(1);
+        setLoading(true)
         const reservationsData = await GetMyReservationsOfField(IsFieldOwner);
         setReservations(reservationsData);
       } catch (error) {
         console.error('Error fetching reservation status or reservations:', error);
+      }finally{
+        setLoading(false);
       }
     };
 
@@ -39,6 +43,7 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
 
   return (
     <div className="grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mx-5 sm:mx-6 md:mx-12 lg:mr-40 lg:ml-20 w-full my-6">
+      {loading == true && <FullPageLoader /> }
       {filteredReservations.map((res) => ( 
           <CardReservation
             key={res.id}

@@ -26,17 +26,26 @@ const CardReservation: React.FC<ReservationsProps> = (
     fieldPhonNumber,
     avatar,
   }) : JSX.Element=> {
-    const [reservationId , setReservationId ] = useState<string>("")
+
+    const [reservationId , setReservationId ] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+
+
     const handleDelete = (e: any) => {
         setReservationId(e.target.value);
-        DeleteReservation(e.target.value)
-          .then(response => {
-            toast.success(response );
-          })
-          .catch(error => {
-            console.error("Error Deleting :", error.message);
+        try{
+          setLoading(true);
+          DeleteReservation(e.target.value)
+            .then(response => {
+              toast.success(response );
+            })          
+        }catch(error) {
+            console.error("Error Deleting :", error);
             toast.error('حدث خطأ . الرجاء المحاولة مرة أخرى.');
-          })
+        }finally{
+          setLoading(false);
+          window.location.reload();
+        }
     };
   return (
 

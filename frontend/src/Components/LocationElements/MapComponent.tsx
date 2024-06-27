@@ -5,7 +5,6 @@ import L from 'leaflet';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
-import { DefaultAvatar } from '../../assets/Image';
 
 // Define a custom icon
 
@@ -28,7 +27,7 @@ interface Position {
 const MapComponent: React.FC<Position> = ({lat,lng}): JSX.Element  => {
 
   return (
-    <div>
+    <div className="z-10">
       <MapContainer center={[lat, lng]} zoom={13} style={{ height: '300px', width: '100%' }}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

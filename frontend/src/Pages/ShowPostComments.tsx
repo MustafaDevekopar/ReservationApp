@@ -9,19 +9,24 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Comment } from '../Reservations'; // تأكد من المسار الصحيح لاستيراد النوع Comment
 import { DefaultAvatar } from "../assets/Image";
+import FullPageLoader from "../Components/FullPageLoader/FullPageLoader";
 
 const ShowPostComments: React.FC = (): JSX.Element => {
   const { postId } = useParams<{ postId?: string }>(); // Dynamically retrieve the id parameter from the URL
   const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         if (!postId) return;
+        setLoading(true);
         const commentData: Comment[] = await CommentsGet(parseInt(postId));
         setComments(commentData);
       } catch (error) {
         console.error('Error fetching comment data:', error);
+      }finally{
+        setLoading(false)
       }
     };
 
@@ -35,7 +40,8 @@ const ShowPostComments: React.FC = (): JSX.Element => {
   return (
     <div className="container mx-auto py-8 pb-20">
       <h1 className="mb-4 text-md text-DarkGray text-center font-semibold ">التعليقات</h1>
-      <CommentList comments={comments} /> 
+      {loading ? <FullPageLoader /> : <CommentList comments={comments} /> }
+      
       <AddCommentBox 
           Avatar={DefaultAvatar} 
           userId={5}

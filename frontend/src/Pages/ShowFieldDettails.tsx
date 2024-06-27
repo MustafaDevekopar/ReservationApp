@@ -11,22 +11,26 @@ import { FootbalfieldsGetById } from '../Api'
 import { FieldDataType, FootballFaild } from '../Reservations'
 //import { fileURLToPath } from 'url'
 import { calculateDistance } from '../Helper/Helper'
+import FullPageLoader from '../Components/FullPageLoader/FullPageLoader'
   
   type Props = {}
 
     const ShowFieldDettails: React.FC<Props> = (): JSX.Element  => {
-        const { id } = useParams<{ id?: string }>(); // Dynamically retrieve the id parameter from the URL
-        const [fieldData, setFieldData] = useState<FieldDataType | null>(null); // State to store the fetched data
+        const { id } = useParams<{ id?: string }>(); 
+        const [fieldData, setFieldData] = useState<FieldDataType | null>(null); 
+        const [loading, setLoading] = useState<boolean>(false);
       
         useEffect(() => {
           const fetchData = async () => {
             try {
-              if (!id) return; // Exit early if id is undefined
-      
-              const data = await FootbalfieldsGetById(parseInt(id)); // Convert id to number
-              setFieldData(data); // Update state with the fetched data
+              if (!id) return; 
+              setLoading(true);
+              const data = await FootbalfieldsGetById(parseInt(id)); 
+              setFieldData(data); 
             } catch (error) {
               console.error('Error fetching football field data:', error);
+            }finally{
+              setLoading(false)
             }
           };
       
@@ -34,12 +38,13 @@ import { calculateDistance } from '../Helper/Helper'
         }, [id]); // Include id in the dependency array
       
         if (!fieldData) {
-          return <div>Loading...</div>; // Add loading indicator while fetching data
+          return <FullPageLoader />; 
         }
 
   return (
     <div className="static flex justify-center w-full lg:px-10 xl:px-10 lg:pt-10 xl:pt-10 h-screen">
         <div className="flex flex-col lg:flex-row-reverse xl:flex-row-reverse lg:mx-12  w-full h-full">
+        {loading && <FullPageLoader />} 
 
             <ImageShowField imageSrc={fieldData.userGet.avatar}/>
 
