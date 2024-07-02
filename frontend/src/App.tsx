@@ -3,8 +3,10 @@ import NavBarIcons from './Components/Navbar/NavBarIcons';
 import NavBarIconsMobile from './Components/Navbar/NavBarIconsMobile';
 import Navbar from './Components/Navbar/Navbar';
 import { Outlet, useLocation } from 'react-router-dom';
-import Notification from './Notification';
 import { UserProvider } from './Context/useAuth';
+import { ToastContainer } from 'react-toastify';
+import NotificationList from './Components/Lists/NotificationList';
+import { NotificationProvider } from './Context/NotificationContext';
 
 function App() {
   // Get the current location using react-router's useLocation hook
@@ -19,14 +21,17 @@ function App() {
   return (// mb-20
     <div className="App"> 
       <UserProvider >
-
-        <Notification />
-        {/* Conditional rendering of Component to show */}
-        {shouldHideComponent && <Navbar />}
-        {shouldHideComponent && <NavBarIconsMobile />}
-        {shouldHideComponent && <NavBarIcons />}
-        <Outlet />
-
+        <NotificationProvider>
+          {/* Conditional rendering of Component to show */}
+          {shouldHideComponent && <Navbar />}
+          {shouldHideComponent && <NavBarIconsMobile />}
+          {shouldHideComponent && <NavBarIcons />}
+          <Outlet />
+            
+        <ToastContainer />
+        <NotificationList />
+        </NotificationProvider>
+        {/* <Notification /> */}
       </UserProvider>
     </div>
   );
