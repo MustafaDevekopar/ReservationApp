@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { FieldDataType, Reservation } from '../Reservations'
 import { FootbalfieldsGetById, GetReservationsOfField } from '../Api'
 import FullPageLoader from '../Components/FullPageLoader/FullPageLoader'
+import { ToastContainer } from 'react-toastify'
 
 type Props = {}
 
@@ -55,6 +56,7 @@ useEffect(() => {
           fieldData={fieldData}
           reservationsData={reservationsData}/>
         {/* <ConfirmOrBackBox /> */}
+        {/* <ToastContainer /> */}
     </div>
   )
 }

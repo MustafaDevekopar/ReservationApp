@@ -10,6 +10,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import ConfirmOrBackBox from './ConfirmOrBackBox';
 import FullPageLoader from '../FullPageLoader/FullPageLoader';
+import ConfirmMsg from '../ConfirmMsg';
 
 interface Props {
   fieldData: FieldDataType | null;
@@ -45,7 +46,7 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
     }finally{
       setLoading(false);
       new Promise(resolve => setTimeout(resolve, 2000));
-      window.location.replace("/reservations/current");
+      //window.location.replace("/reservations/current");
     }
   };
 
@@ -54,7 +55,7 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
       {loading && <FullPageLoader />}
       <div className="s">
         <span className="text-sm text-DarkGray">التاريخ</span>
-        <ToastContainer />
+        {/* <ToastContainer /> */}
       </div>
       <DateSelection
         fieldData={fieldData}
@@ -71,7 +72,14 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
         reservationsData={reservationsData}
         selectedTime={selectedTime}
       />
-      {selectedDate && (<ConfirmOrBackBox onClick={handleAddReservation} /> )}
+      {selectedDate && (          
+        <ConfirmMsg
+            id={0} 
+            title="تاكيد الحجز" 
+            text="هل أنت متأكد أنك تريد الحجز" 
+            btnText={<ConfirmOrBackBox onClick={()=>{}} />} 
+            onDelete={handleAddReservation} />)}
+      {/* {selectedDate && (<ConfirmOrBackBox onClick={handleAddReservation} /> )} */}
     </div>
   );
 };

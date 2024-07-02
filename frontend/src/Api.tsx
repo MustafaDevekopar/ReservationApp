@@ -123,7 +123,7 @@ export const FootbalfieldsGet = async (): Promise<FieldDataType[]> => {
   try {
 
     const response: AxiosResponse<FieldDataType[]> = await axios.get<FieldDataType[]>(`${API_URL}FootballFiel`);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data; // Return the array of users from the response
 
   } catch(error) {
@@ -180,7 +180,7 @@ export const PostsOfFieldGet = async (fieldId: number): Promise<Post[]> => {
 export const FootbalfieldsGetById = async (id: number): Promise<FieldDataType> => {
   try {
     const response: AxiosResponse<FieldDataType> = await axios.get<FieldDataType>(`${API_URL}FootballFiel/${id}`);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch(error) {
     if (axios.isAxiosError(error)) {
@@ -197,7 +197,7 @@ export const FootbalfieldsGetById = async (id: number): Promise<FieldDataType> =
 export const CommentsGet = async (postId: number): Promise<Comment[]> => {
   try {
     const response: AxiosResponse<Comment[]> = await axios.get<Comment[]>(`https://localhost:7249/api/Comment/${postId}/commentPost`);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch(error) {
     if (axios.isAxiosError(error)) {
@@ -220,7 +220,7 @@ export const addComment = async (userId: number, postId: String, commentText: st
     // const requestBody: AddCommentRequest = { text: commentText };
     const requestBody: AddCommentRequest = { text: commentText };
     await axios.post(`https://localhost:7249/api/Comment?userId=${userId}&postId=${postId}`, requestBody);
-    console.log("Comment added successfully");
+    //console.log("Comment added successfully");
   } catch(error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
@@ -391,12 +391,16 @@ interface AddReserveBody {
 }
 export const addReserve = async (fieldId: number, dateTimeValue: string): Promise<void> => {
   try {
-    // const requestBody: AddCommentRequest = { text: commentText };
     const requestBody: AddReserveBody = { dateTime: dateTimeValue };
-    console.log("to server")
-    console.log(requestBody)
-    await axios.post(`https://localhost:7249/api/Reservation?fieldId=${fieldId}`, requestBody);
-    console.log("Reserved successfully");
+    //console.log(requestBody)
+    await axios.post(`https://localhost:7249/api/Reservation?fieldId=${fieldId}`, requestBody,{
+        headers: {
+        'Authorization': `Bearer ${token}` // Ensure token is sent
+      },    
+    }
+
+    );
+    //console.log("Reserved successfully");
   } catch(error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
@@ -424,7 +428,7 @@ export const UpdateUserAvatar = async (userId: number, image: File, isUserAvatar
       },
     });
 
-    console.log("Avatar updated successfully");
+    //console.log("Avatar updated successfully");
     return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -453,7 +457,7 @@ export const UpdateUserProfile = async (userId: number, updatData: UserProfilety
       },
     });
 
-    console.log("responce: " + response.data);
+    //console.log("responce: " + response.data);
     return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -483,7 +487,7 @@ export const UpdateUserLocation = async (userId: number, LocationData: LocationD
       },
     });
 
-    console.log("responce: " + response.data);
+    //console.log("responce: " + response.data);
     return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -512,7 +516,7 @@ export const UpdateFieldProfile = async (userId: number, updatData: UserProfilet
       },
     });
 
-    console.log("responce: " + response.data);
+    //console.log("responce: " + response.data);
     return response.data; // Return the response data
   } catch (error) {
     if (axios.isAxiosError(error)) {
@@ -536,7 +540,7 @@ export const UpdateUser = async (userId: number, patchData: any) => {
         'Content-Type': 'application/json-patch+json',
       },
     });
-    console.log(response.data)
+    //console.log(response.data)
     return response.data;
   } catch (error: any) {
     throw error.response?.data || 'Unknown error occurred';
@@ -547,7 +551,7 @@ export const UpdateUser = async (userId: number, patchData: any) => {
 export const UserGetById = async (userId: number): Promise<UserDataType> => {
   try {
     const response: AxiosResponse<UserDataType> = await axios.get<UserDataType>(`${API_URL}User/${userId}`);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch(error) {
     if (axios.isAxiosError(error)) {
@@ -564,7 +568,7 @@ export const UserOrFieldGetByUsername = async (Usename: string, isFieldOwner: bo
   const endpoint_url = isFieldOwner ? `FootballFiel/FieldByUsername/${Usename}`: `User/UserByUsername/${Usename}`;
   try {
     const response: AxiosResponse<UserDataType> = await axios.get<UserDataType>(API_URL + endpoint_url);
-    console.log(response.data);
+    //console.log(response.data);
     return response.data;
   } catch(error) {
     if (axios.isAxiosError(error)) {

@@ -22,6 +22,7 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
         if (!username) return; 
 
         const data = await UserOrFieldGetByUsername(username,isFieldOwner); // Convert id to number
+        console.log(data.id);
         setUserData(data); // Update state with the fetched data
       } catch (error) {
         console.error('Error fetching football field data:', error);
@@ -49,14 +50,14 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
                 {/* <span className="">{user?.userName}</span>
                 <span className="">{user?.phonenumber}</span> */}
                 <span className="" onClick={logout}>
-                  <Icon icon="material-symbols:logout-rounded" className="text-2xl text-DarkGray"/> 
+                  <Icon icon="material-symbols:logout-rounded" className="text-2xl text-DarkGray"/>
                 </span> 
               </div>
             </div>
   
           ) : (
             <Link to={'/login'}>
-              <Icon icon="material-symbols:login-rounded" className="text-2xl text-DarkGray"/> 
+              <Icon icon="material-symbols:login-rounded" className="text-2xl text-DarkGray"/>
             </Link>
           )}
        

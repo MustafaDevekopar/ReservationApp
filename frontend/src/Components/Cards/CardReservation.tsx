@@ -86,7 +86,15 @@ const CardReservation: React.FC<ReservationsProps> = ({
             <span>{fieldPhonNumber}</span>
           </div>
 
-          <ConfirmMsg id={fieldId} title="تاكيد الدذف" text="هل أنت متأكد أنك تريد الحذف؟" onDelete={handleDelete} />
+          <ConfirmMsg 
+            id={fieldId} 
+            title="تاكيد الحذف" 
+            text="هل أنت متأكد أنك تريد الحذف؟" 
+            btnText={<button className="px-3 py-2 rounded-full m bg-Darkgreen text-white"
+            >
+              حذف
+            </button>} 
+            onDelete={handleDelete} />
         </div>
       </div>
     </div>

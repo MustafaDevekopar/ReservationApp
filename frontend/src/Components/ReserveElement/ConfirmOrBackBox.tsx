@@ -10,12 +10,12 @@ type Props = {
 const ConfirmOrBackBox: React.FC<Props> = ({onClick}) : JSX.Element => {
   return (
     <div className="flex justify-between m-4">
-        <BtnRoundedFull
+        {/* <BtnRoundedFull
             text="رجوع"
             bgColor='bg-red-500'
             Icon = {<WhitClose />}
             onClick={console.log}
-        />
+        /> */}
         <BtnRoundedFull
             text="تأكيد"
             bgColor='bg-blue-600'

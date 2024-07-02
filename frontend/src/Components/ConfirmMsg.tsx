@@ -6,10 +6,11 @@ interface DeleteConfirmationProps {
   id: number;
   title: string;
   text: string;
-  onDelete: (reservationId: number) => void;
+  btnText: React.ReactNode;
+  onDelete: (id: number) => void;
 }
 
-const ConfirmMsg: React.FC<DeleteConfirmationProps> = ({ id, title, text , onDelete }) => {
+const ConfirmMsg: React.FC<DeleteConfirmationProps> = ({ id, title, text,btnText , onDelete }) => {
   const handleDeleteClick = () => {
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -41,12 +42,11 @@ const ConfirmMsg: React.FC<DeleteConfirmationProps> = ({ id, title, text , onDel
   };
 
   return (
-    <button
-      className="px-3 py-2 rounded-full m bg-Darkgreen text-white"
+    <span
       onClick={handleDeleteClick}
     >
-      حذف
-    </button>
+      {btnText}
+    </span>
   );
 };
 
