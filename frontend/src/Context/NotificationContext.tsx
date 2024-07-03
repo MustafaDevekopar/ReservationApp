@@ -1,8 +1,10 @@
-// src/context/NotificationContext.tsx
+
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { HubConnection, HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
 import { toast } from 'react-toastify';
 import { useAuth } from './useAuth';
+import useSound from 'use-sound';
+import {notificationSound} from './../Components/Sound/NotificationSoundCom'; 
 
 interface NotificationContextType {
   notifications: string[];
@@ -18,6 +20,8 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const { isLoggedIn, user } = useAuth();
   const [connection, setConnection] = useState<HubConnection | null>(null);
   const [notifications, setNotifications] = useState<string[]>([]);
+
+  const [play] = useSound(notificationSound);
 
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
@@ -37,12 +41,16 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
           connection.on('ReceiveMessage', (message: string) => {
             setNotifications(notifications => [...notifications, message]);
             toast.info(message);
+              play();
           });
+
 
           connection.on('ReceiveNotification', (message: string) => {
             setNotifications(notifications => [...notifications, message]);
             toast.info(message);
+              play();
           });
+
 
           // Register the user
           connection.invoke('RegisterUser', user?.phonenumber)
@@ -51,7 +59,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
         })
         .catch(e => console.log('Connection failed: ', e));
     }
-  }, [connection, user]);
+  }, [connection, user, play]);
 
   return (
     <NotificationContext.Provider value={{ notifications }}>

@@ -29,7 +29,7 @@ function App() {
           <Outlet />
             
         <ToastContainer />
-        <NotificationList />
+        {/* <NotificationList /> */}
         </NotificationProvider>
         {/* <Notification /> */}
       </UserProvider>

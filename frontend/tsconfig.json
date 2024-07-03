@@ -23,7 +23,8 @@
   },
   "include": [
     "src",
-    "src/custom.d.ts",
+    // "src/custom.d.ts",
+    "src/Reservations.d.ts",
     // "**/*.ts", "**/*.tsx", "images.d.ts"
   ]
   

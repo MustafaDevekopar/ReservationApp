@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using Microsoft.AspNetCore.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,20 +32,47 @@ builder.Services.AddScoped<IReservationRepository, ReservationRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ILikeRepository, LikeRepository>();
 builder.Services.AddScoped<IUserFieldRepository, UserFieldRepository>();
-builder.Services.AddScoped<ITokenService, TokenService>();  // Correct registration
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
+
+builder.Services.AddSingleton<ShareDb>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-
-
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
 
 // Add CORS to allow requests from frontend
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         builder => builder
-            .WithOrigins("http://localhost:3000") // Replace with your frontend URL
+            .WithOrigins("http://localhost:3000", "http://localhost:3001") // Replace with your frontend URL
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());  // Allow credentials for SignalR
@@ -89,38 +117,9 @@ builder.Services.AddAuthentication(options => {
                     (Encoding.UTF8.GetBytes(builder.Configuration["JWT:SigningKey"]!))
     };
 });
+
 // Add SignalR services
 builder.Services.AddSignalR();
-
-//================ swager auth ==============
-builder.Services.AddSwaggerGen(option =>
-{
-    option.SwaggerDoc("v1", new OpenApiInfo { Version = "v1" });
-    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter a valid token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "Bearer"
-    });
-    option.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type=ReferenceType.SecurityScheme,
-                    Id="Bearer"
-                }
-            },
-            new string[]{}
-        }
-    });
-});
-//=======================
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("MainAdminAdminFieldOwnerUser", o =>
@@ -163,6 +162,7 @@ builder.Services.AddAuthorizationBuilder()
         o.RequireAuthenticatedUser();
         o.RequireRole("User");
     });
+
 
 var app = builder.Build();
 

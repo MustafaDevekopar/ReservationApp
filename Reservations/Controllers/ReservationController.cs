@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Reservations.Data;
 using Reservations.Dto.FieldDto;
 using Reservations.Dto.Reservation;
+using Reservations.Hubs;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
@@ -25,12 +27,14 @@ namespace Reservations.Controllers
         private readonly IMapper _mapper;
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
+        private readonly INotificationRepository _notificationRepository;
         public ReservationController(IReservationRepository reservationRepository,
              IFootballFieldRepository footballFieldRepository,
              IUserRepository userRepository,
              IMapper mapper,
              DataContext context,
-             UserManager<AppUser> userManager)
+             UserManager<AppUser> userManager,
+             INotificationRepository notificationRepository)
         {
             _reservationRepository = reservationRepository;
             _footballFieldRepository = footballFieldRepository;
@@ -38,6 +42,7 @@ namespace Reservations.Controllers
             _mapper = mapper;
             _context = context;
             _userManager = userManager;
+            _notificationRepository = notificationRepository;
         }
 
         [HttpGet]
@@ -147,7 +152,7 @@ namespace Reservations.Controllers
                                 .Where(u => u.FootballFieldId == ReseDto.fieldGet.Id)
                                 .Select(x => x.PhoneNumber)
                                 .FirstOrDefaultAsync();
-  
+            // i need to send notification to user hear
             return Ok(ReseDto);
 
         }
@@ -303,8 +308,8 @@ namespace Reservations.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateReservation(
-            [FromBody] ReservationDto ReservationCreate,
-            [FromQuery] int fieldId)
+                    [FromBody] ReservationDto ReservationCreate,
+                    [FromQuery] int fieldId)
         {
             if (ReservationCreate == null)
                 return BadRequest(ModelState);
@@ -314,20 +319,22 @@ namespace Reservations.Controllers
             {
                 return Unauthorized("التوكن غير صالح أو مفقود.");
             }
-
             var phoneNumber = phoneClaim.Value;
             // Get user from token information
             var user = await _userManager.Users
                                     .Include(u => u.User)
                                     .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+
+
             if (user == null)
             {
                 return Unauthorized("لا تملك صلاحية الوصول!!");
             }
+            var userxx = await _userManager.Users
 
-            //if(user.AccountType == "User")
-            //{
-              var MyuserId = user.User.Id;
+                        .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+
+            var MyuserId = user.User.Id;
                 if (MyuserId == null)
                 {
                     return NotFound("المستخدم غير موجود.");
@@ -335,16 +342,16 @@ namespace Reservations.Controllers
     
                 var resMap = _mapper.Map<Reservation>(ReservationCreate);
                 resMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
+
                 resMap.User = await _userRepository.GetUserAsync(MyuserId);
                 if (!_reservationRepository.CreateReservation(resMap))
                 {
                     ModelState.AddModelError("", "Something woring while savin");
                     return BadRequest(ModelState);
                 }
-            //} else {
-            //    ModelState.AddModelError("", "المستخدمين هم من يمكنهم الحجز فقط");
-            //    return BadRequest(ModelState); 
-            //}
+            await _notificationRepository.SendToUserAsync(phoneNumber, "تم الحجز بنجاح اشعار");
+            await _notificationRepository.SendToUserAsync("0780754091", "لديك حجز جديد  ");
+
             return Ok("Successfully Created");
         }
 

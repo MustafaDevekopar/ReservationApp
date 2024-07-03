@@ -91,6 +91,7 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
             await _hubContext.Clients.All.SendAsync("ReceiveNotification", "اضافة تعليق ؟اشعار من السيرفر");
+            
 
             return Ok("Successfully Created");
         }

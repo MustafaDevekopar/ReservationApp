@@ -27,6 +27,7 @@ namespace Reservations.Service
             var claims = await _userManager.GetClaimsAsync(user);
             
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
+            //claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
             //claims.Add(new Claim(JwtRegisteredClaimNames.Sub, user.UserName));
             //claims.Add(new Claim(ClaimTypes.MobilePhone, user.PhoneNumber)); // إضافة رقم الهاتف إلى الـclaims
 
