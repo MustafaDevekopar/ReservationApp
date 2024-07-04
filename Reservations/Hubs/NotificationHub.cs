@@ -12,9 +12,10 @@ public class NotificationHub : Hub
         _share = share;
     }
 
-    public async Task RegisterUser(string userId)
+    public async Task RegisterUser(string userId, string groupName)
     {
         _share.UserConnections[Context.ConnectionId] = userId;
+        await Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         await Clients.Client(Context.ConnectionId).SendAsync("ReceiveNotification", $"User {userId} registered successfully.");
     }
 
@@ -24,3 +25,4 @@ public class NotificationHub : Hub
         return base.OnDisconnectedAsync(exception);
     }
 }
+

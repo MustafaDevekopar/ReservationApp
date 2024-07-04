@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿
+using Microsoft.AspNetCore.SignalR;
 using Reservations.Hubs;
 using Reservations.Interfaces;
 
@@ -38,7 +39,5 @@ namespace Reservations.Repository
             await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             return true;
         }
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -26,7 +27,6 @@ namespace Reservations.Controllers
         public async Task<IActionResult> SendToAll([FromBody] string message)
         {
             await _notificationRepository.SendToAllAsync(message);
-
             return Ok();
         }
 
@@ -45,8 +45,7 @@ namespace Reservations.Controllers
             if (send) return Ok();
 
             return NotFound();
-
         }
     }
-
 }
+
