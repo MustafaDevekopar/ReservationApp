@@ -1,7 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Reservations.Data;
 using Reservations.Hubs;
 using Reservations.Interfaces;
+using Reservations.Models;
 
 namespace Reservations.Repository
 {
@@ -9,11 +12,13 @@ namespace Reservations.Repository
     {
         private readonly IHubContext<NotificationHub> _hubContext;
         private readonly ShareDb _shareDb;
+        private readonly DataContext _context;
 
-        public NotificationRepository(IHubContext<NotificationHub> hubContext, ShareDb shareDb)
+        public NotificationRepository(IHubContext<NotificationHub> hubContext, ShareDb shareDb, DataContext context)
         {
             _hubContext = hubContext;
             _shareDb = shareDb;
+            _context = context;
 
         }
 
@@ -39,5 +44,11 @@ namespace Reservations.Repository
             await _hubContext.Clients.Client(connectionId).SendAsync("ReceiveMessage", message);
             return true;
         }
+
+        // notification transfer data as controller
+        //public async Task<List<Notification>> GetNotificationsAsync()
+        //{
+        //    return await _context.Notification.ToListAsync();
+        //}
     }
 }

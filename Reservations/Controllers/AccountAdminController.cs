@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace Reservations.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountAdminController : ControllerBase
@@ -29,8 +29,6 @@ namespace Reservations.Controllers
         private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IGovernorateRepository _governorateRepository;
-        private readonly IReservationBlockRepository _reservationBlockRepository;
-        private readonly IReservationStatusRepository _reservationStatusRepository;
         private readonly IConfiguration _config;
 
         public AccountAdminController(UserManager<AppUser> userManager,
@@ -41,8 +39,6 @@ namespace Reservations.Controllers
                       IFootballFieldRepository footballFieldRepository,
                       ICategoryRepository categoryRepository,
                       IGovernorateRepository governorateRepository,
-                      IReservationBlockRepository reservationBlockRepository,
-                      IReservationStatusRepository reservationStatusRepository,
                       IConfiguration config)
 
         {
@@ -54,8 +50,6 @@ namespace Reservations.Controllers
             _footballFieldRepository = footballFieldRepository;
             _categoryRepository = categoryRepository;
             _governorateRepository = governorateRepository;
-            _reservationBlockRepository = reservationBlockRepository;
-            _reservationStatusRepository = reservationStatusRepository;
             _config = config;
         }
 

@@ -23,8 +23,6 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IGovernorateRepository, GovernorateRepository>();
 builder.Services.AddScoped<IFootballFieldRepository, FootballFieldRepository>();
-builder.Services.AddScoped<IReservationStatusRepository, ReservationStatusRepository>();
-builder.Services.AddScoped<IReservationBlockRepository, ReservationBlockRepository>();
 builder.Services.AddScoped<IPostRepository, PostRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
 builder.Services.AddScoped<IViewRepository, ViewRepository>();

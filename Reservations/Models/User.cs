@@ -18,7 +18,8 @@
         public ICollection<UserField> UserFields { get; set; }
 
         public virtual AppUser AppUser { get; set; }
-
+        public ICollection<UserTeam> UserTeams { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
 
     }
 }

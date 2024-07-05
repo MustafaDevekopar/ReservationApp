@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Reservations.Migrations
 {
     /// <inheritdoc />
-    public partial class init2 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,34 +52,6 @@ namespace Reservations.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReservationsBlock",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BlockAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OpenAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReservationsBlock", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ReservationsStatus",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OpenAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CloseAt = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ReservationsStatus", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -87,6 +59,7 @@ namespace Reservations.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Avatar = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Latitude = table.Column<double>(type: "float", nullable: true),
@@ -126,6 +99,7 @@ namespace Reservations.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Avatar = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
                     Latitude = table.Column<double>(type: "float", nullable: true),
@@ -133,8 +107,8 @@ namespace Reservations.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
                     GovernorateId = table.Column<int>(type: "int", nullable: false),
-                    ReservationStatusId = table.Column<int>(type: "int", nullable: false),
-                    ReservationBlockId = table.Column<int>(type: "int", nullable: false)
+                    OpeningDays = table.Column<int>(type: "int", nullable: true),
+                    OpeningHouer = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -151,16 +125,24 @@ namespace Reservations.Migrations
                         principalTable: "Governorates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Teams",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamLeaderId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Teams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FootballFields_ReservationsBlock_ReservationBlockId",
-                        column: x => x.ReservationBlockId,
-                        principalTable: "ReservationsBlock",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FootballFields_ReservationsStatus_ReservationStatusId",
-                        column: x => x.ReservationStatusId,
-                        principalTable: "ReservationsStatus",
+                        name: "FK_Teams_Users_TeamLeaderId",
+                        column: x => x.TeamLeaderId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -268,13 +250,37 @@ namespace Reservations.Migrations
                         column: x => x.FieldId,
                         principalTable: "FootballFields",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_UserFields_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UsersTeams",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UsersTeams", x => new { x.UserId, x.TeamId });
+                    table.ForeignKey(
+                        name: "FK_UsersTeams_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UsersTeams_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -444,6 +450,43 @@ namespace Reservations.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Notification",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    TeamId = table.Column<int>(type: "int", nullable: true),
+                    ReservationId = table.Column<int>(type: "int", nullable: true),
+                    FootballFieldId = table.Column<int>(type: "int", nullable: true),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notification", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Notification_FootballFields_FootballFieldId",
+                        column: x => x.FootballFieldId,
+                        principalTable: "FootballFields",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notification_Reservations_ReservationId",
+                        column: x => x.ReservationId,
+                        principalTable: "Reservations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notification_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Notification_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -518,16 +561,6 @@ namespace Reservations.Migrations
                 column: "GovernorateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FootballFields_ReservationBlockId",
-                table: "FootballFields",
-                column: "ReservationBlockId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FootballFields_ReservationStatusId",
-                table: "FootballFields",
-                column: "ReservationStatusId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Likes_PostId",
                 table: "Likes",
                 column: "PostId");
@@ -535,6 +568,26 @@ namespace Reservations.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Likes_UserId",
                 table: "Likes",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_FootballFieldId",
+                table: "Notification",
+                column: "FootballFieldId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_ReservationId",
+                table: "Notification",
+                column: "ReservationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_TeamId",
+                table: "Notification",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Notification_UserId",
+                table: "Notification",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -553,9 +606,19 @@ namespace Reservations.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Teams_TeamLeaderId",
+                table: "Teams",
+                column: "TeamLeaderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserFields_FieldId",
                 table: "UserFields",
                 column: "FieldId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UsersTeams_TeamId",
+                table: "UsersTeams",
+                column: "TeamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Views_PostId",
@@ -593,10 +656,13 @@ namespace Reservations.Migrations
                 name: "Likes");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "Notification");
 
             migrationBuilder.DropTable(
                 name: "UserFields");
+
+            migrationBuilder.DropTable(
+                name: "UsersTeams");
 
             migrationBuilder.DropTable(
                 name: "Views");
@@ -606,6 +672,12 @@ namespace Reservations.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Reservations");
+
+            migrationBuilder.DropTable(
+                name: "Teams");
 
             migrationBuilder.DropTable(
                 name: "Posts");
@@ -621,12 +693,6 @@ namespace Reservations.Migrations
 
             migrationBuilder.DropTable(
                 name: "Governorates");
-
-            migrationBuilder.DropTable(
-                name: "ReservationsBlock");
-
-            migrationBuilder.DropTable(
-                name: "ReservationsStatus");
         }
     }
 }

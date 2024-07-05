@@ -20,10 +20,6 @@ namespace Reservations.Helper
             CreateMap<GovernorateDto, Governorate>();
             CreateMap<FootballField, FootballFieldDto>();
             CreateMap<FootballFieldDto, FootballField>();
-            CreateMap<ReservationStatus, ReservationStatusDto>();
-            CreateMap<ReservationStatusDto, ReservationStatus>();
-            CreateMap<ReservationBlock, ReservationBlockDto>();
-            CreateMap<ReservationBlockDto, ReservationBlock>();
             CreateMap<Post, PostDto>();
             CreateMap<PostDto, Post>();
             CreateMap<Comment, CommentDto>();

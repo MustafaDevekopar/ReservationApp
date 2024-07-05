@@ -21,8 +21,6 @@ namespace Reservations.Controllers
         private readonly IFootballFieldRepository _footballFieldRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IGovernorateRepository _governorateRepository;
-        private readonly IReservationBlockRepository _reservationBlockRepository;
-        private readonly IReservationStatusRepository _reservationStatusRepository;
         private readonly IMapper _mapper;
         private readonly DataContext _context;
         private readonly UserManager<AppUser> _userManager;
@@ -30,16 +28,12 @@ namespace Reservations.Controllers
         public FootballFielController(IFootballFieldRepository footballFieldRepository,
             ICategoryRepository categoryRepository,
             IGovernorateRepository governorateRepository,
-            IReservationBlockRepository reservationBlockRepository,
-            IReservationStatusRepository reservationStatusRepository,
             IMapper mapper, DataContext context, 
             UserManager<AppUser> userManager)
         {
             _footballFieldRepository = footballFieldRepository;
             _categoryRepository = categoryRepository;
             _governorateRepository = governorateRepository;
-            _reservationBlockRepository = reservationBlockRepository;
-            _reservationStatusRepository = reservationStatusRepository;
             _mapper = mapper;
             _context = context;
             _userManager = userManager;
@@ -238,8 +232,6 @@ namespace Reservations.Controllers
 
             fieldMapp.Category = await _categoryRepository.GetCategoryAsync(footballFieldCreate.categoryId);
             fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(footballFieldCreate.governorateId);
-            fieldMapp.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(1);
-            fieldMapp.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(1);
 
             if (!_footballFieldRepository.CreateFootballField(fieldMapp))
             {
@@ -283,9 +275,6 @@ namespace Reservations.Controllers
 
             fieldMapp.Category = await _categoryRepository.GetCategoryAsync(updateFootBallField.categoryId);
             fieldMapp.Governorate = await _governorateRepository.GetGovernorateAsync(updateFootBallField.governorateId);
-            fieldMapp.ReservationBlock = await _reservationBlockRepository.GetReservationBlockAsync(fieldId);
-            fieldMapp.ReservationStatus = await _reservationStatusRepository.GetReservationStatusByIdAsync(fieldId);
-
 
 
             if (!_footballFieldRepository.UpdateFootBallField(fieldMapp))

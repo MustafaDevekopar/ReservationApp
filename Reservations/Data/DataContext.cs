@@ -20,54 +20,50 @@ namespace Reservations.Data
         public DbSet<Like> Likes { get; set; }
         public DbSet<Post> Posts { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
-        public DbSet<ReservationStatus> ReservationsStatus { get; set; }
-        public DbSet<ReservationBlock> ReservationsBlock { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserField> UserFields { get; set; }
         public DbSet<View> Views { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<UserTeam> UsersTeams { get; set; }
+        public DbSet<Notification> Notification { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);  // Ensure the base configuration is called first
 
-            //List<IdentityRole> roles = new List<IdentityRole>
-            //{
-            //    new IdentityRole
-            //    {
-            //        Name = "Admin",
-            //        NormalizedName = "ADMIN",
-            //    },
-            //    new IdentityRole
-            //    {
-            //        Name = "MainAdmin",
-            //        NormalizedName = "MAINADMIN",
-            //    },
-            //    new IdentityRole
-            //    {
-            //        Name = "FieldOwner",
-            //        NormalizedName = "FIELDOWNER",
-            //    },
-            //    new IdentityRole
-            //    {
-            //        Name = "User",
-            //        NormalizedName = "USER",
-            //    },
-            //};
-            //modelBuilder.Entity<IdentityRole>().HasData(roles);
-
+            // many to many UserField Fluent API
             modelBuilder.Entity<UserField>()
                 .HasKey(pc => new { pc.UserId, pc.FieldId });
 
             modelBuilder.Entity<UserField>()
                 .HasOne(p => p.User)
                 .WithMany(pc => pc.UserFields)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<UserField>()
                 .HasOne(p => p.FootballField)
                 .WithMany(pc => pc.UserFields)
-                .HasForeignKey(p => p.FieldId);
+                .HasForeignKey(p => p.FieldId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
+            //many to many UserTeam Fluent API
+            modelBuilder.Entity<UserTeam>()
+                .HasKey(pc => new { pc.UserId, pc.TeamId });
+
+            modelBuilder.Entity<UserTeam>()
+                .HasOne(p => p.User)
+                .WithMany(pc => pc.UserTeams)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserTeam>()
+                .HasOne(p => p.Team)
+                .WithMany(pc => pc.UserTeams)
+                .HasForeignKey(p => p.TeamId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

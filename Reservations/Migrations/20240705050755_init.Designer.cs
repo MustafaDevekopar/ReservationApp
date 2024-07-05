@@ -12,8 +12,8 @@ using Reservations.Data;
 namespace Reservations.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240622152541_opingingDayHoures")]
-    partial class opingingDayHoures
+    [Migration("20240705050755_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -329,12 +329,6 @@ namespace Reservations.Migrations
                     b.Property<string>("OpeningHouer")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ReservationBlockId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ReservationStatusId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -344,10 +338,6 @@ namespace Reservations.Migrations
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("GovernorateId");
-
-                    b.HasIndex("ReservationBlockId");
-
-                    b.HasIndex("ReservationStatusId");
 
                     b.ToTable("FootballFields");
                 });
@@ -393,6 +383,42 @@ namespace Reservations.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("Reservations.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("FootballFieldId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReservationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FootballFieldId");
+
+                    b.HasIndex("ReservationId");
+
+                    b.HasIndex("TeamId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("Reservations.Models.Post", b =>
@@ -453,7 +479,7 @@ namespace Reservations.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("Reservations.Models.ReservationBlock", b =>
+            modelBuilder.Entity("Reservations.Models.Team", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -461,34 +487,18 @@ namespace Reservations.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("BlockAt")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("OpenAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ReservationsBlock");
-                });
-
-            modelBuilder.Entity("Reservations.Models.ReservationStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("TeamLeaderId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CloseAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("OpenAt")
-                        .HasColumnType("datetime2");
-
                     b.HasKey("Id");
 
-                    b.ToTable("ReservationsStatus");
+                    b.HasIndex("TeamLeaderId");
+
+                    b.ToTable("Teams");
                 });
 
             modelBuilder.Entity("Reservations.Models.User", b =>
@@ -539,6 +549,21 @@ namespace Reservations.Migrations
                     b.HasIndex("FieldId");
 
                     b.ToTable("UserFields");
+                });
+
+            modelBuilder.Entity("Reservations.Models.UserTeam", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeamId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "TeamId");
+
+                    b.HasIndex("TeamId");
+
+                    b.ToTable("UsersTeams");
                 });
 
             modelBuilder.Entity("Reservations.Models.View", b =>
@@ -666,25 +691,9 @@ namespace Reservations.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Reservations.Models.ReservationBlock", "ReservationBlock")
-                        .WithMany("FootballFields")
-                        .HasForeignKey("ReservationBlockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Reservations.Models.ReservationStatus", "ReservationStatus")
-                        .WithMany("FootballFields")
-                        .HasForeignKey("ReservationStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Category");
 
                     b.Navigation("Governorate");
-
-                    b.Navigation("ReservationBlock");
-
-                    b.Navigation("ReservationStatus");
                 });
 
             modelBuilder.Entity("Reservations.Models.Like", b =>
@@ -702,6 +711,33 @@ namespace Reservations.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Reservations.Models.Notification", b =>
+                {
+                    b.HasOne("Reservations.Models.FootballField", "FootballField")
+                        .WithMany("Notifications")
+                        .HasForeignKey("FootballFieldId");
+
+                    b.HasOne("Reservations.Models.Reservation", "Reservation")
+                        .WithMany("Notifications")
+                        .HasForeignKey("ReservationId");
+
+                    b.HasOne("Reservations.Models.Team", "Team")
+                        .WithMany("Notifications")
+                        .HasForeignKey("TeamId");
+
+                    b.HasOne("Reservations.Models.User", "User")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("FootballField");
+
+                    b.Navigation("Reservation");
+
+                    b.Navigation("Team");
 
                     b.Navigation("User");
                 });
@@ -736,21 +772,51 @@ namespace Reservations.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Reservations.Models.Team", b =>
+                {
+                    b.HasOne("Reservations.Models.User", "TeamLeader")
+                        .WithMany()
+                        .HasForeignKey("TeamLeaderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeamLeader");
+                });
+
             modelBuilder.Entity("Reservations.Models.UserField", b =>
                 {
                     b.HasOne("Reservations.Models.FootballField", "FootballField")
                         .WithMany("UserFields")
                         .HasForeignKey("FieldId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Reservations.Models.User", "User")
                         .WithMany("UserFields")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("FootballField");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Reservations.Models.UserTeam", b =>
+                {
+                    b.HasOne("Reservations.Models.Team", "Team")
+                        .WithMany("UserTeams")
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Reservations.Models.User", "User")
+                        .WithMany("UserTeams")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Team");
 
                     b.Navigation("User");
                 });
@@ -784,6 +850,8 @@ namespace Reservations.Migrations
                     b.Navigation("AppUser")
                         .IsRequired();
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("Posts");
 
                     b.Navigation("Reservations");
@@ -805,14 +873,16 @@ namespace Reservations.Migrations
                     b.Navigation("views");
                 });
 
-            modelBuilder.Entity("Reservations.Models.ReservationBlock", b =>
+            modelBuilder.Entity("Reservations.Models.Reservation", b =>
                 {
-                    b.Navigation("FootballFields");
+                    b.Navigation("Notifications");
                 });
 
-            modelBuilder.Entity("Reservations.Models.ReservationStatus", b =>
+            modelBuilder.Entity("Reservations.Models.Team", b =>
                 {
-                    b.Navigation("FootballFields");
+                    b.Navigation("Notifications");
+
+                    b.Navigation("UserTeams");
                 });
 
             modelBuilder.Entity("Reservations.Models.User", b =>
@@ -822,9 +892,13 @@ namespace Reservations.Migrations
 
                     b.Navigation("Likes");
 
+                    b.Navigation("Notifications");
+
                     b.Navigation("Reservations");
 
                     b.Navigation("UserFields");
+
+                    b.Navigation("UserTeams");
 
                     b.Navigation("comments");
 

@@ -6,5 +6,6 @@
         public DateTime DateTime { get; set; }
         public User User { get; set; }
         public FootballField FootballField { get; set; }
+        public virtual ICollection<Notification> Notifications { get; set; }
     }
 }

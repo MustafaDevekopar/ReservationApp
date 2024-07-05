@@ -46,6 +46,16 @@ namespace Reservations.Controllers
 
             return NotFound();
         }
+
+
+        //[HttpGet]
+        //public async Task<IActionResult> GetAll()
+        //{
+        //    var notifications = await _notificationRepository.GetNotificationsAsync();
+
+        //    if(notifications == null) return NotFound();
+        //    return Ok(notifications);
+        //}
     }
 }
 
