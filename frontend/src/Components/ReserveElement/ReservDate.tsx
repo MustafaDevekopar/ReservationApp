@@ -6,7 +6,7 @@ import { FootbalfieldsGetById, GetReservDate, GetReservationsOfField } from '../
 import DateSelection from './DateSelection';
 import TimeSelection from './TimeSelection';
 import { addReserve } from '../../Api';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { useParams } from 'react-router';
 import ConfirmOrBackBox from './ConfirmOrBackBox';
 import FullPageLoader from '../FullPageLoader/FullPageLoader';

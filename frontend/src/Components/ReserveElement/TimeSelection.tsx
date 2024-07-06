@@ -26,10 +26,17 @@ const TimeSelection: React.FC<Props> = ({
     if (fieldData?.userGet.openingHouer != null) {
       const openingHouers: string[] = JSON.parse(fieldData.userGet.openingHouer);
 
+      // Sort openingHouers in ascending order
+      const sortedOpeningHouers = openingHouers.sort((a, b) => {
+        const timeA = new Date(`1970-01-01T${a}:00Z`);
+        const timeB = new Date(`1970-01-01T${b}:00Z`);
+        return timeA.getTime() - timeB.getTime();
+      });
+
       const startDate = new Date(selectedDate);
       startDate.setHours(0, 0, 0, 0);
 
-      openingHouers.forEach((openHouer: string) => {
+      sortedOpeningHouers.forEach((openHouer: string) => {
         const [hours, minutes] = openHouer.split(":").map(Number);
         const currentTime = new Date(startDate);
         currentTime.setHours(hours, minutes, 0, 0);

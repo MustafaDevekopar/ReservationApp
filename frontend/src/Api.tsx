@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType, LocationDataType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType, LocationDataType, TeamDataType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -563,6 +563,8 @@ export const UserGetById = async (userId: number): Promise<UserDataType> => {
     }
   }
 }
+
+
 // =============== getuserById ==========
 export const UserOrFieldGetByUsername = async (Usename: string, isFieldOwner: boolean): Promise<UserDataType> => {
   const endpoint_url = isFieldOwner ? `FootballFiel/FieldByUsername/${Usename}`: `User/UserByUsername/${Usename}`;
@@ -582,4 +584,48 @@ export const UserOrFieldGetByUsername = async (Usename: string, isFieldOwner: bo
 }
 
 
+// =============== get team ById ==========
+export const GetAllTeamsByUserId = async (userId: number): Promise<TeamDataType[]> => {
+  try {
+    const response: AxiosResponse<TeamDataType[]> = await axios.get<TeamDataType[]>(`${API_URL}Team/user/${userId}/teams`);
+    //console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
 
+
+
+// ==========updat Opting Hours ===============
+
+export const updateOpeningHours = async (fieldId: string, openingHours: string[]): Promise<any> => {
+  try {
+    const response = await axios.put(`${API_URL}FootballFiel/UpdateHours`, {
+      fieldId,
+      openingHours,
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` ,
+      },
+    });
+    console.log(" mYresponce : "+ response);
+    return response;
+
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}

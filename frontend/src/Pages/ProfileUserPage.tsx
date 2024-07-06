@@ -6,8 +6,10 @@ import NavIconsProfile from "../Components/ProfileElements/NavIconsProfile"
 import { Link, useParams } from 'react-router-dom';
 import { PostsOfFieldGet, UserGetById} from "../Api"
 import { useEffect, useState } from "react";
-import {  Post, UserDataType, UserProfiletype } from "../Reservations";
+import {  Post, UserDataType} from "../Reservations";
 import { useAuth } from "../Context/useAuth";
+import CardTeamList from "../Components/Lists/CardTeamList";
+import FullPageLoader from "../Components/FullPageLoader/FullPageLoader";
 
 
 
@@ -24,7 +26,6 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
     const fetchData = async () => {
       try {
         if (!userId) return; 
-
         const data = await UserGetById(parseInt(userId)); // Convert id to number
         setUserData(data); // Update state with the fetched data
       } catch (error) {
@@ -35,28 +36,10 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
     fetchData(); 
   }, [userId]); 
 
-  const [post, setPost] = useState<Post[]>([]); 
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        if (!userId) return; 
-        const postData = await PostsOfFieldGet(parseInt(userId)); 
-        setPost(postData);
-      } catch (error) {
-        console.error('Error fetching users:', error);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
   if (!UserData) {
-    return <div>Loading.post..</div>; // Add loading indicator while fetching data
-    
+    return <FullPageLoader /> 
   }
   const isMyAccount: boolean = isLoggedIn() &&  user?.userName === UserData?.userName ;
-
   return (
     <div className="">
         <div className=" mt-2 mx-3 sm:mx-6  md:mx-6 lg:mx-60 xl:mx-60 mb-12">
@@ -99,6 +82,11 @@ const UserProfilePage: React.FC<Props> = (props: Props): JSX.Element => {
                   path={`/profile/update/${userId}`}
                 />}
             </div>
+            <h2 className='my-4 '>الفرق المنتمي لها</h2>
+            {userId && <CardTeamList teamId={userId} />}
+            
+            {/* <CardTeam Id={1} Name="فريق النسور" Avatar={null}/> */}
+            {/* <UserInTeamList id="1" /> */}
  
 
     </div>

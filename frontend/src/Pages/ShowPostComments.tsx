@@ -48,7 +48,7 @@ const ShowPostComments: React.FC = (): JSX.Element => {
           postId={String(postId)}
           onAddComment={addCommentToState}
       />
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

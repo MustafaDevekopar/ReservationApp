@@ -17,7 +17,7 @@ export interface User {
     password: string;
     phoneNumbr: number;
     createdAt: string;
-    avatar: Text;
+    avatar: string|null;
   }
 
 export interface Post {
@@ -162,6 +162,12 @@ export interface LocationDataType {
   // }
 
 // imag types
+export interface TeamDataType {
+    id: number;
+    name: string;
+    avatar: string|null;
+    users: User[];
+  }
 declare module "*.png" {
   const value: string;
   export default value;

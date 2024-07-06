@@ -8,6 +8,7 @@ import {FootbalfieldsGetById, PostsOfFieldGet} from "../Api"
 import { useEffect, useState } from "react";
 import { FieldDataType, FootballFaild, Post } from "../Reservations";
 import { DefaultPost } from "../assets/Image";
+import FullPageLoader from "../Components/FullPageLoader/FullPageLoader";
 
 
 
@@ -37,7 +38,7 @@ const ProfileFieldPage: React.FC<Props> = (props: Props): JSX.Element => {
   }, [userId]); 
 
   if (!fieldData) {
-    return <div>Loading...</div>; 
+    return <FullPageLoader />; 
   }
 
  

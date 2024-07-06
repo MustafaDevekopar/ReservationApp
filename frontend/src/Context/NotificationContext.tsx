@@ -99,7 +99,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const [notifications, setNotifications] = useState<string[]>([]);
 
   const [play] = useSound(notificationSound);
-
+  
   useEffect(() => {
     const newConnection = new HubConnectionBuilder()
       .withUrl("https://localhost:7249/notificationHub")
@@ -108,7 +108,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
 
     setConnection(newConnection);
   }, []);
-
   useEffect(() => {
     if (connection) {
       connection.start()
@@ -128,7 +127,7 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
           });
 
           // Register the user and add to group
-          connection.invoke('RegisterUser', user?.phonenumber, "GroupName")
+          connection.invoke('RegisterUser', user?.phonenumber, "فريق الابطال")
             .then(() => console.log('User registered successfully'))
             .catch(err => console.error('Error registering user: ', err));
         })

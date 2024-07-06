@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
@@ -11,6 +14,7 @@ using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
+using System.Security.Claims;
 
 namespace Reservations.Controllers
 {
@@ -403,6 +407,47 @@ namespace Reservations.Controllers
             }
 
             return Ok("Avatar updated successfully");
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
+        [HttpPut("UpdateHours")]
+        public async Task<IActionResult> SaveHours([FromBody] SaveHoursDto dto)
+        {
+            var phoneClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.MobilePhone);
+            if (phoneClaim == null)
+            {
+                return Unauthorized("التوكن غير صالح أو مفقود.");
+            }
+
+            var phoneNumber = phoneClaim.Value;
+            // Get user from token information
+            var user = await _userManager.Users.Include(u => u.FootballField)
+                                           .FirstOrDefaultAsync(u => u.PhoneNumber == phoneNumber);
+            if (user == null)
+            {
+                return NotFound("المستخدم غير موجود.");
+            }
+
+            var field_id = user.FootballField.Id;
+            if (field_id == null)
+            {
+                return NotFound("المستخدم غير موجود.");
+            }
+
+            if (field_id != dto.FieldId)
+            {
+                return Unauthorized("لا تملك صلاحية الوصول!!");
+            }
+            var footballField = await _context.FootballFields.FindAsync(dto.FieldId);
+
+            if (footballField == null)
+                return NotFound("Field not found");
+
+            footballField.OpeningHouer = JsonConvert.SerializeObject(dto.OpeningHours);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }
