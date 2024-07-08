@@ -73,7 +73,22 @@ namespace Reservations.Controllers
         //    return Ok(notifications);
         //}
 
+        [HttpPut("{notificationId}/markAsRead")]
+        public async Task<IActionResult> MarkNotificationAsRead(int notificationId, int userId)
+        {
+            var userNotification = await _context.UserNotifications
+                .FirstOrDefaultAsync(un => un.NotificationId == notificationId && un.UserId == userId);
 
+            if (userNotification == null)
+            {
+                return NotFound();
+            }
+
+            userNotification.IsRead = true;
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
         //[HttpGet("teamName")]
         //public async Task<IActionResult> GerNotification(string teamName)
@@ -116,6 +131,27 @@ namespace Reservations.Controllers
         //    return Ok(notiMap); // Return an OkObjectResult containing the userDtos
         //}
 
+
+        [HttpGet("user/{userId}/count")]
+        public async Task<IActionResult> GetNotificationCountByUserId(int userId)
+        {
+            // Check if the user exists (optional, depending on your requirements)
+            var userExists = await _context.Users.AnyAsync(u => u.Id == userId);
+            if (!userExists)
+            {
+                return NotFound();
+            }
+
+            // Get the count of notifications for the specified user
+            var notificationCount = await _context.Notification
+                .Where(n => n.Reservation.User.Id == userId)
+                .CountAsync();
+
+            return Ok(notificationCount);
+        }
+
+
+
         [HttpGet("userId/{userId}")]
         public async Task<IActionResult> GetNotificationsByUserTeams(int userId)
         {
@@ -125,20 +161,23 @@ namespace Reservations.Controllers
                 .Select(ut => ut.TeamId)
                 .ToListAsync();
 
-            // Fetch notifications for those teams
+            // Fetch notifications for those teams including isRead and isAccept status
             var notifications = await _context.Notification
                 .Include(x => x.Team)
                 .Include(x => x.Reservation)
                     .ThenInclude(r => r.User)
-                    .Include(x => x.FootballField)
-                    .Where(x => userTeams.Contains(x.TeamId.Value)) // Filter by user teams
-                    .OrderByDescending(x => x.Reservation.Id)
+                .Include(x => x.FootballField)
+                .Include(x => x.UserNotifications) // Include UserNotifications
+                .Where(x => userTeams.Contains(x.TeamId.Value)) // Filter by user teams
+                .OrderByDescending(x => x.Reservation.Id)
                 .ToListAsync();
 
             var notiMap = notifications.Select(x => new NotificationReservationGetDto
             {
                 Id = x.Id,
                 Text = x.Text,
+                IsRead = x.UserNotifications.FirstOrDefault(un => un.UserId == userId)?.IsRead ?? false,
+                IsAccept = x.UserNotifications.FirstOrDefault(un => un.UserId == userId)?.isAccept,
                 Team = new TeamDto
                 {
                     Id = x.Team.Id,
@@ -151,7 +190,7 @@ namespace Reservations.Controllers
                 },
                 User = new UserMainInfoDto
                 {
-                    Id = x.Reservation.User.Id, // Corrected to reference x.Reservation.User.Id
+                    Id = x.Reservation.User.Id,
                     Name = x.Reservation.User.Name,
                     Username = x.Reservation.User.Username,
                     Avatar = (x.Reservation.User.Avatar != null) ? Convert.ToBase64String(x.Reservation.User.Avatar) : null
@@ -165,20 +204,20 @@ namespace Reservations.Controllers
                     Latitude = x.FootballField.Latitude,
                     Longitude = x.FootballField.Longitude,
                     Location = x.FootballField.Location,
-                }
+                },
             }).ToList();
 
-            return Ok(notiMap); // Return an OkObjectResult containing the userDtos
+            return Ok(notiMap); // Return an OkObjectResult containing the notifications
         }
 
 
 
-        [HttpGet("footballFieldId/{fieldId}")]
+        [HttpGet("fieldId/{fieldId}")]
         public async Task<IActionResult> GetNotificationsByFootballFieldId(int fieldId)
         {
             if (!_footballFieldRepository.FootballFieldExists(fieldId))
             {
-                return NotFound();
+               return NotFound();
             }
                
             // Fetch notifications for the specified football field
@@ -224,8 +263,62 @@ namespace Reservations.Controllers
                 }
             }).ToList();
 
-            return Ok(notiMap); // Return an OkObjectResult containing the notifications
+            return Ok(notiMap); 
         }
+
+
+
+        [HttpGet("{notificationId}")]
+        public async Task<IActionResult> GetNotificationById(int notificationId)
+        {
+            var notification = await _context.Notification
+                .Include(x => x.Team)
+                .Include(x => x.Reservation)
+                    .ThenInclude(r => r.User)
+                .Include(x => x.FootballField)
+                .FirstOrDefaultAsync(x => x.Id == notificationId);
+
+            if (notification == null)
+            {
+                return NotFound();
+            }
+
+            var notiMap = new NotificationReservationGetDto
+            {
+                Id = notification.Id,
+                Text = notification.Text,
+                Team = new TeamDto
+                {
+                    Id = notification.Team.Id,
+                    Name = notification.Team.Name,
+                },
+                Reservation = new ReservationDto
+                {
+                    Id = notification.Reservation.Id,
+                    DateTime = notification.Reservation.DateTime,
+                },
+                User = new UserMainInfoDto
+                {
+                    Id = notification.Reservation.User.Id,
+                    Name = notification.Reservation.User.Name,
+                    Username = notification.Reservation.User.Username,
+                    Avatar = (notification.Reservation.User.Avatar != null) ? Convert.ToBase64String(notification.Reservation.User.Avatar) : null
+                },
+                FootballField = new FootballGetDto
+                {
+                    Id = notification.FootballField.Id,
+                    Username = notification.FootballField.Username,
+                    Name = notification.FootballField.Name,
+                    Avatar = (notification.FootballField.Avatar != null) ? Convert.ToBase64String(notification.FootballField.Avatar) : null,
+                    Latitude = notification.FootballField.Latitude,
+                    Longitude = notification.FootballField.Longitude,
+                    Location = notification.FootballField.Location,
+                }
+            };
+
+            return Ok(notiMap);
+        }
+
 
 
     }

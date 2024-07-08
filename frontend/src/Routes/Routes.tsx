@@ -33,6 +33,7 @@ import SettingsPage from "../Pages/SettingsPage";
 import LocationUpdatePage from "../Pages/LocationUpdatePage";
 import OpeningHoursPage from "../Pages/OpeningHoursPage";
 import NotificationPage from "../Pages/NotificationPage";
+import ShowNotificationPage from "../Pages/ShowNotificationPage";
 
 
 
@@ -59,6 +60,7 @@ export const router = createBrowserRouter([
             { path: "field-update/:userId", element: <UpdateFieldProfilePage />},
             { path: "opening-time/:fieldId", element: <OpeningHoursPage />},
             { path: "notification/:userId", element: <NotificationPage />},
+            { path: "showNotification/:notificationId", element: <ShowNotificationPage />},
             { path: "addpost/:fieldId", element: 
                 <RoleProtectedRoute allowedRoles={['FieldOwner']}>
                     <AddPost />

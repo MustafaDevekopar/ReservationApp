@@ -20,6 +20,7 @@
         public virtual AppUser AppUser { get; set; }
         public ICollection<UserTeam> UserTeams { get; set; }
         public virtual ICollection<Notification> Notifications { get; set; }
+        public virtual ICollection<UserNotification> UserNotifications { get; set; }
 
     }
 }

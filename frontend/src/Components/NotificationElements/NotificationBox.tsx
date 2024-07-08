@@ -4,7 +4,9 @@ import { formatDate, formatTime } from '../ReserveElement/Helpers';
 import { useAuth } from '../../Context/useAuth';
 
 type Props = {
+    notifid:number;
     userid: number;
+    isRead: boolean;
     avatar: string | null;
     name: string;
     username: string;
@@ -13,11 +15,11 @@ type Props = {
     teamname : string;
 }
 
-const NotificationBox = ({userid, avatar, name, username, fieldname, date, teamname}: Props) => {
+const NotificationBox = ({notifid,userid,isRead, avatar, name, username, fieldname, date, teamname}: Props) => {
     const {isLoggedIn, user, logout} = useAuth();
     const isFieldOwner: boolean = user?.accountType ==="FieldOwner"
   return (
-    <div key={userid} className="flex gap-2 py-4 border-b-2 bg-white w-full px-2">
+    <div key={userid} className={`${isRead ? "bg-white  " : "bg-blue-100"} flex gap-2 py-4 w-full border-b-2 px-2`}>
         <div className="flex flex-col justify-start items-start">
             <img className="w-12 h-12 rounded-full object-cover"
                 src={avatar === null? DefaultAvatar : `data:image/png;base64,${avatar}` }alt="صورة"
@@ -26,7 +28,7 @@ const NotificationBox = ({userid, avatar, name, username, fieldname, date, teamn
         </div>
 
         <div className="flex flex-col flex-1 gap-2  ">
-            <span className="text-LightGray font-bold text-xs">
+            <span className="font-bold text-xs">userId {userid} notifid {notifid}
                 {
                     isFieldOwner ? (
                         <>

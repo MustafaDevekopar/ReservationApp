@@ -26,6 +26,7 @@ namespace Reservations.Data
         public DbSet<Team> Teams { get; set; }
         public DbSet<UserTeam> UsersTeams { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<UserNotification> UserNotifications { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -64,6 +65,21 @@ namespace Reservations.Data
                 .WithMany(pc => pc.UserTeams)
                 .HasForeignKey(p => p.TeamId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+
+            //many to many UserNotification
+            modelBuilder.Entity<UserNotification>()
+                .HasKey(pc => new { pc.UserId, pc.NotificationId });
+
+            modelBuilder.Entity<UserNotification>()
+                .HasOne(p => p.User)
+                .WithMany(pc => pc.UserNotifications)
+                .HasForeignKey(p => p.UserId);
+
+            modelBuilder.Entity<UserNotification>()
+                .HasOne(p => p.Notification)
+                .WithMany(pc => pc.UserNotifications)
+                .HasForeignKey(p => p.NotificationId);
         }
     }
 }

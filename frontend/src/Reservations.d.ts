@@ -173,6 +173,8 @@ export interface TeamDataType {
 export interface NotificationDataType {
     id: number,
     text: string,
+    isAccept: boolean | null,
+    isRead: boolean,
     user: {
       id: number,
       name: string,
@@ -189,8 +191,8 @@ export interface NotificationDataType {
       avatar: string
     },
     reservation: {
-      "id": 1,
-      "dateTime": string
+      id: number,
+      dateTime: string
     },
     team: {
       id: number,

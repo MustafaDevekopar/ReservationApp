@@ -12,6 +12,8 @@ namespace Reservations.Dto.Notification
 
 
         public string? Text { get; set; }
+        public bool? IsAccept { get; set; }
+        public bool IsRead { get; set; }
 
         public UserMainInfoDto User { get; set; }
 

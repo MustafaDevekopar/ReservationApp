@@ -630,7 +630,7 @@ export const updateOpeningHours = async (fieldId: string, openingHours: string[]
   }
 }
 
-
+// get notifications by UserId
 export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean): Promise<NotificationDataType[]> => {
   const UserOrField = isFieldOwner ? `fieldId/${id}` : `userId/${id}`;
   try {
@@ -648,3 +648,56 @@ export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean)
     }
   }
 }
+// get notification by notificationIdId
+export const NotificationsGetById = async (notificationId: number): Promise<NotificationDataType> => {
+  try {
+    const response: AxiosResponse<NotificationDataType> = await axios.get<NotificationDataType>   
+        (`${API_URL}Notification/${notificationId}` );
+    //console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+// update IsRead notification 
+
+export const UpdateIsReadNotification = async (userId: number, notificationId: number): Promise<boolean> => {
+  try {
+    const response = await axios.put(`${API_URL}Notification/${notificationId}/markAsRead?userId=${userId}`
+      , {
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+
+    return response.status == 200; // Return true if the status is 200 (OK)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+// notification count of user 
+export const getNotificationCountByUserId = async (userId: number): Promise<number> => {
+  try {
+    const response = await axios.get<number>(`${API_URL}Notification/user/${userId}/count`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching notification count:', error);
+    throw error;
+  }
+};

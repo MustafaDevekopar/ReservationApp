@@ -24,5 +24,6 @@ namespace Reservations.Models
 
         [ForeignKey("TeamId")]
         public virtual Team Team { get; set; }
+        public virtual ICollection<UserNotification> UserNotifications { get; set; }
     }
 }
