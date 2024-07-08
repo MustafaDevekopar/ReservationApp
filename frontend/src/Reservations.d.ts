@@ -168,6 +168,37 @@ export interface TeamDataType {
     avatar: string|null;
     users: User[];
   }
+
+
+export interface NotificationDataType {
+    id: number,
+    text: string,
+    user: {
+      id: number,
+      name: string,
+      username: string,
+      avatar: string
+    },
+    footballField: {
+      id: number,
+      name: string,
+      username : string,
+      location : string,
+      latitude: number,
+      longitude: number,
+      avatar: string
+    },
+    reservation: {
+      "id": 1,
+      "dateTime": string
+    },
+    team: {
+      id: number,
+      name: string,
+    }
+}
+
+
 declare module "*.png" {
   const value: string;
   export default value;

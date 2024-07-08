@@ -63,10 +63,10 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
        
         {/* <input className="w-56 h-7 outline outline-2 outline-offset-2 outline-LightXlGray  rounded-md" type="text" /> */}
         <Search />
-        <span className="flex relative">
+        <Link to={`/notification/${UserData?.userGet.id}`} className="flex relative">
             <span className="absolute left-4 bottom-2 px-1 my-1 content-center rounded-full text-xs text-white bg-red-600 ">1</span>
             <img src={notificationIcon} alt="" />
-        </span>
+        </Link>
     </div>
   )
 }

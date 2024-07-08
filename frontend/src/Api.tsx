@@ -1,7 +1,7 @@
 // import axios from "axios";
 // import axios from "axios";
 import axios, { AxiosResponse } from 'axios';
-import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType, LocationDataType, TeamDataType } from './Reservations';
+import { FootballFaild, Governorate, Post, User, Comment, ReservationStatus, Reservation, ReservaiotionWithField, UserProfiletype, UserDataType, FieldDataType, ReservationFieldType, CategoryType, LocationDataType, TeamDataType, NotificationDataType } from './Reservations';
  
 import {GreenHomeIcon, OutlineHomeIcon, GreenFavoriteIcon, OutLineFavoriteIcon,
     GreenPostsIcon,OutlinePostsIcon, GreenSearchIcon, OutlineSearchIcon ,
@@ -620,6 +620,25 @@ export const updateOpeningHours = async (fieldId: string, openingHours: string[]
     return response;
 
   } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+
+export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean): Promise<NotificationDataType[]> => {
+  const UserOrField = isFieldOwner ? `fieldId/${id}` : `userId/${id}`;
+  try {
+    const response: AxiosResponse<NotificationDataType[]> = await axios.get<NotificationDataType[]>   
+        (`${API_URL}Notification/${UserOrField}` );
+    //console.log(response.data);
+    return response.data;
+  } catch(error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
       throw error;

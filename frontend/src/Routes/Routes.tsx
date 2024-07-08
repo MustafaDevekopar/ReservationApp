@@ -32,6 +32,7 @@ import ReservationList from "../Dashboard/components/Table/TableList/Reservation
 import SettingsPage from "../Pages/SettingsPage";
 import LocationUpdatePage from "../Pages/LocationUpdatePage";
 import OpeningHoursPage from "../Pages/OpeningHoursPage";
+import NotificationPage from "../Pages/NotificationPage";
 
 
 
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
             { path: "profile/update/:userId", element: <UpdateProfilePage />},
             { path: "field-update/:userId", element: <UpdateFieldProfilePage />},
             { path: "opening-time/:fieldId", element: <OpeningHoursPage />},
+            { path: "notification/:userId", element: <NotificationPage />},
             { path: "addpost/:fieldId", element: 
                 <RoleProtectedRoute allowedRoles={['FieldOwner']}>
                     <AddPost />

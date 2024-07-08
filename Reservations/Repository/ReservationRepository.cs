@@ -57,11 +57,11 @@ namespace Reservations.Repository
             return _context.Reservations.Any(r => r.Id == id);
         }
 
-        public bool CreateReservation(Reservation reservation)
-        {
-            _context.Reservations.Add(reservation);
-            return Save();
-        }
+        //public bool CreateReservation(Reservation reservation)
+        //{
+        //    _context.Reservations.Add(reservation);
+        //    return Save();
+        //}
 
         public bool Save()
         {
@@ -74,5 +74,13 @@ namespace Reservations.Repository
             _context.Reservations.Remove(reservation);
             return Save();
         }
+
+        public async Task<int> CreateReservation(Reservation reservation)
+        {
+            _context.Reservations.Add(reservation);
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? reservation.Id : 0;
+        }
+
     }
 }

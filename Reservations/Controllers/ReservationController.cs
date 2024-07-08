@@ -305,7 +305,7 @@ namespace Reservations.Controllers
         }
 
 
-
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdminAdminUser")]
         [HttpPost]
         public async Task<IActionResult> CreateReservation(
                     [FromBody] ReservationDto ReservationCreate,
@@ -344,13 +344,15 @@ namespace Reservations.Controllers
                 resMap.FootballField = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
 
                 resMap.User = await _userRepository.GetUserAsync(MyuserId);
-                if (!_reservationRepository.CreateReservation(resMap))
-                {
-                    ModelState.AddModelError("", "Something woring while savin");
-                    return BadRequest(ModelState);
-                }
-            await _notificationRepository.SendToUserAsync(phoneNumber, "تم الحجز بنجاح اشعار");
-            await _notificationRepository.SendToUserAsync("0780754091", "لديك حجز جديد  ");
+
+            var reservationId = await _reservationRepository.CreateReservation(resMap);
+            if (reservationId == 0)
+            {
+                ModelState.AddModelError("", "Something woring while savin");
+                return BadRequest(ModelState);
+            }
+
+            await _notificationRepository.CreateNotification(MyuserId, fieldId,reservationId, 1);//(int userId, int fieldId, int reservationId, int teamId)
 
             return Ok("Successfully Created");
         }
