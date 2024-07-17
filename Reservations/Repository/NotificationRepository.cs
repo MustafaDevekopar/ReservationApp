@@ -68,29 +68,11 @@ namespace Reservations.Repository
             return saved > 0 ? true : false;
         }
 
-        public async Task<bool> CreateNotification(int userId, int fieldId, int reservationId, int teamId)
+        public async Task<int> CreateNotification(Notification notification)
         {
-            var userGet = await _userRepository.GetUserAsync(userId);
-            var fieldGet = await _footballFieldRepository.GetFootballFieldAsync(fieldId);
-            var reservationGet = await _reservationRepository.GetReservationAsync(reservationId);
-            var teamGet = await _teamRepository.GetTeamByIdAsync(teamId);
-
-            if (userGet == null || fieldGet == null || reservationGet == null || teamGet == null)
-            {
-                return false;
-            }
-
-            var notification = new Notification
-            {
-                User = userGet,
-                FootballField = fieldGet,
-                Team = teamGet,
-                Reservation = reservationGet,
-                Text = "اشعار"
-            };
-
             await _context.Notification.AddAsync(notification);
-            return Save();
+            var saved = await _context.SaveChangesAsync();
+            return saved > 0 ? notification.Id : 0;
         }
     }
 }

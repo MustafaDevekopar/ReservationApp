@@ -33,15 +33,13 @@ const NotificationBell = ({userId}:Props) => {
   if (loading) {
     return <div>Loading...</div>;
   }
-
   return (
     <Link to={`/notification/${userId}`} className="flex relative">
-        <span className="absolute left-4 bottom-2 px-1 my-1 content-center rounded-full text-xs text-white bg-red-600 ">{count}</span>
+        <span className="absolute left-4 bottom-2 px-1 my-1 content-center rounded-full text-xs text-white bg-red-600 ">
+          {(count != null && count > 0) && (count > 99 ? "99+": count)}
+        </span>
         <img src={notificationIcon} alt="" />
     </Link>
-    // <div>
-    //   {count !== null ? <p>Number of notifications: {count}</p> : <p>No notifications found.</p>}
-    // </div>
   );
 };
 

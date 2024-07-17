@@ -16,11 +16,11 @@ const NotificationBoxList = ({ notifications }: UserListProps) => {
     try {
       if (!userId) return;
       if (isRead){
-        navigate(`/showNotification/${notificationId}`);
+        navigate(`/showNotification/${notificationId}/userId/${userId}`);
       }else{
         const response = await UpdateIsReadNotification(parseInt(userId), notificationId);
         if (response) {
-          navigate(`/showNotification/${notificationId}`);
+          navigate(`/showNotification/${notificationId}/userId/${userId}`);
         } else {
           console.error('Failed to mark notification as read.');
         }        

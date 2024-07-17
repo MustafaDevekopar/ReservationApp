@@ -252,7 +252,7 @@ namespace Reservations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Comment", b =>
@@ -282,7 +282,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.FootballField", b =>
@@ -336,7 +336,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("GovernorateId");
 
-                    b.ToTable("FootballFields");
+                    b.ToTable("FootballFields", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Governorate", b =>
@@ -353,7 +353,7 @@ namespace Reservations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Governorates");
+                    b.ToTable("Governorates", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Like", b =>
@@ -379,7 +379,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Notification", b =>
@@ -415,7 +415,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Post", b =>
@@ -447,7 +447,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("FootballFieldId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Reservation", b =>
@@ -473,7 +473,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Reservations");
+                    b.ToTable("Reservations", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.Team", b =>
@@ -498,7 +498,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("TeamLeaderId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Teams", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.User", b =>
@@ -533,7 +533,7 @@ namespace Reservations.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.UserField", b =>
@@ -548,7 +548,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("FieldId");
 
-                    b.ToTable("UserFields");
+                    b.ToTable("UserFields", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.UserNotification", b =>
@@ -569,7 +569,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("NotificationId");
 
-                    b.ToTable("UserNotifications");
+                    b.ToTable("UserNotifications", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.UserTeam", b =>
@@ -584,7 +584,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("TeamId");
 
-                    b.ToTable("UsersTeams");
+                    b.ToTable("UsersTeams", (string)null);
                 });
 
             modelBuilder.Entity("Reservations.Models.View", b =>
@@ -610,7 +610,7 @@ namespace Reservations.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Views");
+                    b.ToTable("Views", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

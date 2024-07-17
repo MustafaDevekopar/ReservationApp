@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { PostsGet } from '../../Api';
 import { Post } from '../../Reservations';
-import { DefaultAvatar } from '../../assets/Image';
+import { DefaultAvatar ,DefaultGreenImage} from '../../assets/Image';
 import FullPageLoader from '../FullPageLoader/FullPageLoader';
 
 type Props = {}
@@ -34,23 +34,24 @@ const PostList = (props: Props) => {
           {post.map((pst) => (
             <div key={pst.id} className="w-1/3 p-[1px] lg:p-1 lg:w-1/4 xl:w-1/4">
               <Link to={`/showpost/${String(pst.id)}`} className="rounded-md overflow-hidden relative">
+              <div className="relative w-full aspect-9/16 rounded-xl overflow-hidden">
                 <img 
-                    src={
-                        pst.image === null
-                        ? "https://th.bing.com/th/id/OIP.znI0FjRzJgpcvCsAFpzq4QHaE7?w=268&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
-                        : `data:image/png;base64,${pst.image}`
-                    }
-                    alt={"صوره"} className="w-full aspect-9/16 object-cover rounded-xl overflow-hidden" />
-                <div className="absolute bottom-1 right-2 flex items-center">
+                    src={ pst.image === null ? DefaultGreenImage : `data:image/png;base64,${pst.image}`} alt={"صوره"} 
+                    className="w-full filter blur-sm absolute aspect-9/16 object-cover rounded-xl overflow-hidden" 
+                  />
+                <img 
+                  src={ pst.image === null ? DefaultGreenImage : `data:image/png;base64,${pst.image}`} alt={"صوره"} 
+                  className="w-full absolute aspect-9/16  object-contain overflow-hidden z-10" 
+                />
+              </div>
+
+                <div className="absolute bottom-1 right-2 flex items-center z-30">
                   <div className='m-0 p-0 '>
                     <img 
-                        src={
-                            pst.image === null
-                            ? DefaultAvatar
-                            : `data:image/png;base64,${pst.field.avatar}`
-                        }
-                        alt="img" className="object-cover w-8 min-w-8 h-8 rounded-full outline-1 outline outline-white" />
-                    <span className="text-[10px] text-white text-center">{pst.field.username}</span>       
+                        src={ pst.image === null ? DefaultAvatar : `data:image/png;base64,${pst.field.avatar}` }
+                        alt="img" className="object-cover m-0 w-8 min-w-8 h-8 rounded-full outline-1 outline outline-white" 
+                      />
+                    <div className="text-[8px] text-white text-center ">{pst.field.username}</div>       
                   </div>
                   <span className="text-[8px] text-white text-center line-clamp-2 mx-1">{pst.text}</span>       
                 </div>

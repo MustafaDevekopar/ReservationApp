@@ -80,6 +80,15 @@ namespace Reservations.Data
                 .HasOne(p => p.Notification)
                 .WithMany(pc => pc.UserNotifications)
                 .HasForeignKey(p => p.NotificationId);
+
+
+            // Configuring one-to-many relationship between Reservation and Notification
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Reservation)
+                .WithMany(r => r.Notifications)
+                .HasForeignKey(n => n.ReservationId)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

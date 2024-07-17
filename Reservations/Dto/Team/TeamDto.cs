@@ -7,7 +7,7 @@ namespace Reservations.Dto.Team
         public int Id { get; set; }
         public string Name { get; set; }
         public string? Avatar { get; set; }
-        //public UserGetDto TeamLeader { get; set; }
-        public ICollection<UserGetDto> Users { get; set; }
+        public UserInTeamGetDto TeamLeader { get; set; }
+        public ICollection<UserInTeamGetDto> Users { get; set; }
     }
 }

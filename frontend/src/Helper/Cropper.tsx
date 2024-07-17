@@ -53,7 +53,7 @@ const Cropper: React.FC<CropperProps> = ({
   }, [completedCrop]);
 
   return (
-    <div className='mt-6 mx-20'>
+    <div className='mt-6'>
       {croppingMode ? (
         <ReactCrop
           crop={crop}

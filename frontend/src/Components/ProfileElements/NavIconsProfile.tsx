@@ -19,7 +19,10 @@ const NavIconsProfile: React.FC<Props> = ({username, fieldId, isFootbalField, is
         </div>
         {isMyProfile &&
           <div className="flex-1 flex  gap-6 items-center justify-end">
-              <NotificationIconCom />
+            {
+              userId && <NotificationIconCom userid={parseInt(userId)}/>
+            }
+               
               {isFootbalField && 
                 <Link to={`../addpost/${fieldId}`}>
                   <NewPostIcon className="w-7"/>

@@ -10,5 +10,6 @@ namespace Reservations.Interfaces
         bool CreateTeam(Team team);
         bool Save();
         bool TeamExist(int id);
+        bool TeamNameExist(string name);
     }
 }

@@ -5,10 +5,14 @@ import { DefaultAvatar } from '../../assets/Image';
 import { XIcon, PhoneBlackIcon } from './../../Components/IconsComponent/IconComponent';
 import { DeleteReservation } from '../../Api';
 import ConfirmMsg from '../ConfirmMsg';
+import { Link } from 'react-router-dom';
+import { useAuth } from '../../Context/useAuth';
 
 interface ReservationsProps {
   dateformat: string;
   dateTimeformat: string;
+  reservationId: number;
+  userId: number;
   fieldId: number;
   fieldName: string;
   username: string;
@@ -19,6 +23,8 @@ interface ReservationsProps {
 const CardReservation: React.FC<ReservationsProps> = ({
   dateformat,
   dateTimeformat,
+  reservationId,
+  userId,
   fieldId,
   fieldName,
   username,
@@ -26,6 +32,9 @@ const CardReservation: React.FC<ReservationsProps> = ({
   avatar,
 }): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
+
+  const {isLoggedIn, user, logout} = useAuth();
+ const isFieldOwner: boolean = user?.accountType ==="FieldOwner";
 
   const handleDelete = (reservationId: number) => {
     try {
@@ -50,7 +59,7 @@ const CardReservation: React.FC<ReservationsProps> = ({
   };
 
   return (
-    <div className="flex rounded-3xl h-[120px] w-full overflow-hidden" key={fieldId}>
+    <div className="flex rounded-3xl h-[120px] w-full overflow-hidden" key={reservationId}>
       {/* right */}
       <div className="flex-[2] flex flex-col items-center justify-center bg-Darkgreen text-xs text-white">
         <span className="py-2">{dateformat}</span>
@@ -73,10 +82,18 @@ const CardReservation: React.FC<ReservationsProps> = ({
                 <span className="text-xs font-buld">{username}</span>
               </div>
             </div>
-            <XIcon className="w-6 h-6 rounded-full p-1 shadow-md" />
+
+            <ConfirmMsg 
+              id={reservationId} 
+              title="تاكيد الحذف" 
+              text="هل أنت متأكد أنك تريد الحذف؟" 
+              btnText={<XIcon className="w-6 h-6 rounded-full p-1 shadow-md" />} 
+              onDelete={handleDelete} 
+            />
+
           </div>
           <div className="float-end">
-            <span className="py-2 text-DarkGray">رقم الحجز {fieldId}</span>
+            <span className="py-2 text-DarkGray">رقم الحجز {reservationId}</span>
           </div>
         </div>
 
@@ -85,16 +102,14 @@ const CardReservation: React.FC<ReservationsProps> = ({
             <PhoneBlackIcon className="w-8 h-8 rounded-full p-1 bg-white shadow-md" />
             <span>{fieldPhonNumber}</span>
           </div>
+            {
+              !isFieldOwner &&            
+              <Link to={`../../AddNotification/fieldId/${fieldId}/reservationId/${reservationId}/userId/${userId}`}
+                className="bg-Darkgreen rounded-full text-white px-3 py-2">
+                اشعار
+              </Link>
+            }
 
-          <ConfirmMsg 
-            id={fieldId} 
-            title="تاكيد الحذف" 
-            text="هل أنت متأكد أنك تريد الحذف؟" 
-            btnText={<button className="px-3 py-2 rounded-full m bg-Darkgreen text-white"
-            >
-              حذف
-            </button>} 
-            onDelete={handleDelete} />
         </div>
       </div>
     </div>

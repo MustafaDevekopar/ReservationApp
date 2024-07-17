@@ -77,7 +77,7 @@ const ReservDate: React.FC<Props> = ({fieldData,reservationsData}): JSX.Element 
             id={0} 
             title="تاكيد الحجز" 
             text="هل أنت متأكد أنك تريد الحجز" 
-            btnText={<ConfirmOrBackBox onClick={()=>{}} />} 
+            btnText={<ConfirmOrBackBox onClick={()=>{}} bgColor='bg-blue-600' text='تاكيد' icon='dashicons:yes'/>} 
             onDelete={handleAddReservation} />)}
       {/* {selectedDate && (<ConfirmOrBackBox onClick={handleAddReservation} /> )} */}
     </div>

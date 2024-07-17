@@ -21,5 +21,7 @@ namespace Reservations.Dto.Notification
 
         public ReservationDto Reservation { get; set; }
         public TeamDto Team { get; set; }
+        //====
+        public ICollection<UserNotificationDto> UserNotifications { get; set; }
     }
 }

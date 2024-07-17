@@ -690,6 +690,30 @@ export const UpdateIsReadNotification = async (userId: number, notificationId: n
     }
   }
 }
+// update IsAccepted notification 
+
+export const UpdateIsAcceptedUser = async (userId: number, notificationId: number, isAccepted: boolean): Promise<boolean> => {
+  try {
+    const response = await axios.put(`${API_URL}Notification/${notificationId}/isAccepted?userId=${userId}&isAccept=${isAccepted}`
+      , {
+      headers: {
+        'Content-Type': 'application/json',
+        // 'Authorization': `Bearer ${token}`,
+      },
+    }
+  );
+
+    return response.status == 200; // Return true if the status is 200 (OK)
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
 
 // notification count of user 
 export const getNotificationCountByUserId = async (userId: number): Promise<number> => {
@@ -700,4 +724,87 @@ export const getNotificationCountByUserId = async (userId: number): Promise<numb
     console.error('Error fetching notification count:', error);
     throw error;
   }
+};
+
+// notification to team 
+export const sendNotificationToTeam = async (userId: number, fieldId: number, teamId: number, reservationId: number): Promise<void> => {
+  try {
+    await axios.post(`${API_URL}Notification/createTeamNotification?teamId=${teamId}&fieldId=${fieldId}&reservationId=${reservationId}`
+      , {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+};
+
+
+
+
+// =============== User Search ==========
+export const UsersSearchEndPoint = async (keyword: string, userId: number): Promise<User[]> => {
+  try {
+    const response: AxiosResponse<User[]> = await axios.get<User[]>(`${API_URL}User/search?keyword=${keyword}&excludeUserId=${userId}`);
+    //console.log(response.data);
+    return response.data;
+  } catch(error) {
+    if (axios.isAxiosError(error)) {
+      console.error("Axios error:", error.message);
+      throw error;
+    } else {
+      console.error("Unexpected error:", error);
+      throw new Error("An unexpected error occurred");
+    }
+  }
+}
+
+
+//========
+
+interface CreateTeamParams {
+  name: string;
+  teamLeaderId: string;
+  avatar: File | null;
+  userIds: number[];
+}
+
+export const CreateTeam = async ({ name, teamLeaderId, avatar, userIds }: CreateTeamParams): Promise<boolean | any> => {
+  try{
+    const formData = new FormData();
+    formData.append('Name', name);
+    formData.append('TeamLeaderId', teamLeaderId);
+    if (avatar) {
+      formData.append('Avatar', avatar);
+    }
+
+    userIds.forEach((id, index) => {
+      formData.append(`UserIds[${index}]`, id.toString());
+    });
+
+    // Add team leader ID to user IDs
+    formData.append(`UserIds[${userIds.length}]`, teamLeaderId);
+
+    const response =  await axios.post('https://localhost:7249/api/team', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    }); 
+    return response.status == 200 ; 
+    
+} catch (error) {
+  if (axios.isAxiosError(error)) {
+    console.error("Axios error:", error.message);
+    throw error;
+  } else {
+    console.error("Unexpected error:", error);
+    throw new Error("An unexpected error occurred");
+  }
+}
 };

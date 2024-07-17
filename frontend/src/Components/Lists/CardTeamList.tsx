@@ -37,6 +37,7 @@ const CardTeamList = ({ teamId }: Props) => {
             Name={tm.name}
             Id={tm.id}
             Avatar={tm.avatar}
+            teamLeader={tm.teamLeader}
             users={tm.users}
           />   
         </div>

@@ -38,5 +38,10 @@ namespace Reservations.Repository
         {
             return _context.Teams.Any(t => t.Id == id);
         }
+
+        public bool TeamNameExist(string name)
+        {
+            return _context.Teams.Any(t => t.Name == name);
+        }
     }
 }

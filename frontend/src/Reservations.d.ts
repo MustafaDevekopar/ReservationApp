@@ -18,6 +18,9 @@ export interface User {
     phoneNumbr: number;
     createdAt: string;
     avatar: string|null;
+    isRead: boolean,
+    isAccepted: boolean | null
+    isTeamLeader: boolean;
   }
 
 export interface Post {
@@ -166,10 +169,19 @@ export interface TeamDataType {
     id: number;
     name: string;
     avatar: string|null;
+    teamLeader: User;
     users: User[];
   }
 
-
+// join in UserNotification 
+// export interface userNotifications {
+//     Id: number,
+//     name: string,
+//     username: string,
+//     avatar: string,
+//     isRead: boolean,
+//     isAccepted: boolean | null
+//   }
 export interface NotificationDataType {
     id: number,
     text: string,
@@ -197,7 +209,9 @@ export interface NotificationDataType {
     team: {
       id: number,
       name: string,
-    }
+      avatar: string,
+    },
+    userNotifications: User[]
 }
 
 

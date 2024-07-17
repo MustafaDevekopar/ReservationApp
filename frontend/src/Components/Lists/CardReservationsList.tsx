@@ -49,7 +49,9 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
             key={res.id}
             dateformat={formatDate(new Date(res.dateTime))}
             dateTimeformat={formatTime(new Date(res.dateTime))}
-            fieldId={res.id}
+            reservationId={res.id}
+            userId={res.userGet.id}
+            fieldId={res.fieldGet.id}
             fieldName={IsFieldOwner ? res.userGet.name : res.fieldGet.name}
             username={IsFieldOwner ? res.userGet.username : res.fieldGet.username}
             fieldPhonNumber={IsFieldOwner ? res.userGet.phoneNumber : res.fieldGet.phoneNumber}

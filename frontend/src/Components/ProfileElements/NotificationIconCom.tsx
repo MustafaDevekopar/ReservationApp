@@ -1,14 +1,14 @@
-import {NotificationIcon } from "../IconsComponent/IconComponent"
 
-type Props = {}
+import NotificationBell from "../NotificationElements/NotificationBell"
 
-const NotificationIconCom: React.FC<Props> = (props: Props): JSX.Element => {
+type Props = {
+  userid: number;
+}
+
+const NotificationIconCom: React.FC<Props> = ({userid}: Props): JSX.Element => {
   return (
     <div>
-        <span className="flex relative">
-            <span className="absolute left-4 bottom-2 px-1 my-1 content-center rounded-full text-xs text-white bg-red-600 ">1</span>
-            <NotificationIcon />
-        </span>
+       <NotificationBell userId={userid} />
     </div>
   )
 }

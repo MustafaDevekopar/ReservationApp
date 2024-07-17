@@ -10,10 +10,11 @@ type InfoProps = {
   Id: number;
   Avatar: string | null;
   Name: string;
+  teamLeader: User;
   users: User[];
 }
 
-const CardTeam = ({ Id, Avatar, Name, users }: InfoProps) => {
+const CardTeam = ({ Id, Avatar, Name, users, teamLeader }: InfoProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -21,9 +22,9 @@ const CardTeam = ({ Id, Avatar, Name, users }: InfoProps) => {
   };
 
   return (
-    <div className="relative rounded-3xl overflow-hidden shadow-lg">
+    <div className="relative rounded-3xl overflow-hidden shadow-lg w-full">
       <button onClick={toggleExpanded} className='w-full'> 
-        <img className="aspect-[7/3] w-full object-cover"
+        <img className="aspect-[7/3] w-full object-cover "
           src={Avatar === null 
             ? "https://th.bing.com/th/id/OIP.lwPpv1JqycBpzMUWW2sU0wHaEK?w=258&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
             : `data:image/png;base64,${Avatar}`
@@ -40,7 +41,7 @@ const CardTeam = ({ Id, Avatar, Name, users }: InfoProps) => {
           </button>
         </div>
         {expanded && (
-          <UserInTeamList users={users} />
+          <UserInTeamList users={users} teamLeader={teamLeader}/>
         )}
       </div>
     </div>

@@ -12,7 +12,7 @@ namespace Reservations.Interfaces
 
         // notification table to transfer data as controller
         Task<List<Notification>> GetNotificationsAsync();
-        Task<bool> CreateNotification(int userId, int fieldId, int reservationId, int teamId);
+        Task<int> CreateNotification(Notification notification);
         bool Save();
     }
 }

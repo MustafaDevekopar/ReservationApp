@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
 using Reservations.Dto.FieldDto;
@@ -22,18 +23,20 @@ namespace Reservations.Controllers
         private readonly IUserFieldRepository _userFieldRepository;
         private readonly IMapper _mapper;
         private readonly UserManager<AppUser> _userManager;
+        private readonly DataContext _context;
         public UserController(IUserRepository userRepository,
             IFootballFieldRepository footballFieldRepository,
             IUserFieldRepository userFieldRepository,
             IMapper mapper,
-            UserManager<AppUser> userManager)
+            UserManager<AppUser> userManager,
+            DataContext context)
         {
             _mapper = mapper;
             _userRepository = userRepository;
             _footballFieldRepository = footballFieldRepository;
             _userFieldRepository = userFieldRepository;
             _userManager = userManager;
-
+            _context = context;
         }
         [HttpGet]
         public async Task<IActionResult> GetUsers()
@@ -365,6 +368,26 @@ namespace Reservations.Controllers
             return Ok("User updated successfully");
 
         }
+
+
+        //search users
+       [HttpGet("search")]
+        public async Task<IActionResult> SearchUsersAsync(string keyword, int? excludeUserId = null)
+        {
+            var users = await _context.Users
+                .Where(u => u.Id != excludeUserId &&  (u.Name.Contains(keyword) || u.Username.Contains(keyword)) )
+                .Select(u => new UserGetDto
+                {
+                    Id = u.Id,
+                    Name = u.Name,
+                    Username = u.Username,
+                    Avatar = u.Avatar != null ? Convert.ToBase64String(u.Avatar) : null,
+                })
+                .ToListAsync();
+
+            return Ok(users);
+        }
+
     }
 }
 

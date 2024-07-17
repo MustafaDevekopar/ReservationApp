@@ -28,13 +28,20 @@ const NotificationBox = ({notifid,userid,isRead, avatar, name, username, fieldna
         </div>
 
         <div className="flex flex-col flex-1 gap-2  ">
-            <span className="font-bold text-xs">userId {userid} notifid {notifid}
+            <span className="font-bold text-xs">
+                {/* userId {userid} notifid {notifid} */}
                 {
                     isFieldOwner ? (
                         <>
                             قام <strong>{username}</strong> بالحجز بموعد <strong>{formatDate(new Date(date))}</strong> في الساعة <strong>{formatTime(new Date(date))}</strong>
                         </>
                     ) : (
+                        user?.userName == username 
+                        ?
+                        <>
+                        ارسلت دعوة <strong>{username}</strong> لفريق <strong>{teamname}</strong>  للمشاركة في مباراة في <strong>{fieldname}</strong> بموعد <strong>{formatDate(new Date(date))}</strong> في الساعة <strong>{formatTime(new Date(date))}</strong> يمكنك مشاهدة من وافق على الدعوة
+                        </>
+                        : 
                         <>
                             دعاك <strong>{username}</strong> للمشاركة في مباراة في ملعب <strong>{fieldname}</strong> ضمن فريق <strong>{teamname}</strong> بموعد <strong>{formatDate(new Date(date))}</strong> في الساعة <strong>{formatTime(new Date(date))}</strong>
                         </>

@@ -296,6 +296,10 @@ namespace Reservations.Controllers
                         Avatar = reservation.FootballField.Avatar != null
                                     ? Convert.ToBase64String(reservation.FootballField.Avatar)
                                     : null,
+                    },
+                    userGet = new UserInReservation
+                    {
+                        Id = user_id
                     }
 
                 };
@@ -352,7 +356,7 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _notificationRepository.CreateNotification(MyuserId, fieldId,reservationId, 1);//(int userId, int fieldId, int reservationId, int teamId)
+           // await _notificationRepository.CreateNotification(MyuserId, fieldId,reservationId, 1);//(int userId, int fieldId, int reservationId, int teamId)
 
             return Ok("Successfully Created");
         }
@@ -365,7 +369,10 @@ namespace Reservations.Controllers
             if (!_reservationRepository.ReservationExists(ReservationId))
                 return NotFound();
 
-            var resToDelete = await _reservationRepository.GetReservationAsync(ReservationId);
+            //var resToDelete = await _reservationRepository.GetReservationAsync(ReservationId);
+            var resToDelete = _context.Reservations
+                        .Include(r => r.Notifications)  // Ensure related notifications are loaded
+                        .FirstOrDefault(r => r.Id == ReservationId);
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

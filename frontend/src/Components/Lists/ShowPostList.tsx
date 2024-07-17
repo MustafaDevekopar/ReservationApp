@@ -63,9 +63,9 @@ const ShowPostList = () => {
           id={String(post.id)}
         >
           <UsernameAvaratBox 
-          avatarSrc={post.field.avatar} 
-          username={post.field.username} 
-          fieldId={post.field.id}
+            avatarSrc={post.field.avatar} 
+            username={post.field.username} 
+            fieldId={post.field.id}
           />
           <ImageOfShowPost imageSrc={post.image} />
           <IconsOfShowPost postId={post.id}/>

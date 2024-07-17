@@ -38,6 +38,7 @@ const Navbar: React.FC<Props> = (props: Props):JSX.Element => {
           ? ( 
             <div className="flex items-center">
               <div className="flex text-xs">
+                { }
                 <Link to={`${user?.accountType == "FieldOwner" ? `fieldprofile/${UserData?.userGet.id}`: `/userprofile/${UserData?.userGet.id}`}`}>
                   <img className="rounded-full w-8 h-8 object-cover" 
 
