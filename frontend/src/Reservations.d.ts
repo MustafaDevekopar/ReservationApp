@@ -182,6 +182,7 @@ export interface TeamDataType {
 //     isRead: boolean,
 //     isAccepted: boolean | null
 //   }
+
 export interface NotificationDataType {
     id: number,
     text: string,

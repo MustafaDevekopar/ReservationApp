@@ -383,6 +383,7 @@ namespace Reservations.Controllers
                     Username = u.Username,
                     Avatar = u.Avatar != null ? Convert.ToBase64String(u.Avatar) : null,
                 })
+                .Take(5) // Limit the result to 5 users
                 .ToListAsync();
 
             return Ok(users);

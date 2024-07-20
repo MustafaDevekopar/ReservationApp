@@ -630,15 +630,28 @@ export const updateOpeningHours = async (fieldId: string, openingHours: string[]
   }
 }
 
-// get notifications by UserId
-export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean): Promise<NotificationDataType[]> => {
+
+// Update NotificationsResponse to match API response
+interface NotificationsResponse {
+  notifications: NotificationDataType[];
+  totalNotifications: number;
+}
+
+export const NotificationsGetByserId = async (id: number, page: number, pageSize: number, isFieldOwner: boolean): Promise<NotificationsResponse> => {
   const UserOrField = isFieldOwner ? `fieldId/${id}` : `userId/${id}`;
   try {
-    const response: AxiosResponse<NotificationDataType[]> = await axios.get<NotificationDataType[]>   
-        (`${API_URL}Notification/${UserOrField}` );
-    //console.log(response.data);
+    const response: AxiosResponse<NotificationsResponse> = await axios.get<NotificationsResponse>(
+      `${API_URL}Notification/${UserOrField}`,
+      {
+        params: {
+          page,
+          pageSize
+        }
+      }
+    );
+    console.log('API Response:', response.data); // Log the response data to verify its structure
     return response.data;
-  } catch(error) {
+  } catch (error) {
     if (axios.isAxiosError(error)) {
       console.error("Axios error:", error.message);
       throw error;
@@ -648,6 +661,26 @@ export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean)
     }
   }
 }
+
+
+
+// export const NotificationsGetByserId = async (id: number, isFieldOwner: boolean): Promise<NotificationDataType[]> => {
+//   const UserOrField = isFieldOwner ? `fieldId/${id}` : `userId/${id}`;
+//   try {
+//     const response: AxiosResponse<NotificationDataType[]> = await axios.get<NotificationDataType[]>   
+//         (`${API_URL}Notification/${UserOrField}` );
+//     //console.log(response.data);
+//     return response.data;
+//   } catch(error) {
+//     if (axios.isAxiosError(error)) {
+//       console.error("Axios error:", error.message);
+//       throw error;
+//     } else {
+//       console.error("Unexpected error:", error);
+//       throw new Error("An unexpected error occurred");
+//     }
+//   }
+// }
 // get notification by notificationIdId
 export const NotificationsGetById = async (notificationId: number): Promise<NotificationDataType> => {
   try {
