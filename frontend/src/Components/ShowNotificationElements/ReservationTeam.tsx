@@ -6,11 +6,10 @@ type Props = {
     id: number;
     name: string;
     avatar: string| null;
-    teamLeader: User;
     users: User[];
 }
 
-const ReservationTeam = ({id, name, avatar,teamLeader, users}: Props) => {
+const ReservationTeam = ({id, name, avatar, users}: Props) => {
   return (
     <div className='p-2 flex flex-col gap-3'>
     <h2 className=''> الفريق </h2>
@@ -18,7 +17,6 @@ const ReservationTeam = ({id, name, avatar,teamLeader, users}: Props) => {
           Id={id}
           Name={name}
           Avatar={avatar}
-          teamLeader={teamLeader}
           users={users}
         />           
   </div>

@@ -1,12 +1,11 @@
 
 import React, { useEffect, useState } from 'react';
-import { GetMyReservationsOfField, GetReservationsOfField, GetReservationsOfUser } from '../../Api';
-import { ReservaiotionWithField, Reservation, ReservationFieldType } from '../../Reservations';
+import { GetMyReservationsOfField } from '../../Api';
+import { ReservationFieldType } from '../../Reservations';
 import { formatDate, formatTime } from '../ReserveElement/Helpers';
 import CardReservation from '../Cards/CardReservation';
 import { useAuth } from '../../Context/useAuth';
-import { boolean } from 'yup';
-import FullPageLoader from '../FullPageLoader/FullPageLoader';
+import ReservationCardSkeleton from '../Skeletons/ReservationCardSkeleton';
 
 type Props = {
   filter: 'current' | 'past';
@@ -43,7 +42,7 @@ const CardReservationsList: React.FC<Props> = ({ filter }: Props) => {
 
   return (
     <div className="grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 mx-5 sm:mx-6 md:mx-12 lg:mr-40 lg:ml-20 w-full my-6">
-      {loading == true && <FullPageLoader /> }
+      {loading == true && <ReservationCardSkeleton /> }
       {filteredReservations.map((res) => ( 
           <CardReservation
             key={res.id}

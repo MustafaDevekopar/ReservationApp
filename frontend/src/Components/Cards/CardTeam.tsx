@@ -10,11 +10,10 @@ type InfoProps = {
   Id: number;
   Avatar: string | null;
   Name: string;
-  teamLeader: User;
   users: User[];
 }
 
-const CardTeam = ({ Id, Avatar, Name, users, teamLeader }: InfoProps) => {
+const CardTeam = ({ Id, Avatar, Name, users }: InfoProps) => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleExpanded = () => {
@@ -41,7 +40,7 @@ const CardTeam = ({ Id, Avatar, Name, users, teamLeader }: InfoProps) => {
           </button>
         </div>
         {expanded && (
-          <UserInTeamList users={users} teamLeader={teamLeader}/>
+          <UserInTeamList users={users} />
         )}
       </div>
     </div>

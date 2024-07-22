@@ -4,6 +4,7 @@ import Card from '../Cards/Card';
 import { FieldDataType } from '../../Reservations';
 import { FootbalfieldsGet } from '../../Api';
 import FullPageLoader from '../FullPageLoader/FullPageLoader';
+import CardSkeleton from '../Skeletons/CardSkeleton';
 
 type Props = {
   selectedGovernorate: number | null;
@@ -34,7 +35,7 @@ const CardList: React.FC<Props> = ({ selectedGovernorate, setSelectedCategory })
 
   return (
     <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mx-3 sm:mx-6 md:mx-12 lg:mr-24 lg:ml-8 w-full">
-      {loading == true && <FullPageLoader /> }
+      {loading === true && <CardSkeleton /> }
       {
       fields
         .filter((field) => !selectedGovernorate || field.userGet.governorateGet.id === selectedGovernorate)
@@ -51,6 +52,7 @@ const CardList: React.FC<Props> = ({ selectedGovernorate, setSelectedCategory })
             longitude={fld.userGet.longitude}
           />
         ))}
+        
     </div>
   );
 };

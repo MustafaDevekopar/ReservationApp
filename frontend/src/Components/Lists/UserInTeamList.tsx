@@ -6,10 +6,9 @@ import UserInTeamBox from '../TeamElements/UserInTeamBox';
 
 type UserListProps = {
   users: User[];
-  teamLeader: User;
 }
 
-const UserInTeamList = ({ users, teamLeader }: UserListProps) => {
+const UserInTeamList = ({ users }: UserListProps) => {
   return (
     <div className="mt-4"> 
 

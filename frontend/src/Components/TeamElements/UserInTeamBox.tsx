@@ -14,15 +14,10 @@ type Props = {
 
 const UserInTeamBox = ({userid, avatar, name, username, isRead, isAccepted,isTeamLeader}: Props) => {
   return (
-    <div key={userid} className="flex gap-2 items-center mb-2">
+  <div key={userid} className="flex gap-2 items-center mb-2">
     <img
       className="w-10 h-10 rounded-full object-cover mr-2"
-      src={
-        avatar === null
-          ? DefaultAvatar
-          : `data:image/png;base64,${avatar}`
-      }
-      alt="صورة"
+      src={ avatar === null ? DefaultAvatar : `data:image/png;base64,${avatar}`} alt="صورة"
     />
     <div className='flex justify-between items-center border-b-2 pb-2 w-full'>
       <div className="flex flex-col justify-around">

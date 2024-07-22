@@ -11,6 +11,8 @@ import ReservationField from '../Components/ShowNotificationElements/Reservation
 import ReservationTeam from '../Components/ShowNotificationElements/ReservationTeam';
 import ConfirmOrBackBox from '../Components/ReserveElement/ConfirmOrBackBox';
 import ConfirmMsg from '../Components/ConfirmMsg';
+import CardTeamSkeleton from '../Components/Skeletons/CardTeamSkeleton';
+import ShowNotificationSkeleton from '../Components/Skeletons/showNotificationSkeleton';
 
 type Props = {}
 
@@ -64,13 +66,13 @@ const ShowNotificationPage = (props: Props) => {
     }
   };
 
-  if (!notification) return <FullPageLoader />;
+  if (!notification) return <ShowNotificationSkeleton />;
 
   return (
     <div className=''>
-      {loading && <FullPageLoader />}
+      
       <h1 className='text-center py-4'>مشاهدة الإشعار</h1>
-
+      {loading && <ShowNotificationSkeleton />}
       <div className='flex flex-col gap-2 mx-0 sm:mx-6 md:mx-12 lg:mr-40 lg:ml-20 max-w-full bg-white py-4 md:px-4 lg:px-4'>
         <div className="grid gap-3 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 w-full">
           <div>
@@ -91,7 +93,6 @@ const ShowNotificationPage = (props: Props) => {
             id={notification.team.id}
             name={notification.team.name}
             avatar={notification.team.avatar}
-            teamLeader={notification.userNotifications[0]}// team lader i need to fix it 
             users={notification.userNotifications} 
           />
         </div>
