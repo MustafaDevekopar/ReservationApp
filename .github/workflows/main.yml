@@ -1,0 +1,28 @@
+name: Publish 🚀
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main  # or anther branch
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'  # Use the version of .NET Core 
+
+      - name: Restore
+        run: dotnet restore ./Reservations.sln
+
+      - name: Build
+        run: dotnet build ./Reservations.sln --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./Reservations.sln --configuration Release --no-build
