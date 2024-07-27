@@ -177,7 +177,7 @@ app.UseHttpsRedirection();
 
 // Use CORS
 app.UseCors("AllowFrontend");
-
+// test public Actions
 app.UseAuthentication();
 // auth ApiKey
 app.UseMiddleware<ApiKeyMiddleware>();
