@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using Microsoft.AspNetCore.SignalR;
+using Reservations.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +72,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         builder => builder
-            .WithOrigins("http://localhost:3000", "http://localhost:3001") // Replace with your frontend URL
+            .WithOrigins("http://localhost:3000", "https://main--eloquent-sable-14f4a9.netlify.app")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());  // Allow credentials for SignalR
@@ -166,11 +167,11 @@ builder.Services.AddAuthorizationBuilder()
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+//if (app.Environment.IsDevelopment()) // comet to make deploy
+//{
+app.UseSwagger();
+app.UseSwaggerUI();
+//}
 
 app.UseHttpsRedirection();
 
@@ -178,12 +179,14 @@ app.UseHttpsRedirection();
 app.UseCors("AllowFrontend");
 
 app.UseAuthentication();
+// auth ApiKey
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseAuthorization();
 
 app.MapControllers();
 
 // Map SignalR hubs
-app.MapHub<NotificationHub>("/notificationHub");
+app.MapHub<NotificationHub>("/api/notificationHub");
 
 app.Run();
 

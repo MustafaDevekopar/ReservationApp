@@ -83,27 +83,18 @@ namespace Reservations.Controllers
 
             return Ok(fieldOfPost);
         }
+
+
+
         [HttpGet("{fieldId}/postsfield")]
         public async Task<IActionResult> GetPostsByfaildId(int fieldId)
         {
             var posts = await _postRepository.GetPostsOfFieldAsync(fieldId);
 
-            var postMap = posts.Select(post =>
-            {
-                string avatarBase64 = post.Image != null ? Convert.ToBase64String(post.Image) : null;
-                return new PostGetDto
-                {
-                    Title = post.Title,
-                    Text = post.Text,
-                    Image = avatarBase64
-                };
-            }).ToList();
-
-
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            return Ok(postMap);
+            return Ok(posts);
         }
 
         [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "FieldOwner")]
