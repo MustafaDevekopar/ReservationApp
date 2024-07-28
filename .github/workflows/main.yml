@@ -36,4 +36,4 @@ jobs:
           local-dir: ./output/
           server-dir: ${{ secrets.MONSTERASP_FTP_PATH }}/
           protocol: ftps  # Use `ftps` to ensure a secure FTP connection
-          dangerous-clean-slate: true  # This option will clean the target directory before deploying
+          #dangerous-clean-slate: true  # This option will clean the target directory before deploying
