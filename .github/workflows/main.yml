@@ -26,3 +26,14 @@ jobs:
 
       - name: Publish
         run: dotnet publish ./Reservations.sln --configuration Release --no-build
+        
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          server: ${{ secrets.MONSTERASP_FTP_SERVER }}
+          username: ${{ secrets.MONSTERASP_FTP_USERNAME }}
+          password: ${{ secrets.MONSTERASP_FTP_PASSWORD }}
+          local-dir: ./output/
+          server-dir: ${{ secrets.MONSTERASP_FTP_PATH }}/
+          protocol: ftps  # Use `ftps` to ensure a secure FTP connection
+          #dangerous-clean-slate: true  # This option will clean the target directory before deploying
