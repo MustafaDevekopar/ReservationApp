@@ -166,7 +166,6 @@ builder.Services.AddAuthorizationBuilder()
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment()) // comet to make deploy
 //{
 app.UseSwagger();
