@@ -72,7 +72,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend",
         builder => builder
-            .WithOrigins("http://localhost:3000", "https://main--eloquent-sable-14f4a9.netlify.app")
+            .WithOrigins( "https://main--eloquent-sable-14f4a9.netlify.app","http://localhost:3000")
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());  // Allow credentials for SignalR

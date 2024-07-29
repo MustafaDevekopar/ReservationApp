@@ -22,9 +22,9 @@ namespace Reservations.Repository
             return await _context.Governorates.FirstOrDefaultAsync(g => g.Id == id);
         }
 
-        public Task<Governorate> GetGovernorateByNameAsync(string name)
+        public async Task<Governorate> GetGovernorateByNameAsync(string name)
         {
-            throw new NotImplementedException();
+            return await _context.Governorates.Where(n => n.Name == name).FirstOrDefaultAsync();
         }
 
         public bool GovernorateExists(int GovernorateId)

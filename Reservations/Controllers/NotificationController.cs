@@ -246,7 +246,6 @@ namespace Reservations.Controllers
         [HttpGet("userId/{userId}")]
         public async Task<IActionResult> GetNotificationsByUserTeams(int userId, [FromQuery] int page, [FromQuery] int pageSize)
         {
-            await Task.Delay(2000); // Delay for 2 seconds
             // Fetch the teams that the user belongs to
             var userTeams = await _context.UsersTeams
                 .Where(ut => ut.UserId == userId)
@@ -374,7 +373,6 @@ namespace Reservations.Controllers
         [HttpGet("{notificationId}")]
         public async Task<IActionResult> GetNotificationById(int notificationId)
         {
-            await Task.Delay(2000); // Delay for 2 seconds
             var notification = await _context.Notification
                 .Include(x => x.Team)
                     .ThenInclude(t => t.UserTeams)
