@@ -233,6 +233,10 @@ namespace Reservations.Controllers
                                     : null,
 
                     },
+                    fieldGet = new FieldInReservation
+                    {
+                        Id = footballField_id
+                    }
                 };
 
             }).ToList();

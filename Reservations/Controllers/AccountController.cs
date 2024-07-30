@@ -60,12 +60,24 @@ namespace Reservations.Controllers
                     return BadRequest(ModelState);
                 }
 
-                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == registerDto.PhoneNumber);
-                if (user != null)
+                var userExistByPhone = await _userManager.Users.SingleOrDefaultAsync(x => x.PhoneNumber == registerDto.PhoneNumber);
+                if (userExistByPhone != null)
                 {
-                    ModelState.AddModelError("", "رقم الهاتف مسجل بالفعل");
+                    ModelState.AddModelError("", "يوجد حساب بنفس رقم الهاتف");
                     return BadRequest(ModelState);
                 }
+                var userExistByUsername = await _userManager.Users.SingleOrDefaultAsync(x => x.UserName == registerDto.Username);
+                if (userExistByUsername != null)
+                {
+                    ModelState.AddModelError("", " يوجد حساب بنفس اسم المستخدم ..");
+                    return BadRequest(ModelState);
+                }
+                if (_userRepository.UserExistsbyUsername(registerDto.Username))
+                {
+                    ModelState.AddModelError("", "يوجد حساب بنفس اسم المستخدم");
+                    return BadRequest(ModelState);
+                }
+                    
 
                 int? relatedId = null;
 
@@ -79,14 +91,23 @@ namespace Reservations.Controllers
 
                     if (!_userRepository.CreateUser(newUser))
                     {
-                        ModelState.AddModelError("", "حدث خطأ أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        ModelState.AddModelError("", "حدث خطأ (10) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
                         return BadRequest(ModelState);
                     }
 
                     if (!_userRepository.UserExistsbyUsername(registerDto.Username))
-                        return NotFound(ModelState);
+                    {
+                        ModelState.AddModelError("", "حدث خطأ (20 ) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        return BadRequest(ModelState);
+                    }
+
 
                     var userId = await _userRepository.GetUserIdByUsername(registerDto.Username);
+                    if (userId == null)
+                    {
+                        ModelState.AddModelError("", "حدث خطأ (30 ) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        return BadRequest(ModelState);
+                    }
                     relatedId = userId;
                 }
                 else if (registerDto.AccountType == "FieldOwner")
@@ -95,20 +116,40 @@ namespace Reservations.Controllers
                     {
                         Username = registerDto.Username,
                     };
+                    var Category = await _categoryRepository.GetCategoryAsync(1);
+                    if (Category == null)
+                    {
+                        ModelState.AddModelError("", "يرجى اختيار التصنيق");
+                        return BadRequest(ModelState);
+                    }
+                    var Governorate = await _governorateRepository.GetGovernorateAsync(1);
+                    if (Governorate == null)
+                    {
+                        ModelState.AddModelError("", "يرجى اختيار المحافظه");
+                        return BadRequest(ModelState);
+                    }
 
-                    footballField.Category = await _categoryRepository.GetCategoryAsync(1);
-                    footballField.Governorate = await _governorateRepository.GetGovernorateAsync(1);
+                    footballField.Category = Category;
+                    footballField.Governorate = Governorate;
 
                     if (!_footballFieldRepository.CreateFootballField(footballField))
                     {
-                        ModelState.AddModelError("", "حدث خطأ أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        ModelState.AddModelError("", "حدث خطأ (40) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
                         return BadRequest(ModelState);
                     }
 
                     if (!_footballFieldRepository.FieldExixtsUsername(registerDto.Username))
-                        return NotFound(ModelState);
+                    {
+                        ModelState.AddModelError("", "حدث خطأ (50) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        return BadRequest(ModelState);
+                    }
 
                     var fieldId = await _footballFieldRepository.GetFieldIdByUsername(registerDto.Username);
+                    if (fieldId == null)
+                    {
+                        ModelState.AddModelError("", "حدث خطأ (60) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                        return BadRequest(ModelState);
+                    }
                     relatedId = fieldId;
                 }
 
@@ -124,7 +165,10 @@ namespace Reservations.Controllers
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
                 if (!createdUser.Succeeded)
-                    return StatusCode(500, createdUser.Errors);
+                {
+                    ModelState.AddModelError("", "حدث خطأ (70) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
+                    return BadRequest(ModelState);
+                }
 
                 var userClaims = new List<Claim>
                 {
@@ -133,7 +177,13 @@ namespace Reservations.Controllers
                     new Claim(ClaimTypes.Role, registerDto.AccountType)
                 };
 
-                await _userManager.AddClaimsAsync(appUser, userClaims);
+                var claimsResult = await _userManager.AddClaimsAsync(appUser, userClaims);
+
+                if (!claimsResult.Succeeded)
+                {
+                    ModelState.AddModelError("", "حدث خطأ (80) أثناء إضافة الادعاءات، يرجى التواصل مع الدعم الفني");
+                    return BadRequest(ModelState);
+                }
 
                 return Ok(new NewUserDto
                 {
@@ -144,7 +194,10 @@ namespace Reservations.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, ex.Message);
+                //return StatusCode(400, ex.Message);
+                //ModelState.AddModelError("", ex.Message);
+                ModelState.AddModelError("", "مليوصه");
+                return BadRequest(ModelState);
             }
         }
 
