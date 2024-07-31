@@ -165,7 +165,7 @@ namespace Reservations.Controllers
                 var createdUser = await _userManager.CreateAsync(appUser, registerDto.Password);
 
                 if (!createdUser.Succeeded)
-                {
+                {// this error somtiims accord who can i fix it 
                     ModelState.AddModelError("", "حدث خطأ (70) أثناء حفظ البيانات، يرجى التواصل مع الدعم الفني");
                     return BadRequest(ModelState);
                 }

@@ -90,7 +90,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
     options.Password.RequireUppercase = true;
-    //options.Password.RequireNonAlphanumeric = true;
+    //options.Password.RequireNonAlphanumeric = true; // I make stoping to this line . it nead to make migration of update-database
     options.Password.RequiredLength = 5;
 }).AddEntityFrameworkStores<DataContext>()
   .AddSignInManager()

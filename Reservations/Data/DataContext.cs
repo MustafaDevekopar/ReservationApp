@@ -87,7 +87,7 @@ namespace Reservations.Data
                 .HasOne(n => n.Reservation)
                 .WithMany(r => r.Notifications)
                 .HasForeignKey(n => n.ReservationId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

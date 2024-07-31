@@ -16,7 +16,7 @@ using System.Security.Claims;
 
 namespace Reservations.Controllers
 {
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
+    //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountAdminController : ControllerBase
