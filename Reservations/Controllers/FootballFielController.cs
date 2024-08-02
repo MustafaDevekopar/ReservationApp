@@ -9,7 +9,9 @@ using Newtonsoft.Json;
 using Reservations.Data;
 using Reservations.Dto;
 using Reservations.Dto.Admin;
+using Reservations.Dto.CategoryDto;
 using Reservations.Dto.FieldDto;
+using Reservations.Dto.GovernorateDtos;
 using Reservations.Dto.User;
 using Reservations.Interfaces;
 using Reservations.Models;
@@ -77,7 +79,7 @@ namespace Reservations.Controllers
                         Id = x.FootballField.Governorate.Id,
                         Name = x.FootballField.Governorate.Name
                     },
-                    CategoryGet = new CategoryDto
+                    CategoryGet = new CategoryGetDto
                     {
                         Id = x.FootballField.Category.Id,
                         Name = x.FootballField.Category.Name

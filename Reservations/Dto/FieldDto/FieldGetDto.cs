@@ -1,4 +1,6 @@
-﻿namespace Reservations.Dto.FieldDto
+﻿using Reservations.Dto.GovernorateDtos;
+using Reservations.Dto.CategoryDto;
+namespace Reservations.Dto.FieldDto
 {
     public class FieldGetDto
     {
@@ -14,7 +16,7 @@
         public int OpeningDays { get; set; } = 7;
         public string? OpeningHouer { get; set; }
         public GovernorateDto GovernorateGet { get; set; }
-        public CategoryDto CategoryGet { get; set; }
+        public CategoryGetDto CategoryGet { get; set; }
 
     }
 }

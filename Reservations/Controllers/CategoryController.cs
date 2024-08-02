@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Reservations.Data;
-using Reservations.Dto;
+using Reservations.Dto.CategoryDto;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
@@ -23,7 +25,7 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var categories = _mapper.Map<List<CategoryDto>>
+            var categories = _mapper.Map<List<CategoryGetDto>>
                 ( await _categoryRepository.GetCategoriesAsync());
 
             if(!ModelState.IsValid) 
@@ -38,7 +40,7 @@ namespace Reservations.Controllers
             if (!_categoryRepository.CategoriesExists(categoryId))
                 return NotFound(ModelState);
 
-            var category = _mapper.Map<CategoryDto>
+            var category = _mapper.Map<CategoryGetDto>
                 (await _categoryRepository.GetCategoryAsync(categoryId));
 
             if (!ModelState.IsValid)
@@ -61,6 +63,8 @@ namespace Reservations.Controllers
 
         }
 
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
         [HttpPost]
         public async Task<IActionResult> CreateCategory([FromBody] CategoryDto CategoryCreate)
         {
@@ -84,6 +88,7 @@ namespace Reservations.Controllers
             return Ok("Successfully Created");
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
         [HttpPut("{categoryId}")]
         public IActionResult UpdateCategory(int categoryId, [FromBody] CategoryDto updateCategory)
         {
@@ -110,6 +115,7 @@ namespace Reservations.Controllers
             return NoContent();
         }
 
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
         [HttpDelete("{categoryId}")]
         public async Task<IActionResult> DeleteCategory(int categoryId)
         {

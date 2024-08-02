@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Reservations.Dto;
+using Reservations.Dto.GovernorateDtos;
 using Reservations.Interfaces;
 using Reservations.Models;
 using Reservations.Repository;
@@ -68,6 +70,33 @@ namespace Reservations.Controllers
                 return BadRequest(ModelState);
             }
             return Ok("Successfully Created");
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
+        [HttpPut("{governorateId}")]
+        public IActionResult UpdateCategory(int governorateId, [FromBody] GovernorateDto governorateDto)
+        {
+            if (governorateDto == null)
+                return BadRequest();
+
+            if (governorateId != governorateDto.Id)
+                return BadRequest(ModelState);
+
+            if (!_governorateRepository.GovernorateExists(governorateId))
+                return NotFound(ModelState);
+
+            if (!ModelState.IsValid)
+                return BadRequest();
+
+            var categoryMap = _mapper.Map<Governorate>(governorateDto);
+
+            if (!_governorateRepository.UpdateGovernorate(categoryMap))
+            {
+                ModelState.AddModelError("", "Somthing went woring while updating");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }
