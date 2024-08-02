@@ -59,8 +59,8 @@ namespace Reservations.Controllers
 
             if (governorate != null)
             {
-                ModelState.AddModelError("", "Governorate already exists");
-                return StatusCode(422, ModelState);
+                ModelState.AddModelError("", "اسم المحافظه موجود بالفعل");
+                return BadRequest(ModelState);
             }
 
             var governorateMap = _mapper.Map<Governorate>(governorateCreate);
@@ -97,6 +97,25 @@ namespace Reservations.Controllers
             }
 
             return NoContent();
+        }
+
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "MainAdmin")]
+        [HttpDelete("{categoryId}")]
+        public async Task<IActionResult> DeleteCategory(int categoryId)
+        {
+            if (!_governorateRepository.GovernorateExists(categoryId))
+                return NotFound();
+
+            var categoryToDelete = await _governorateRepository.GetGovernorateAsync(categoryId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_governorateRepository.DeleteGovernorate(categoryToDelete))
+                ModelState.AddModelError("", "Something went wring deleting");
+
+            return NoContent();
+
         }
     }
 }

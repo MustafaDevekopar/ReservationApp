@@ -25,7 +25,7 @@ namespace Reservations.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var categories = _mapper.Map<List<CategoryGetDto>>
+            var categories = _mapper.Map<List<CategoryDto>>
                 ( await _categoryRepository.GetCategoriesAsync());
 
             if(!ModelState.IsValid) 
@@ -75,8 +75,8 @@ namespace Reservations.Controllers
 
             if (category != null)
             {
-                ModelState.AddModelError("", "Category already exists");
-                return StatusCode(422, ModelState);
+                ModelState.AddModelError("", "التصنيف موجود بالفعل");
+                return BadRequest(ModelState);
             }
 
             var categoryMap = _mapper.Map<Category>(CategoryCreate);

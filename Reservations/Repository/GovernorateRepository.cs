@@ -49,5 +49,11 @@ namespace Reservations.Repository
             _context.Governorates.Update(governorate);
             return Save();
         }
+
+        public bool DeleteGovernorate(Governorate governorate)
+        {
+            _context.Governorates.Remove(governorate);
+            return Save();
+        }
     }
 }
